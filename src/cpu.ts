@@ -1,5 +1,5 @@
 import { Register } from './register';
-import { Op } from './op';
+import { Op, Op_cycles } from './op';
 
 export class Cpu {
     private register: Register;
@@ -28,7 +28,7 @@ export class Cpu {
         console.log(op_code.toString(16));
 
         const op_result = Op.process_op_code(op_code, this.memory, this.register);
-        this.register.pc += op_result.size;
+        let cylcle = Op_cycles[op_code];
     }
 
 }
