@@ -1,0 +1,22 @@
+{
+  "name": "test1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "start": "node build/main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cli-color": "^2.0.0",
+    "command-line-args": "^5.1.1"
+  },
+  "devDependencies": {
+    "@types/cli-color": "^2.0.0",
+    "@types/node": "^13.7.0"
+  }
+}
