@@ -1,3 +1,5 @@
+import { GB } from "./gb";
+
 export namespace Register {
 
     export type Registers = {
@@ -6,7 +8,6 @@ export namespace Register {
         c: number;
         d: number;
         e: number;
-        f: number;
         h: number;
         l: number;
         sp: number;
@@ -14,20 +15,19 @@ export namespace Register {
     }
 
     export type Flags = {
-        carry: boolean;
-        half_carry: boolean;
-        negative: boolean;
         zero: boolean;
+        add_sub: boolean;  // n
+        half_carry: boolean;
+        carry: boolean;
     }
 
-    export function create_registers() : Registers {
+    export function createRegisters() : Registers {
         return {
             a: 0,
             b: 0,
             c: 0,
             d: 0,
             e: 0,
-            f: 0,
             h: 0,
             l: 0,
             sp: 0,
@@ -35,13 +35,22 @@ export namespace Register {
         };
     }
 
-    export function create_flags() : Flags {
+    export function createFlags() : Flags {
         return {
-            carry: false,
-            half_carry: false,
-            negative: false,
             zero: false,
+            add_sub: false,
+            half_carry: false,
+            carry: false,
         };
     }
+
+
+    export function updateFlags(gb: GB.env, value: number, n_flag:boolean){
+        gb.flags.zero = (gb.registers.a - value) == 0;
+        gb.flags.carry = gb.registers.a < value;
+        gb.flags.half_carry = (gb.registers.a & 0x0f) < (value & 0x0f);
+        gb.flags.add_sub = n_flag;
+    }
+
 }
 

@@ -12,8 +12,8 @@ export namespace GB {
     export function create(buf: Uint8Array): env {
         return {
             memory: Memory.create(buf),
-            registers: Register.create_registers(),
-            flags: Register.create_flags(),
+            registers: Register.createRegisters(),
+            flags: Register.createFlags(),
         }
     }
 

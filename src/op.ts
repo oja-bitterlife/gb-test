@@ -1,5 +1,6 @@
 import { GB } from "./gb";
 import { Memory } from "./memory";
+import { Register } from "./register";
 
 export namespace Op {
     export function process_op_code(op_code: number, gb: GB.env){
@@ -12,7 +13,7 @@ export namespace Op {
         0xc3: (gb) => { gb.registers.pc = GB.loadWord(gb); },
         0xf0: (gb) => { gb.registers.a = Memory.readByte(gb.memory, 0xff00 | GB.loadByte(gb)) },
         0xf3: (_) => {},
-        0xfe: (gb) => {  },
+        0xfe: (gb) => { Register.updateFlags(gb, GB.loadByte(gb), true) },
     };
 
     export const cycles = [
