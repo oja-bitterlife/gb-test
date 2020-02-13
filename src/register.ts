@@ -46,9 +46,9 @@ export namespace Register {
 
 
     export function updateFlags(gb: GB.env, value: number, n_flag:boolean){
-        gb.flags.zero = (gb.registers.a - value) == 0;
-        gb.flags.carry = gb.registers.a < value;
-        gb.flags.half_carry = (gb.registers.a & 0x0f) < (value & 0x0f);
+        gb.flags.zero = (gb.regs.a - value) == 0;
+        gb.flags.carry = gb.regs.a < value;
+        gb.flags.half_carry = (gb.regs.a & 0x0f) < (value & 0x0f);
         gb.flags.add_sub = n_flag;
     }
 

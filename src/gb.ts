@@ -4,27 +4,30 @@ import { Memory } from "./memory";
 
 export namespace GB {
     export type env = {
-        memory: Memory.Memory;
-        registers: Register.Registers;
+        mem: Memory.Memory;
+        regs: Register.Registers;
         flags: Register.Flags;
     }
 
     export function create(buf: Uint8Array): env {
         return {
-            memory: Memory.create(buf),
-            registers: Register.createRegisters(),
+            mem: Memory.create(buf),
+            regs: Register.createRegisters(),
             flags: Register.createFlags(),
         }
     }
 
 
-    export function loadByte(gb: GB.env) : number {
-        return gb.memory.rom[gb.registers.pc++];
+    export function loadUByte(gb: GB.env) : number {
+        return Memory.readUByte(gb.mem, gb.regs.pc++);
+    }
+    export function loadSByte(gb: GB.env) : number {
+        return Memory.readSByte(gb.mem, gb.regs.pc++);
     }
 
     export function loadWord(gb: GB.env) : number{
-        const word = (gb.memory.rom[gb.registers.pc+1] << 8) | gb.memory.rom[gb.registers.pc];
-        gb.registers.pc += 2;
+        const word = Memory.readWord(gb.mem, gb.regs.pc);
+        gb.regs.pc += 2;
         return word;
     }
 }

@@ -40,7 +40,7 @@ try {
     console.log(header);
 
     const gb = GB.create(buf);
-    for (let i = 0; i < 7; i++) Cpu.step(gb);
+    for (let i = 0; i < 13; i++) Cpu.step(gb);
 
 } catch (error) {
     console.log(`failed to read ${error}`)

@@ -9,12 +9,12 @@ export namespace Op {
 
     const op_code_map: { [op_code: number]: (gb: GB.env) => void } = {
         0x00: (_) => {},
-        0x20: (_) => {},
-        0x31: (gb) => { gb.registers.sp = GB.loadWord(gb); },
-        0xc3: (gb) => { gb.registers.pc = GB.loadWord(gb); },
-        0xf0: (gb) => { gb.registers.a = Memory.readByte(gb.memory, 0xff00 | GB.loadByte(gb)) },
+        0x20: (gb) => { if(!gb.flags.zero) gb.regs.pc += GB.loadSByte(gb); else gb.regs.pc++; console.log(gb.regs.pc.toString(16)); },
+        0x31: (gb) => { gb.regs.sp = GB.loadWord(gb); },
+        0xc3: (gb) => { gb.regs.pc = GB.loadWord(gb); },
+        0xf0: (gb) => { gb.regs.a = Memory.readUByte(gb.mem, 0xff00 | GB.loadUByte(gb)) },
         0xf3: (_) => {},
-        0xfe: (gb) => { Register.updateFlags(gb, GB.loadByte(gb), true) },
+        0xfe: (gb) => { Register.updateFlags(gb, GB.loadUByte(gb), true) },
     };
 
     // op cycles table
