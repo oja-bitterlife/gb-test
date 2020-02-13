@@ -9,7 +9,7 @@ export namespace Op {
 
     const op_code_map: { [op_code: number]: (gb: GB.env) => void } = {
         0x00: (_) => {},
-        0x20: (gb) => { if(!gb.flags.zero) gb.regs.pc += GB.loadSByte(gb); else gb.regs.pc++; console.log(gb.regs.pc.toString(16)); },
+        0x20: (gb) => { const n = GB.loadSByte(gb); if(!gb.flags.zero) gb.regs.pc += n; },
         0x31: (gb) => { gb.regs.sp = GB.loadWord(gb); },
         0xc3: (gb) => { gb.regs.pc = GB.loadWord(gb); },
         0xf0: (gb) => { gb.regs.a = Memory.readUByte(gb.mem, 0xff00 | GB.loadUByte(gb)) },
