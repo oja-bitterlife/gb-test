@@ -1,19 +1,24 @@
 import { Register } from "./register";
 import { Memory } from "./memory";
+import { Interrupt } from "./interrupt";
 //import { CPU } from "./cpu";
 
 export namespace GB {
     export type env = {
+        cycle: number;  // current cycle 
         mem: Memory.Memory;
         regs: Register.Registers;
         flags: Register.Flags;
+        int: Interrupt.Interrupt;
     }
 
     export function create(buf: Uint8Array): env {
         return {
+            cycle: 0,
             mem: Memory.create(buf),
             regs: Register.createRegisters(),
             flags: Register.createFlags(),
+            int: Interrupt.create(),
         }
     }
 

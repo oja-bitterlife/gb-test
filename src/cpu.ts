@@ -8,8 +8,12 @@ export namespace Cpu {
 
         console.log((gb.regs.pc-1).toString(16) + ": " + op_code.toString(16));
 
-        const op_result = Op.process_op_code(op_code, gb);
-        let cylcle = Op.cycles[op_code];
+        // opコードの実行。cycleが変則のものop_codeの処理の中で調整される(trans_cycle=gb.cycle-befor_cycle)
+        const befor_cycle = gb.cycle;
+        Op.process_op_code(op_code, gb);
+        gb.cycle += Op.cycles[op_code];
+
+        
     }
 
 }
