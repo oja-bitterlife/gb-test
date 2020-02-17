@@ -41,7 +41,7 @@ try {
     console.log(header);
 
     const gb = GB.create(buf);
-    for (let i = 0; i < 456*0x90+1; i++){
+    while(true){
         const old_cycle = gb.cycle;
         Cpu.step(gb);
         Gpu.step(gb, old_cycle);
