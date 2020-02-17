@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import { Header } from './header';
 import { GB } from './gb';
 import { Cpu } from './cpu';
+import { Gpu } from './gpu';
 
 //const rom_file = "test.gb";
 //const rom_file = "roms/01-special.gb";
@@ -40,7 +41,11 @@ try {
     console.log(header);
 
     const gb = GB.create(buf);
-    for (let i = 0; i < 13; i++) Cpu.step(gb);
+    for (let i = 0; i < 456*0x90+1; i++){
+        const old_cycle = gb.cycle;
+        Cpu.step(gb);
+        Gpu.step(gb, old_cycle);
+    }
 
 } catch (error) {
     console.log(`failed to read ${error}`)

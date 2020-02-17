@@ -1,7 +1,5 @@
 import { Register } from "./register";
 import { Memory } from "./memory";
-import { Interrupt } from "./interrupt";
-//import { CPU } from "./cpu";
 
 export namespace GB {
     export type env = {
@@ -10,6 +8,7 @@ export namespace GB {
         regs: Register.Registers;
         flags: Register.Flags;
     }
+
 
     export function create(buf: Uint8Array): env {
         return {
