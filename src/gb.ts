@@ -9,7 +9,6 @@ export namespace GB {
         mem: Memory.Memory;
         regs: Register.Registers;
         flags: Register.Flags;
-        int: Interrupt.Interrupt;
     }
 
     export function create(buf: Uint8Array): env {
@@ -18,7 +17,6 @@ export namespace GB {
             mem: Memory.create(buf),
             regs: Register.createRegisters(),
             flags: Register.createFlags(),
-            int: Interrupt.create(),
         }
     }
 

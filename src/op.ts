@@ -13,7 +13,7 @@ export namespace Op {
         0x31: (gb) => { gb.regs.sp = GB.loadWord(gb); },
         0xc3: (gb) => { gb.regs.pc = GB.loadWord(gb); },
         0xf0: (gb) => { gb.regs.a = Memory.readUByte(gb.mem, 0xff00 | GB.loadUByte(gb)) },
-        0xf3: (gb) => { gb.int.enabled = false; },
+        0xf3: (gb) => { gb.regs.ie = false; },
         0xfe: (gb) => { Register.updateFlags(gb, GB.loadUByte(gb), true) },
     };
 

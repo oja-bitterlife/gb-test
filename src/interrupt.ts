@@ -4,40 +4,16 @@ export namespace Interrupt {
     // Bit 2: Timer    Interrupt Enable  (INT 50h)  (1=Enable)
     // Bit 3: Serial   Interrupt Enable  (INT 58h)  (1=Enable)
     // Bit 4: Joypad   Interrupt Enable  (INT 60h)  (1=Enable)
-    type Interrupts = {
-        vblank: boolean;
-        lcd_stat: boolean;
-        time: boolean;
-        Serial: boolean;
-        Joypad: boolean;
+    enum Bit {
+        VBlank = 1 << 0,
+        LCDStat = 1 << 1,
+        Timer = 1 << 2,
+        Serial = 1 << 3,
+        Joypad = 1 << 4,
     }
 
     export type Interrupt = {
         enabled: boolean;  // enable/disable
-
-        int_flag: Interrupts;
-        int_enable: Interrupts;
     }
-
-    export function create(): Interrupt {
-        return {
-            enabled: false,
-            int_flag: {
-                vblank: false,
-                lcd_stat: false,
-                time: false,
-                Serial: false,
-                Joypad: false,
-            },
-            int_enable: {
-                vblank: false,
-                lcd_stat: false,
-                time: false,
-                Serial: false,
-                Joypad: false,
-            },
-        }
-    }
-
 
 }

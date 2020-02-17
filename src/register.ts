@@ -12,6 +12,7 @@ export namespace Register {
         l: number;
         sp: number;
         pc: number;
+        ie: boolean;
     }
 
     export type Flags = {
@@ -32,6 +33,7 @@ export namespace Register {
             l: 0,
             sp: 0,
             pc: 0x100,
+            ie: false,
         };
     }
 
