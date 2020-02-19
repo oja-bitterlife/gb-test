@@ -4,13 +4,20 @@ import { Register } from "./register";
 
 export namespace Op {
     export function process_op_code(op_code: number, gb: GB.env){
-        op_code_map[op_code](gb);
+        try{
+            op_code_map[op_code](gb);
+        }catch(ex){
+            // not find instruction
+            console.log("addr: 0x" + (gb.regs.pc-1).toString(16) + " => op: 0x" + op_code.toString(16));
+            throw ex;  // exit
+        }
     }
 
     const op_code_map: { [op_code: number]: (gb: GB.env) => void } = {
         0x00: (_) => {},
         0x20: (gb) => { const n = GB.loadSByte(gb); if(!gb.flags.zero) gb.regs.pc += n; },
         0x31: (gb) => { gb.regs.sp = GB.loadWord(gb); },
+        0xaf: (gb) => { gb.regs.a ^= gb.regs.a; Register.updateFlags(gb, gb.regs.a, false); },
         0xc3: (gb) => { gb.regs.pc = GB.loadWord(gb); },
         0xf0: (gb) => { gb.regs.a = Memory.readUByte(gb.mem, 0xff00 | GB.loadUByte(gb)) },
         0xf3: (gb) => { gb.regs.ie = false; },

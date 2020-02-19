@@ -6,10 +6,6 @@ export namespace Cpu {
         const op_code = gb.mem[gb.regs.pc];
         gb.regs.pc += 1;
 
-        if(gb.regs.pc > 0x158+1){
-            console.log((gb.regs.pc-1).toString(16) + ": " + op_code.toString(16));
-        }
-
         // opコードの実行。cycleが変則のものop_codeの処理の中で調整される(trans_cycle=gb.cycle-befor_cycle)
         const befor_cycle = gb.cycle;
         Op.process_op_code(op_code, gb);

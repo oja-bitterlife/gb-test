@@ -33,8 +33,6 @@ class Tiles {
     }
 }
 
-
-
 try {
     const buf = fs.readFileSync(rom_file)
     const header = new Header(buf);
