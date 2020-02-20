@@ -7,27 +7,33 @@ export namespace Memory {
         return mem;
     }
 
+
+    // 読み書き基本セット
+    // ************************************************************************
     export function readUByte(mem: Memory, addr: number): number {
-        checkImplement(addr);
+        _checkImplement(addr);
         return mem[addr];
     }
     export function readSByte(mem: Memory, addr: number): number {
-        checkImplement(addr);
+        _checkImplement(addr);
         if (mem[addr] & 0x80) return -(((mem[addr] ^ 0xff) + 1) & 0xff);
         return mem[addr];
     }
     export function readWord(mem: Memory, addr: number): number {
-        checkImplement(addr);
+        _checkImplement(addr);
         return (mem[addr + 1] << 8) | mem[addr];
     }
 
     export function writeByte(mem: Memory, addr: number, value: number) {
-        checkImplement(addr);
+        _checkImplement(addr);
         return mem[addr] = value;
     }
 
+
+    // デバッグ用
+    // ************************************************************************
     // 未実装なとき例外を出す。デバッグ用
-    function checkImplement(addr: number){
+    function _checkImplement(addr: number){
         // main memory (ROM)
         if(addr < 0x8000) return;
 
