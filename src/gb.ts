@@ -20,6 +20,7 @@ export namespace GB {
     }
 
 
+    // memory operation
     export function loadUByte(gb: GB.env) : number {
         return Memory.readUByte(gb.mem, gb.regs.pc++);
     }
@@ -31,5 +32,14 @@ export namespace GB {
         const word = Memory.readWord(gb.mem, gb.regs.pc);
         gb.regs.pc += 2;
         return word;
+    }
+
+
+    // stack operation
+    export function push(gb: GB.env, value: number) {
+        Memory.writeByte(gb.mem, gb.regs.sp--, value);
+    }
+    export function pop(gb: GB.env) : number {
+        return Memory.readSByte(gb.mem, gb.regs.sp++);
     }
 }

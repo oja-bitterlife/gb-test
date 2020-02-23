@@ -21,6 +21,7 @@ export namespace Op {
         0x31: (gb) => { gb.regs.sp = GB.loadWord(gb); },
         0xaf: (gb) => { gb.regs.a ^= gb.regs.a; Register.updateFlags(gb, gb.regs.a, false); },
         0xc3: (gb) => { gb.regs.pc = GB.loadWord(gb); },
+        0xcd: (gb) => { GB.push(gb, gb.regs.pc >> 8); GB.push(gb, gb.regs.pc & 0xff); gb.regs.pc = GB.loadWord(gb); },
         0xe0: (gb) => { Memory.writeByte(gb.mem, 0xFF00 | GB.loadUByte(gb), gb.regs.a); },
         0xf0: (gb) => { gb.regs.a = Memory.readUByte(gb.mem, 0xff00 | GB.loadUByte(gb)); },
         0xf3: (gb) => { gb.regs.ie = false; },
