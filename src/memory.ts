@@ -37,6 +37,11 @@ export namespace Memory {
         // main memory (ROM)
         if(addr < 0x8000) return;
 
+        // RAM
+        if(0xc000 <= addr && addr <= 0xcfff) return;  // 4KB Work RAM Bank 0 (WRAM)
+        if(0xd000 <= addr && addr <= 0xdfff) return;  // 4KB Work RAM Bank 1 (WRAM)  (switchable bank 1-7 in CGB Mode)
+        if(0xe000 <= addr && addr <= 0xfdff) return;  // Same as C000-DDFF (ECHO)
+
         // IO
         if(addr == 0xff40) return;  // LCDC - LCD Control (R/W)
         if(addr == 0xff41) return;  // STAT - LCDC Status (R/W)
