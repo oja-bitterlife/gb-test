@@ -36,10 +36,17 @@ export namespace GB {
 
 
     // stack operation
-    export function push(gb: GB.env, value: number) {
+    export function push(gb: GB.env, value: number) : void{
         Memory.writeByte(gb.mem, gb.regs.sp--, value);
     }
+    export function pushWord(gb: GB.env, value : number) : void{
+        push(gb, (value >> 8) & 0xff);
+        push(gb, value & 0xff);
+    }
     export function pop(gb: GB.env) : number {
-        return Memory.readSByte(gb.mem, gb.regs.sp++);
+        return Memory.readSByte(gb.mem, ++gb.regs.sp);
+    }
+    export function popWord(gb: GB.env) : number{
+        return (pop(gb)&0xff) | ((pop(gb)&0xff)<<8);
     }
 }
