@@ -38,7 +38,16 @@ export namespace Memory {
         if(addr < 0x8000) return;
 
         // IO
-        if(addr == 0xff44) return;
+        if(addr == 0xff40) return;  // LCDC - LCD Control (R/W)
+        if(addr == 0xff41) return;  // STAT - LCDC Status (R/W)
+        if(addr == 0xff42) return;  // SCY - Scroll Y (R/W)
+        if(addr == 0xff43) return;  // SCX - Scroll X (R/W)
+        if(addr == 0xff44) return;  // LY - LCDC Y-Coordinate
+        if(addr == 0xff45) return;  //  LYC - LY Compare (R/W)
+
+        // Interrupt
+        if(addr == 0xff0f) return;  // IF - Interrupt Flag (R/W)
+        if(addr == 0xffff) return;  // IE - Interrupt Enable (R/W)
 
         throw new Error(`Cannot access: 0x${addr.toString(16)}`);
     }

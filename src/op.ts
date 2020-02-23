@@ -15,11 +15,14 @@ export namespace Op {
 
     const op_code_map: { [op_code: number]: (gb: GB.env) => void } = {
         0x00: (_) => {},
+        0x01: (gb) => { gb.regs.c = GB.loadSByte(gb); gb.regs.b = GB.loadSByte(gb); },
         0x20: (gb) => { const n = GB.loadSByte(gb); if(!gb.flags.zero) gb.regs.pc += n; },
+        0x21: (gb) => { gb.regs.l = GB.loadSByte(gb); gb.regs.h = GB.loadSByte(gb); },
         0x31: (gb) => { gb.regs.sp = GB.loadWord(gb); },
         0xaf: (gb) => { gb.regs.a ^= gb.regs.a; Register.updateFlags(gb, gb.regs.a, false); },
         0xc3: (gb) => { gb.regs.pc = GB.loadWord(gb); },
-        0xf0: (gb) => { gb.regs.a = Memory.readUByte(gb.mem, 0xff00 | GB.loadUByte(gb)) },
+        0xe0: (gb) => { Memory.writeByte(gb.mem, 0xFF00 | GB.loadUByte(gb), gb.regs.a); },
+        0xf0: (gb) => { gb.regs.a = Memory.readUByte(gb.mem, 0xff00 | GB.loadUByte(gb)); },
         0xf3: (gb) => { gb.regs.ie = false; },
         0xfe: (gb) => { Register.updateFlags(gb, GB.loadUByte(gb), true) },
     };
