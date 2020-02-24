@@ -49,8 +49,11 @@ export namespace Memory {
         if(addr == 0xff43) return;  // SCX - Scroll X (R/W)
         if(addr == 0xff44) return;  // LY - LCDC Y-Coordinate
         if(addr == 0xff45) return;  //  LYC - LY Compare (R/W)
+        if(addr == 0xff47) return;  //  BG & Window Palette Data (R/W)
+        if(addr == 0xff48) return;  //  Object Palette 0 Data (R/W)
+        if(addr == 0xff49) return;  //  Object Palette 1 Data (R/W)
 
-        // Interrupt
+            // Interrupt
         if(addr == 0xff0f) return;  // IF - Interrupt Flag (R/W)
         if(addr == 0xffff) return;  // IE - Interrupt Enable (R/W)
 
