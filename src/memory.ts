@@ -37,6 +37,9 @@ export namespace Memory {
         // main memory (ROM)
         if(addr < 0x8000) return;
 
+        // VRAM
+        if(0x8000 <= addr && addr < 0xa000) return;
+
         // RAM
         if(0xc000 <= addr && addr <= 0xcfff) return;  // 4KB Work RAM Bank 0 (WRAM)
         if(0xd000 <= addr && addr <= 0xdfff) return;  // 4KB Work RAM Bank 1 (WRAM)  (switchable bank 1-7 in CGB Mode)
