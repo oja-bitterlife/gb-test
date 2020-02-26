@@ -1,5 +1,7 @@
 import { Register } from "./register";
 import { Memory } from "./memory";
+import { Gpu } from "./gpu";
+import { Cpu } from "./cpu";
 
 export namespace GB {
     export type env = {
@@ -16,6 +18,20 @@ export namespace GB {
             mem: Memory.create(buf),
             regs: Register.createRegisters(),
             flags: Register.createFlags(),
+        }
+    }
+
+    export function stepVBlank(gb: GB.env){
+        while(true){
+            const old_cycle = gb.cycle;
+            const old_ly = Memory.readUByte(gb.mem, Gpu.Addr.ly);
+
+            Cpu.step(gb);
+            Gpu.step(gb, old_cycle);
+
+            // VBlank start
+            const ly = Memory.readUByte(gb.mem, Gpu.Addr.ly);
+            if(ly == 144 && ly != old_ly) break;
         }
     }
 
