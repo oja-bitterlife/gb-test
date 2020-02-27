@@ -23,11 +23,12 @@ export namespace Op {
         0x0d: (gb) => { gb.regs.c--; },
         0x0e: (gb) => { gb.regs.c = GB.loadSByte(gb); },
         0x11: (gb) => { gb.regs.e = GB.loadSByte(gb); gb.regs.d = GB.loadSByte(gb); },  // LD de
-        0x18: (gb) => { const n = GB.loadUByte(gb); gb.regs.pc += n; },
+        0x18: (gb) => { const n = GB.loadSByte(gb); gb.regs.pc += n; },
         0x20: (gb) => { const n = GB.loadSByte(gb); if(!gb.flags.zero) gb.regs.pc += n; },
         0x21: (gb) => { gb.regs.l = GB.loadSByte(gb); gb.regs.h = GB.loadSByte(gb); },  // LD hl
         0x31: (gb) => { gb.regs.sp = GB.loadWord(gb); },
         0x3e: (gb) => { gb.regs.a = GB.loadSByte(gb); },
+        0x76: (gb) => { },  // HALT
         0xaf: (gb) => { gb.regs.a ^= gb.regs.a; Register.updateFlags(gb, gb.regs.a, false); },
         0xc3: (gb) => { gb.regs.pc = GB.loadWord(gb); },
         0xc9: (gb) => { gb.regs.pc = GB.popWord(gb); },
