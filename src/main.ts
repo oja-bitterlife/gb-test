@@ -24,7 +24,7 @@ try {
     dumpBytes(pixels, 0, 160, 144);
 
 } catch (error) {
-    console.log(`failed to read ${error}`);
+    console.log(error);
 }
 
 function dumpBytes(buf: Uint8Array, offset: number, width : number, height : number){
