@@ -15,13 +15,14 @@ try {
     console.log(header);
 
     const gb = GB.create(buf);
-    GB.stepVBlank(gb);
-    GB.stepVBlank(gb);
-    GB.stepVBlank(gb);
+    GB.step(gb);
+//    GB.stepVBlank(gb);
+//    GB.stepVBlank(gb);
+//    GB.stepVBlank(gb);
 
     const pixels = Vram.getPixels(gb.mem);
 //    console.log(pixels);
-    dumpBytes(pixels, 0, 160, 144);
+//    dumpBytes(pixels, 0, 160, 144);
 
 } catch (error) {
     console.log(error);
