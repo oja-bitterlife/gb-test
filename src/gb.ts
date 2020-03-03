@@ -2,6 +2,7 @@ import { Register } from "./register";
 import { Memory } from "./memory";
 import { Gpu } from "./gpu";
 import { Cpu } from "./cpu";
+import { Debug } from "./debug";
 
 export namespace GB {
     export type env = {
@@ -9,6 +10,7 @@ export namespace GB {
         mem: Memory.Memory;
         regs: Register.Registers;
         flags: Register.Flags;
+        breaks: Debug.Breaks;
     }
 
 
