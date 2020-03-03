@@ -4,8 +4,10 @@ export namespace Debug {
         vBlank: boolean;
     }
 
-    export function resetBreak(breaks: Breaks){
-        breaks.return = false;
-        breaks.vBlank = false;
+    export function createBreaks() : Breaks {
+        return {
+            return : false,
+            vBlank : false,
+        };
     }
 }

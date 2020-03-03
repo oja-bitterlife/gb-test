@@ -20,6 +20,7 @@ export namespace GB {
             mem: Memory.create(buf),
             regs: Register.createRegisters(),
             flags: Register.createFlags(),
+            breaks: Debug.createBreaks(),
         }
     }
 
