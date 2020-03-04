@@ -15,8 +15,8 @@ try {
     console.log(header);
 
     const gb = GB.create(buf);
-    GB.step(gb);
-//    GB.stepVBlank(gb);
+//    GB.step(gb);
+    GB.stepVBlank(gb);
 //    GB.stepVBlank(gb);
 //    GB.stepVBlank(gb);
 

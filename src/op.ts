@@ -3,8 +3,13 @@ import { Memory } from "./memory";
 import { Register } from "./register";
 
 export namespace Op {
+    function formatDisAsm(gb: GB.env, op_code: number, addr : number) : string{
+        return `${hexWord(addr)}: ${op_code_map[op_code].asm(gb)}`;
+    }
+
     export function process_op_code(op_code: number, gb: GB.env){
         try{
+            console.log(formatDisAsm(gb, op_code, gb.regs.pc-1));
             op_code_map[op_code].func(gb);
         }catch(ex){
             // not find instruction
