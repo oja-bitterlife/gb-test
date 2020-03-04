@@ -13,30 +13,58 @@ export namespace Op {
         }
     }
 
-    const op_code_map: { [op_code: number]: {name: string, func: (gb: GB.env) => void} } = {
-        0x00: {name: "NOP", func: (gb) => {}},
-        0x01: {name: "", func: (gb) => { gb.regs.c = GB.loadSByte(gb); gb.regs.b = GB.loadSByte(gb); }},
-        0x04: {name: "", func: (gb) => { gb.regs.b++; }},
-        0x05: {name: "", func: (gb) => { gb.regs.b--; }},
-        0x06: {name: "", func: (gb) => { gb.regs.b = GB.loadSByte(gb); }},
-        0x0c: {name: "", func: (gb) => { gb.regs.c++; }},
-        0x0d: {name: "", func: (gb) => { gb.regs.c--; }},
-        0x0e: {name: "", func: (gb) => { gb.regs.c = GB.loadSByte(gb); }},
-        0x11: {name: "", func: (gb) => { gb.regs.e = GB.loadSByte(gb); gb.regs.d = GB.loadSByte(gb); }},  // LD de
-        0x18: {name: "", func: (gb) => { const n = GB.loadSByte(gb); gb.regs.pc += n; }},
-        0x20: {name: "", func: (gb) => { const n = GB.loadSByte(gb); if(!gb.flags.zero) gb.regs.pc += n; }},
-        0x21: {name: "", func: (gb) => { gb.regs.l = GB.loadSByte(gb); gb.regs.h = GB.loadSByte(gb); }},  // LD hl
-        0x31: {name: "", func: (gb) => { gb.regs.sp = GB.loadWord(gb); }},
-        0x3e: {name: "", func: (gb) => { gb.regs.a = GB.loadSByte(gb); }},
-        0x76: {name: "HALT", func: (gb) => { }},  // HALT
-        0xaf: {name: "", func: (gb) => { gb.regs.a ^= gb.regs.a; Register.updateFlags(gb, gb.regs.a, false); }},
-        0xc3: {name: "", func: (gb) => { gb.regs.pc = GB.loadWord(gb); }},
-        0xc9: {name: "", func: (gb) => { gb.regs.pc = GB.popWord(gb); }},
-        0xcd: {name: "", func: (gb) => { const n = GB.loadWord(gb); GB.pushWord(gb, gb.regs.pc); gb.regs.pc = n; }},
-        0xe0: {name: "", func: (gb) => { Memory.writeByte(gb.mem, 0xFF00 | GB.loadUByte(gb), gb.regs.a); }},
-        0xf0: {name: "", func: (gb) => { gb.regs.a = Memory.readUByte(gb.mem, 0xff00 | GB.loadUByte(gb)); }},
-        0xf3: {name: "", func: (gb) => { gb.regs.ie = false; }},
-        0xfe: {name: "", func: (gb) => { Register.updateFlags(gb, GB.loadUByte(gb), true) }},
+    const op_code_map: {
+        [op_code: number]: {
+            asm: (gb: GB.env) => string,
+            func: (gb: GB.env) => void
+        }
+    } = {
+        0x00: { asm: (gb) => { return "NOP"; },
+                func: (gb) => {}},
+        0x01: { asm: (gb) => { return "LD"; },
+                func: (gb) => { gb.regs.c = GB.loadSByte(gb); gb.regs.b = GB.loadSByte(gb); }},
+        0x04: { asm: (gb) => { return ""; },
+                func: (gb) => { gb.regs.b++; }},
+        0x05: { asm: (gb) => { return ""; },
+                func: (gb) => { gb.regs.b--; }},
+        0x06: { asm: (gb) => { return ""; },
+                func: (gb) => { gb.regs.b = GB.loadSByte(gb); }},
+        0x0c: { asm: (gb) => { return ""; },
+                func: (gb) => { gb.regs.c++; }},
+        0x0d: { asm: (gb) => { return ""; },
+                func: (gb) => { gb.regs.c--; }},
+        0x0e: { asm: (gb) => { return ""; },
+                func: (gb) => { gb.regs.c = GB.loadSByte(gb); }},
+        0x11: { asm: (gb) => { return ""; },
+                func: (gb) => { gb.regs.e = GB.loadSByte(gb); gb.regs.d = GB.loadSByte(gb); }},  // LD de
+        0x18: { asm: (gb) => { return ""; },
+                func: (gb) => { const n = GB.loadSByte(gb); gb.regs.pc += n; }},
+        0x20: { asm: (gb) => { return ""; },
+                func: (gb) => { const n = GB.loadSByte(gb); if(!gb.flags.zero) gb.regs.pc += n; }},
+        0x21: { asm: (gb) => { return ""; },
+                func: (gb) => { gb.regs.l = GB.loadSByte(gb); gb.regs.h = GB.loadSByte(gb); }},  // LD hl
+        0x31: { asm: (gb) => { return ""; },
+                func: (gb) => { gb.regs.sp = GB.loadWord(gb); }},
+        0x3e: { asm: (gb) => { return ""; },
+                func: (gb) => { gb.regs.a = GB.loadSByte(gb); }},
+        0x76: { asm: (gb) => { return "HALT"; },
+                func: (gb) => { }},
+        0xaf: { asm: (gb) => { return ""; },
+                func: (gb) => { gb.regs.a ^= gb.regs.a; Register.updateFlags(gb, gb.regs.a, false); }},
+        0xc3: { asm: (gb) => { return ""; },
+                func: (gb) => { gb.regs.pc = GB.loadWord(gb); }},
+        0xc9: { asm: (gb) => { return ""; },
+                func: (gb) => { gb.regs.pc = GB.popWord(gb); }},
+        0xcd: { asm: (gb) => { return ""; },
+                func: (gb) => { const n = GB.loadWord(gb); GB.pushWord(gb, gb.regs.pc); gb.regs.pc = n; }},
+        0xe0: { asm: (gb) => { return ""; },
+                func: (gb) => { Memory.writeByte(gb.mem, 0xFF00 | GB.loadUByte(gb), gb.regs.a); }},
+        0xf0: { asm: (gb) => { return ""; },
+                func: (gb) => { gb.regs.a = Memory.readUByte(gb.mem, 0xff00 | GB.loadUByte(gb)); }},
+        0xf3: { asm: (gb) => { return ""; },
+                func: (gb) => { gb.regs.ie = false; }},
+        0xfe: { asm: (gb) => { return ""; },
+                func: (gb) => { Register.updateFlags(gb, GB.loadUByte(gb), true) }},
     };
 
     // op cycles table
