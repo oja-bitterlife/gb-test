@@ -13,6 +13,8 @@ export namespace Op {
         }
     }
 
+    function hexByte(byte : number) : string{ return ( '00' + byte.toString(16) ).slice( -2 ); }
+
     const op_code_map: {
         [op_code: number]: {
             asm: (gb: GB.env) => string,
@@ -21,7 +23,7 @@ export namespace Op {
     } = {
         0x00: { asm: (gb) => { return "NOP"; },
                 func: (gb) => {}},
-        0x01: { asm: (gb) => { return "LD"; },
+        0x01: { asm: (gb) => { const c = Memory.readSByte(gb.mem, gb.regs.pc); const b = Memory.readSByte(gb.mem, gb.regs.pc); return `LD BC,${hexByte(b)}${hexByte(c)}`; },
                 func: (gb) => { gb.regs.c = GB.loadSByte(gb); gb.regs.b = GB.loadSByte(gb); }},
         0x04: { asm: (gb) => { return ""; },
                 func: (gb) => { gb.regs.b++; }},
