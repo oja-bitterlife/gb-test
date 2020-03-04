@@ -13,7 +13,12 @@ export namespace Op {
         }
     }
 
-    function hexByte(byte : number) : string{ return ( '00' + byte.toString(16) ).slice( -2 ); }
+    function hexByte(byte : number) : string{
+        return ( '00' + (byte&0xff).toString(16) ).slice( -2 );
+    }
+    function hexWord(word : number) : string{
+        return ( '0000' + (word&0xffff).toString(16) ).slice( -4 );
+    }
 
     const op_code_map: {
         [op_code: number]: {
@@ -23,31 +28,31 @@ export namespace Op {
     } = {
         0x00: { asm: (gb) => { return "NOP"; },
                 func: (gb) => {}},
-        0x01: { asm: (gb) => { const c = Memory.readSByte(gb.mem, gb.regs.pc); const b = Memory.readSByte(gb.mem, gb.regs.pc); return `LD BC,${hexByte(b)}${hexByte(c)}`; },
+        0x01: { asm: (gb) => { const c = Memory.readSByte(gb.mem, gb.regs.pc); const b = Memory.readSByte(gb.mem, gb.regs.pc+1); return `LD BC,0x${hexByte(b)}${hexByte(c)}`; },
                 func: (gb) => { gb.regs.c = GB.loadSByte(gb); gb.regs.b = GB.loadSByte(gb); }},
-        0x04: { asm: (gb) => { return ""; },
+        0x04: { asm: (gb) => { return "INC B"; },
                 func: (gb) => { gb.regs.b++; }},
-        0x05: { asm: (gb) => { return ""; },
+        0x05: { asm: (gb) => { return "DEC B"; },
                 func: (gb) => { gb.regs.b--; }},
-        0x06: { asm: (gb) => { return ""; },
+        0x06: { asm: (gb) => { const b = Memory.readSByte(gb.mem, gb.regs.pc); return `LD B,0x${hexByte(b)}`; },
                 func: (gb) => { gb.regs.b = GB.loadSByte(gb); }},
-        0x0c: { asm: (gb) => { return ""; },
+        0x0c: { asm: (gb) => { return "INC C"; },
                 func: (gb) => { gb.regs.c++; }},
-        0x0d: { asm: (gb) => { return ""; },
+        0x0d: { asm: (gb) => { return "DEC C"; },
                 func: (gb) => { gb.regs.c--; }},
-        0x0e: { asm: (gb) => { return ""; },
+        0x0e: { asm: (gb) => { const c = Memory.readSByte(gb.mem, gb.regs.pc); return `LD C,0x${hexByte(c)}`; },
                 func: (gb) => { gb.regs.c = GB.loadSByte(gb); }},
-        0x11: { asm: (gb) => { return ""; },
+        0x11: { asm: (gb) => { const e = Memory.readSByte(gb.mem, gb.regs.pc); const d = Memory.readSByte(gb.mem, gb.regs.pc+1); return `LD DE,0x${hexByte(d)}${hexByte(e)}`; },
                 func: (gb) => { gb.regs.e = GB.loadSByte(gb); gb.regs.d = GB.loadSByte(gb); }},  // LD de
-        0x18: { asm: (gb) => { return ""; },
+        0x18: { asm: (gb) => { const n = Memory.readSByte(gb.mem, gb.regs.pc); return `JR 0x${gb.regs.pc+n}`; },
                 func: (gb) => { const n = GB.loadSByte(gb); gb.regs.pc += n; }},
-        0x20: { asm: (gb) => { return ""; },
+        0x20: { asm: (gb) => { const n = Memory.readSByte(gb.mem, gb.regs.pc); return `JR NZ,0x${gb.regs.pc+n}`; },
                 func: (gb) => { const n = GB.loadSByte(gb); if(!gb.flags.zero) gb.regs.pc += n; }},
-        0x21: { asm: (gb) => { return ""; },
+        0x21: { asm: (gb) => { const l = Memory.readSByte(gb.mem, gb.regs.pc); const h = Memory.readSByte(gb.mem, gb.regs.pc+1); return `LD HL,0x${hexByte(h)}${hexByte(l)}`; },
                 func: (gb) => { gb.regs.l = GB.loadSByte(gb); gb.regs.h = GB.loadSByte(gb); }},  // LD hl
-        0x31: { asm: (gb) => { return ""; },
+        0x31: { asm: (gb) => { const sp = Memory.readWord(gb.mem, gb.regs.pc); return `LD SP,0x${hexWord(sp)}`; },
                 func: (gb) => { gb.regs.sp = GB.loadWord(gb); }},
-        0x3e: { asm: (gb) => { return ""; },
+        0x3e: { asm: (gb) => { const a = Memory.readSByte(gb.mem, gb.regs.pc); return `LD A,0x${hexByte(a)}`; },
                 func: (gb) => { gb.regs.a = GB.loadSByte(gb); }},
         0x76: { asm: (gb) => { return "HALT"; },
                 func: (gb) => { }},
