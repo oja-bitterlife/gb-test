@@ -12,6 +12,8 @@ export namespace Debug {
     }
 
     // ステップ実行
+    // ------------------------------------------------------------------------
+    // step into
     export function stepIn(gb: Gb.Env){
         const old_cycle = gb.cycle;
         Cpu.step(gb);
@@ -19,23 +21,27 @@ export namespace Debug {
 
         printDisasm(gb);
     }
-    export function stepOut(gb: Gb.Env){
+    // step over callの中に入らない
+    export function stepOver(gb: Gb.Env){
         if(gb.mem[gb.regs.pc] == 0xcd) stepOver(gb); // call
         else stepIn(gb);
     }
-    export function stepOver(gb: Gb.Env){
+    // step out callの外にでる。途中で別のRETが来たらそこで止まる
+    export function stepOut(gb: Gb.Env){
         while(gb.mem[gb.regs.pc] != 0xc9) Gb.step(gb);  // RET前まで実行
         stepIn(gb);  // RETを実行
     }
 
 
+    // Break付き実行
+    // ------------------------------------------------------------------------
     // Breakポイントまで実行
     export function runBreak(gb: Gb.Env, breakAddrList: number[]){
         while(breakAddrList.indexOf(gb.regs.pc) == -1) Gb.step(gb);
         printDisasm(gb);
     }
 
-    // VBlankまでステップ実行
+    // VBlankまで実行
     export function runVBlank(gb: Gb.Env){
         while(true){
             const old_ly = Memory.readUByte(gb.mem, Gpu.Addr.ly);

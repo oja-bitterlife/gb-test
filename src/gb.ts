@@ -22,15 +22,20 @@ export namespace Gb {
     }
 
 
-    // １命令実行
+    // 実行
+    // ------------------------------------------------------------------------
     export function step(gb: Env){
         const old_cycle = gb.cycle;
         Cpu.step(gb);
         Gpu.step(gb, old_cycle);
     }
+    export function run(gb: Env){
+        while(true) step(gb);
+    }
 
 
     // memory operation
+    // ------------------------------------------------------------------------
     export function loadUByte(gb: Env) : number {
         return Memory.readUByte(gb.mem, gb.regs.pc++);
     }
@@ -46,6 +51,7 @@ export namespace Gb {
 
 
     // stack operation
+    // ------------------------------------------------------------------------
     export function push(gb: Env, value: number) : void{
         Memory.writeByte(gb.mem, gb.regs.sp--, value);
     }
