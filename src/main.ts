@@ -1,9 +1,8 @@
 import * as fs from 'fs';
 import { Header } from './header';
-import { GB } from './gb';
-import { Cpu } from './cpu';
-import { Gpu } from './gpu';
+import { Gb } from './gb';
 import { Vram } from './vram';
+import { Debug } from './debug';
 
 //const rom_file = "test.gb";
 //const rom_file = "roms/01-special.gb";
@@ -14,11 +13,11 @@ try {
     const header = new Header(buf);
     console.log(header);
 
-    const gb = GB.create(buf);
+    const gb = Gb.create(buf);
 
-    GB.stepOver(gb);
-//    GB.runBreak(gb, [0x15a]);
-//    GB.runVBlank(gb);
+    Debug.stepOver(gb);
+//    Gb.runBreak(gb, [0x15a]);
+//    Gb.runVBlank(gb);
 
 
     const pixels = Vram.getPixels(gb.mem);
