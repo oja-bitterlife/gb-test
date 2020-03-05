@@ -3,6 +3,7 @@ import { Memory } from "./memory";
 import { Gpu } from "./gpu";
 import { Cpu } from "./cpu";
 import { Debug } from "./debug";
+import { Op } from "./op";
 
 export namespace GB {
     export type env = {
@@ -25,15 +26,30 @@ export namespace GB {
     }
 
 
-    // ステップ実行
-    export function step(gb: GB.env){
+    // １命令実行
+    function step(gb: GB.env){
         const old_cycle = gb.cycle;
         Cpu.step(gb);
         Gpu.step(gb, old_cycle);
     }
 
+    // ステップ実行
+    export function stepBreak(gb: GB.env){
+        const old_cycle = gb.cycle;
+        Cpu.step(gb);
+        Gpu.step(gb, old_cycle);
+
+        Debug.printDisasm(gb);
+    }
+
+    // Breakポイントまで実行
+    export function runBreak(gb: GB.env, breakAddrList: number[]){
+        while(breakAddrList.indexOf(gb.regs.pc) == -1) step(gb);
+        Debug.printDisasm(gb);
+    }
+
     // VBlankまでステップ実行
-    export function stepVBlank(gb: GB.env){
+    export function runVBlank(gb: GB.env){
         while(true){
             const old_ly = Memory.readUByte(gb.mem, Gpu.Addr.ly);
 
@@ -43,11 +59,7 @@ export namespace GB {
             const ly = Memory.readUByte(gb.mem, Gpu.Addr.ly);
             if(ly == 144 && ly != old_ly) break;
         }
-    }
-
-    // 指定アドレスまで実行
-    export function toAddr(gb: GB.env, addr: number){
-        while(gb.regs.pc != addr) step(gb);
+        Debug.printDisasm(gb);
     }
 
 

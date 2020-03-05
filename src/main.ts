@@ -15,10 +15,11 @@ try {
     console.log(header);
 
     const gb = GB.create(buf);
-//    GB.step(gb);
-    GB.stepVBlank(gb);
-//    GB.stepVBlank(gb);
-//    GB.stepVBlank(gb);
+
+//    GB.stepBreak(gb);
+    GB.runBreak(gb, [0x15a]);
+//    GB.runVBlank(gb);
+
 
     const pixels = Vram.getPixels(gb.mem);
 //    console.log(pixels);
