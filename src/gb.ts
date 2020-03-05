@@ -11,7 +11,6 @@ export namespace GB {
         mem: Memory.Memory;
         regs: Register.Registers;
         flags: Register.Flags;
-        breaks: Debug.Breaks;
     }
 
 
@@ -21,7 +20,6 @@ export namespace GB {
             mem: Memory.create(buf),
             regs: Register.createRegisters(),
             flags: Register.createFlags(),
-            breaks: Debug.createBreaks(),
         }
     }
 
@@ -34,13 +32,22 @@ export namespace GB {
     }
 
     // ステップ実行
-    export function stepBreak(gb: GB.env){
+    export function stepIn(gb: GB.env){
         const old_cycle = gb.cycle;
         Cpu.step(gb);
         Gpu.step(gb, old_cycle);
 
         Debug.printDisasm(gb);
     }
+    export function stepOut(gb: GB.env){
+        if(gb.mem[gb.regs.pc] == 0xcd) stepOver(gb); // call
+        else stepIn(gb);
+    }
+    export function stepOver(gb: GB.env){
+        while(gb.mem[gb.regs.pc] != 0xc9) step(gb);  // RET前まで実行
+        stepIn(gb);  // RETを実行
+    }
+
 
     // Breakポイントまで実行
     export function runBreak(gb: GB.env, breakAddrList: number[]){

@@ -16,8 +16,8 @@ try {
 
     const gb = GB.create(buf);
 
-//    GB.stepBreak(gb);
-    GB.runBreak(gb, [0x15a]);
+    GB.stepOver(gb);
+//    GB.runBreak(gb, [0x15a]);
 //    GB.runVBlank(gb);
 
 
