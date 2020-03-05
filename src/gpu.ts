@@ -14,7 +14,7 @@ export namespace Gpu {
     const COMPLETE_REFRESH = 70224;
     const VBLANK_START = COMPLETE_REFRESH - 4560;
 
-    export function step(gb: Gb.env, old_cycle: number) {
+    export function step(gb: Gb.Env, old_cycle: number) {
         const now_gpu_cycle = gb.cycle % CYCLE_PER_LINE
         const old_gpu_cycle = old_cycle % CYCLE_PER_LINE
 

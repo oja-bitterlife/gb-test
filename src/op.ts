@@ -3,11 +3,11 @@ import { Memory } from "./memory";
 import { Register } from "./register";
 
 export namespace Op {
-    export function formatDisAsm(op_code: number, gb: Gb.env) : string{
+    export function formatDisAsm(op_code: number, gb: Gb.Env) : string{
         return `0x${hexWord(gb.regs.pc-1)}: ${op_code_map[op_code].asm(gb)}`;
     }
 
-    export function process_op_code(op_code: number, gb: Gb.env){
+    export function process_op_code(op_code: number, gb: Gb.Env){
         try{
             op_code_map[op_code].func(gb);
         }catch(ex){
@@ -26,8 +26,8 @@ export namespace Op {
 
     const op_code_map: {
         [op_code: number]: {
-            asm: (gb: Gb.env) => string,
-            func: (gb: Gb.env) => void
+            asm: (gb: Gb.Env) => string,
+            func: (gb: Gb.Env) => void
         }
     } = {
         0x00: { asm: (gb) => { return "NOP"; },
