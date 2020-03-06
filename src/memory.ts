@@ -26,6 +26,7 @@ export namespace Memory {
 
     export function writeByte(mem: Memory, addr: number, value: number) {
         _checkImplement(addr);
+if(addr >= 0x8000 && addr < 0xa000) console.log("write in " + addr.toString(16));
         return mem[addr] = value;
     }
 
