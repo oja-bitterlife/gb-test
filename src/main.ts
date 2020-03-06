@@ -15,25 +15,30 @@ try {
 
     const gb = Gb.create(buf);
 
-    function inputLoop(question : string) {
+    function inputLoop(question: string) : Promise<string> {
         const readline = require('readline').createInterface({
             input: process.stdin,
             output: process.stdout
         });
 
         return new Promise((resolve, reject) => {
-                readline.question(question, (answer: string) => {
+            // 現在地点のop_codeを表示して
+            Debug.printDisasm(gb);
+
+            // キー入力待ち
+            readline.question(question, (answer: string) => {
                 resolve(answer);
                 readline.close();
             });
         });
     }
-    (async function() {
-        while(true){
+    (async function () {
+        while (true) {
             const answer = await inputLoop("(S)tepOver, Step(I)n, Step(O)ut:[s/i/o] ");
             if (answer == "s") Debug.stepOver(gb);
             else if (answer == "i") Debug.stepIn(gb);
             else if (answer == "o") Debug.stepOut(gb);
+            else if (answer.indexOf("0x") != -1) Debug.runBreak(gb, [parseInt(answer, 16)]);
         }
     })();
 

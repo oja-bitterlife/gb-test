@@ -5,7 +5,7 @@ import { Gpu } from "./gpu";
 import { Memory } from "./memory";
 
 export namespace Debug {
-    function printDisasm(gb: Gb.Env) {
+    export function printDisasm(gb: Gb.Env) {
         const op_code = Gb.loadUByte(gb);
         console.log(Op.formatDisAsm(op_code, gb));
         gb.regs.pc--;  // loadした分戻す
@@ -18,8 +18,6 @@ export namespace Debug {
         const old_cycle = gb.cycle;
         Cpu.step(gb);
         Gpu.step(gb, old_cycle);
-
-        printDisasm(gb);
     }
     // step over callの中に入らない
     export function stepOver(gb: Gb.Env){
@@ -38,7 +36,6 @@ export namespace Debug {
     // Breakポイントまで実行
     export function runBreak(gb: Gb.Env, breakAddrList: number[]){
         while(breakAddrList.indexOf(gb.regs.pc) == -1) Gb.step(gb);
-        printDisasm(gb);
     }
 
     // VBlankまで実行
@@ -52,6 +49,5 @@ export namespace Debug {
             const ly = Memory.readUByte(gb.mem, Gpu.Addr.ly);
             if(ly == 144 && ly != old_ly) break;
         }
-        printDisasm(gb);
     }
 }
