@@ -9,6 +9,7 @@ export namespace Op {
         }catch(ex){
             // not find instruction
             console.log("addr: 0x" + (gb.regs.pc-1).toString(16) + " => op: 0x" + op_code.toString(16));
+            console.log(gb.regs);
             throw ex;  // exit
         }
     }
@@ -19,6 +20,7 @@ export namespace Op {
         }catch(ex){
             // not find instruction
             console.log("addr: 0x" + (gb.regs.pc-1).toString(16) + " => op: 0x" + op_code.toString(16));
+            console.log(gb.regs);
             throw ex;  // exit
         }
     }
@@ -89,7 +91,7 @@ export namespace Op {
         0xf3: { asm: (gb) => { return "DI"; },
                 func: (gb) => { gb.regs.ie = false; }},
         0xfe: { asm: (gb) => { return `CP   0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
-                func: (gb) => { Register.updateFlags(gb, Gb.loadUByte(gb), true) }},
+                func: (gb) => { Register.updateFlags(gb, gb.regs.a-Gb.loadUByte(gb), true) }},
     };
 
     // op cycles table
