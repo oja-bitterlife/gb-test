@@ -21,7 +21,7 @@ export namespace Debug {
     }
     // step over callの中に入らない
     export function stepOver(gb: Gb.Env){
-        if(gb.mem[gb.regs.pc] == 0xcd) stepOver(gb); // call
+        if(gb.mem[gb.regs.pc] == 0xcd) stepOut(gb); // call
         else stepIn(gb);
     }
     // step out callの外にでる。途中で別のRETが来たらそこで止まる
