@@ -2,7 +2,7 @@ import { Memory } from "./memory";
 
 export namespace Vram {
     // resolution
-    const WIDTH = 160;
+    const WIDTH = 256;
     const HEIGHT = 144;
 
     const ADDR = 0x8000;  // 0x8000-0xA000
