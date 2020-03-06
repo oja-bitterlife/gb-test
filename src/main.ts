@@ -57,7 +57,7 @@ try {
         }
 
         const pixels = Vram.getPixels(gb.mem);
-        dumpBytes(pixels, 0, 160, 144);
+        dumpBytes(pixels, 0, 8, 8*100);
 
     })();
 

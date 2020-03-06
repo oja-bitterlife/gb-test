@@ -54,7 +54,7 @@ export namespace Op {
                 func: (gb) => { gb.regs.c = (gb.regs.c-1)&0xff; Register.updateFlags(gb, gb.regs.c, false); }},
         0x0e: { asm: (gb) => { return `LD   C,0x${hexByte(Memory.readSByte(gb.mem, gb.regs.pc))}`; },
                 func: (gb) => { gb.regs.c = Gb.loadSByte(gb); }},
-        0x11: { asm: (gb) => { return `LD   DE,0x${hexByte(Memory.readWord(gb.mem, gb.regs.pc+1))}`; },
+        0x11: { asm: (gb) => { return `LD   DE,0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
                 func: (gb) => { gb.regs.e = Gb.loadSByte(gb); gb.regs.d = Gb.loadSByte(gb); }},
         0x12: { asm: (gb) => { return `LD   (DE),A`; },
                 func: (gb) => { const de = ((gb.regs.d&0xff)<<8) | (gb.regs.e&0xff); Memory.writeByte(gb.mem, de, gb.regs.a); }},
