@@ -4,7 +4,13 @@ import { Register } from "./register";
 
 export namespace Op {
     export function formatDisAsm(op_code: number, gb: Gb.Env) : string{
-        return `0x${hexWord(gb.regs.pc-1)}: ${op_code_map[op_code].asm(gb)}`;
+        try{
+            return `0x${hexWord(gb.regs.pc-1)}: ${op_code_map[op_code].asm(gb)}`;
+        }catch(ex){
+            // not find instruction
+            console.log("addr: 0x" + (gb.regs.pc-1).toString(16) + " => op: 0x" + op_code.toString(16));
+            throw ex;  // exit
+        }
     }
 
     export function process_op_code(op_code: number, gb: Gb.Env){
@@ -48,14 +54,20 @@ export namespace Op {
                 func: (gb) => { gb.regs.c = Gb.loadSByte(gb); }},
         0x11: { asm: (gb) => { return `LD   DE,0x${hexByte(Memory.readWord(gb.mem, gb.regs.pc+1))}`; },
                 func: (gb) => { gb.regs.e = Gb.loadSByte(gb); gb.regs.d = Gb.loadSByte(gb); }},
+        0x12: { asm: (gb) => { return `LD   (DE),A`; },
+                func: (gb) => { const de = ((gb.regs.d<<8)&0xff) | (gb.regs.e&0xff); Memory.writeByte(gb.mem, de, gb.regs.a); }},
+        0x13: { asm: (gb) => { return `INC  DE`; },
+                func: (gb) => { let de = ((gb.regs.d<<8)&0xff) | (gb.regs.e&0xff); de++; gb.regs.d = (de>>8)&0xff; gb.regs.e = de&0xff; }},
         0x18: { asm: (gb) => { return `JR   0x${hexWord(gb.regs.pc+1+Memory.readSByte(gb.mem, gb.regs.pc))}`; },
                 func: (gb) => { const n = Gb.loadSByte(gb); gb.regs.pc += n; }},
         0x20: { asm: (gb) => { return `JR   NZ,0x${hexWord(gb.regs.pc+1+Memory.readSByte(gb.mem, gb.regs.pc))}`; },
                 func: (gb) => { const n = Gb.loadSByte(gb); if(!gb.flags.zero) gb.regs.pc += n; }},
-        0x21: { asm: (gb) => { return `LD HL,0x${hexByte(Memory.readSByte(gb.mem, gb.regs.pc+1))}${hexByte(Memory.readSByte(gb.mem, gb.regs.pc))}`; },
+        0x21: { asm: (gb) => { return `LD   HL,0x${hexByte(Memory.readSByte(gb.mem, gb.regs.pc+1))}${hexByte(Memory.readSByte(gb.mem, gb.regs.pc))}`; },
                 func: (gb) => { gb.regs.l = Gb.loadSByte(gb); gb.regs.h = Gb.loadSByte(gb); }},
-        0x22: { asm: (gb) => { return `LD (HL+),A`; },
+        0x22: { asm: (gb) => { return `LD   (HL+),A`; },
                 func: (gb) => { let hl = ((gb.regs.h<<8)&0xff) | (gb.regs.l&0xff); Memory.writeByte(gb.mem, hl, gb.regs.a); hl++; gb.regs.h = (hl>>8)&0xff; gb.regs.l = hl&0xff; }},
+        0x2a: { asm: (gb) => { return `LD   A,(HL+)`; },
+                func: (gb) => { let hl = ((gb.regs.h<<8)&0xff) | (gb.regs.l&0xff); gb.regs.a = Memory.readSByte(gb.mem, hl); hl++; gb.regs.h = (hl>>8)&0xff; gb.regs.l = hl&0xff; }},
         0x31: { asm: (gb) => { return `LD   SP,0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
                 func: (gb) => { gb.regs.sp = Gb.loadWord(gb); }},
         0x3e: { asm: (gb) => { return `LD   A,0x${hexByte(Memory.readSByte(gb.mem, gb.regs.pc))}`; },
