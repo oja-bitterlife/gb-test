@@ -34,11 +34,16 @@ try {
     }
     (async function () {
         while (true) {
-            const answer = await inputLoop("(S)tepOver, Step(I)n, Step(O)ut:[s/i/o] ");
-            if (answer == "s") Debug.stepOver(gb);
+            const answer = await inputLoop("(help?): ");
+            if(answer == "h" || answer == "help"){
+                console.log("(S)tepOver, Step(I)n, Step(O)ut, GotoAddr(0x????), (R)egs, (F)lags");
+            }
+            else if (answer == "s") Debug.stepOver(gb);
             else if (answer == "i") Debug.stepIn(gb);
             else if (answer == "o") Debug.stepOut(gb);
             else if (answer.indexOf("0x") != -1) Debug.runBreak(gb, [parseInt(answer, 16)]);
+            else if (answer == "r") console.log(gb.regs);
+            else if (answer == "f") console.log(gb.flags);
         }
     })();
 
