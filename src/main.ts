@@ -27,7 +27,7 @@ try {
 
             // キー入力待ち
             readline.question(question, (answer: string) => {
-                resolve(answer);
+                resolve(answer.toLowerCase());
                 readline.close();
             });
         });
@@ -36,7 +36,7 @@ try {
         while (true) {
             const answer = await inputLoop("(help?): ");
             if(answer == "h" || answer == "help"){
-                console.log("(S)tepOver, Step(I)n, Step(O)ut, GotoAddr(0x????), (R)egs, (F)lags");
+                console.log("(S)tepOver, Step(I)n, Step(O)ut, GotoAddr(0x????), (R)egs, (F)lags, (Q)uit, (RUN)");
             }
             else if (answer == "s" || answer == "") Debug.stepOver(gb);
             else if (answer == "i") Debug.stepIn(gb);
@@ -44,17 +44,17 @@ try {
             else if (answer.indexOf("0x") != -1) Debug.runBreak(gb, [parseInt(answer, 16)]);
             else if (answer == "r") console.log(gb.regs);
             else if (answer == "f") console.log(gb.flags);
+            else if (answer == "q") break;
+            else if (answer == "run") break;
         }
+
+        const pixels = Vram.getPixels(gb.mem);
+        dumpBytes(pixels, 0, 160, 144);
+
     })();
 
     //    Gb.runBreak(gb, [0x15a]);
     //    Gb.runVBlank(gb);
-
-
-    const pixels = Vram.getPixels(gb.mem);
-    //    console.log(pixels);
-    //    dumpBytes(pixels, 0, 160, 144);
-
 } catch (error) {
     console.log(error);
 }
