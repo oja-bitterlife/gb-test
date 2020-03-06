@@ -15,6 +15,14 @@ try {
 
     const gb = Gb.create(buf);
 
+    // run
+    Debug.runBreak(gb, [0x1ad]);
+    const pixels = Vram.getPixels(gb.mem);
+    dumpBytes(pixels, 0, 160, 144);
+    process.exit(0);
+
+    
+    // Debug
     function inputLoop(question: string) : Promise<string> {
         const readline = require('readline').createInterface({
             input: process.stdin,
