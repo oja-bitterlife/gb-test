@@ -1,4 +1,4 @@
-import { GB } from "./gb";
+import { Gb } from "./gb";
 
 export namespace Register {
 
@@ -47,7 +47,7 @@ export namespace Register {
     }
 
 
-    export function updateFlags(gb: GB.env, value: number, n_flag:boolean){
+    export function updateFlags(gb: Gb.Env, value: number, n_flag:boolean){
         gb.flags.zero = (gb.regs.a - value) == 0;
         gb.flags.carry = gb.regs.a < value;
         gb.flags.half_carry = (gb.regs.a & 0x0f) < (value & 0x0f);
