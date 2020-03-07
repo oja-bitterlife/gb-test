@@ -4,13 +4,40 @@ import { Gb } from './gb';
 import { Vram } from './vram';
 import { Debug } from './debug';
 
+import { createCanvas } from 'canvas';
+//const { createCanvas, loadImage } = require('canvas')
+
 //const rom_file = "test.gb";
 //const rom_file = "roms/01-special.gb";
 const rom_file = "roms/hello.gb";
 
 
-function createPng(buf: Uint8Array){
-    Debug.dumpBytes(buf, 0, 256, 256);
+function createPng(buf: Uint8Array) {
+//    Debug.dumpBytes(buf, 0, 256, 256);
+    const canvas = createCanvas(160, 144);
+    const ctx = canvas.getContext('2d')
+
+    const palette = [
+        [255, 255, 255],
+        [128, 128, 128],
+        [64, 64, 64],
+        [0, 0, 0]
+    ];
+
+    let imageData = ctx.createImageData(256, 256);
+    for (let y = 0; y < imageData.height; y++) {
+        for (let x = 0; x < imageData.width; x++) {
+            const color = buf[y * imageData.width + x];
+            imageData.data[(y*imageData.width+x)*4 + 0] = palette[color][0];
+            imageData.data[(y*imageData.width+x)*4 + 1] = palette[color][1];
+            imageData.data[(y*imageData.width+x)*4 + 2] = palette[color][2];
+            imageData.data[(y*imageData.width+x)*4 + 3] = 255;
+        }
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+
+    console.log('<img src="' + canvas.toDataURL() + '" />');
 }
 
 
@@ -27,10 +54,10 @@ try {
     createPng(pixels);
 
     process.exit(0);
-    
-    
+
+
     // Debug
-    function inputLoop(question: string) : Promise<string> {
+    function inputLoop(question: string): Promise<string> {
         const readline = require('readline').createInterface({
             input: process.stdin,
             output: process.stdout
@@ -50,7 +77,7 @@ try {
     (async function () {
         while (true) {
             const answer = await inputLoop("(help?): ");
-            if(answer == "h" || answer == "help"){
+            if (answer == "h" || answer == "help") {
                 console.log("(S)tepOver, Step(I)n, Step(O)ut, GotoAddr(0x????), (R)egs, (F)lags, (Q)uit, (RUN)");
             }
             else if (answer == "s" || answer == "") Debug.stepOver(gb);
