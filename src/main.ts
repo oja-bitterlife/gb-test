@@ -18,10 +18,10 @@ function createPng(buf: Uint8Array) {
     const ctx = canvas.getContext('2d')
 
     const palette = [
-        [255, 255, 255],
-        [128, 128, 128],
-        [64, 64, 64],
-        [0, 0, 0]
+        [15, 56, 15],
+        [155, 188, 15],
+        [139, 172, 15],
+        [48, 98, 48],
     ];
 
     let imageData = ctx.createImageData(256, 256);
@@ -37,7 +37,7 @@ function createPng(buf: Uint8Array) {
 
     ctx.putImageData(imageData, 0, 0);
 
-    console.log('<img src="' + canvas.toDataURL() + '" />');
+    console.log('<br><img src="' + canvas.toDataURL() + '" />');
 }
 
 
@@ -49,12 +49,12 @@ try {
     const gb = Gb.create(buf);
 
     // run
-    Debug.runBreak(gb, [0x1ad]);
+/*    Debug.runBreak(gb, [0x1ad]);
     const pixels = Vram.getScreen(gb.mem, 0x9800);
     createPng(pixels);
 
     process.exit(0);
-
+*/
 
     // Debug
     function inputLoop(question: string): Promise<string> {
