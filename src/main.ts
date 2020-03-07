@@ -8,6 +8,12 @@ import { Debug } from './debug';
 //const rom_file = "roms/01-special.gb";
 const rom_file = "roms/hello.gb";
 
+
+function createPng(buf: Uint8Array){
+    Debug.dumpBytes(buf, 0, 256, 256);
+}
+
+
 try {
     const buf = fs.readFileSync(rom_file)
     const header = new Header(buf);
@@ -17,10 +23,11 @@ try {
 
     // run
     Debug.runBreak(gb, [0x1ad]);
-    const pixels = Vram.getPixels(gb.mem);
-    Debug.dumpBytes(pixels, 0, 32, 32*20);
-    process.exit(0);
+    const pixels = Vram.getScreen(gb.mem, 0x9800);
+    createPng(pixels);
 
+    process.exit(0);
+    
     
     // Debug
     function inputLoop(question: string) : Promise<string> {
@@ -56,9 +63,7 @@ try {
             else if (answer == "run") break;
         }
 
-        const pixels = Vram.getPixels(gb.mem);
-        Debug.dumpBytes(pixels, 0, 8, 8*100);
-
+        Debug.dumpBytes(gb.mem, 0x9800, 32, 18);
     })();
 
 } catch (error) {
