@@ -18,7 +18,7 @@ try {
     // run
     Debug.runBreak(gb, [0x1ad]);
     const pixels = Vram.getPixels(gb.mem);
-    dumpBytes(pixels, 0, 8, 8*100);
+    Debug.dumpBytes(pixels, 0, 32, 32*20);
     process.exit(0);
 
     
@@ -57,24 +57,11 @@ try {
         }
 
         const pixels = Vram.getPixels(gb.mem);
-        dumpBytes(pixels, 0, 8, 8*100);
+        Debug.dumpBytes(pixels, 0, 8, 8*100);
 
     })();
 
-    //    Gb.runBreak(gb, [0x15a]);
-    //    Gb.runVBlank(gb);
 } catch (error) {
     console.log(error);
 }
 
-function dumpBytes(buf: Uint8Array, offset: number, width: number, height: number) {
-    for (let y = 0; y < height; y++) {
-        let line = "";
-        for (let x = 0; x < width; x++) {
-            let hex = buf[offset + y * width + x].toString(16);
-            if (hex.length == 1) hex = "0" + hex;
-            line += hex + ",";
-        }
-        console.log(line);
-    }
-}

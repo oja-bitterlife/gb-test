@@ -50,4 +50,16 @@ export namespace Debug {
             if(ly == 144 && ly != old_ly) break;
         }
     }
+
+    export function dumpBytes(mem: Memory.Memory, offset: number, width: number, height: number) {
+        for (let y = 0; y < height; y++) {
+            let line = "";
+            for (let x = 0; x < width; x++) {
+                let hex = mem[offset + y * width + x].toString(16);
+                if (hex.length == 1) hex = "0" + hex;
+                line += hex + ",";
+            }
+            console.log(line);
+        }
+    }
 }
