@@ -89,8 +89,6 @@ try {
             else if (answer == "q") break;
             else if (answer == "run") break;
         }
-
-        Debug.dumpBytes(gb.mem, 0x9800, 32, 18);
     })();
 
 } catch (error) {
