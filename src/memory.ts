@@ -49,6 +49,11 @@ export namespace Memory {
         if(0xa000 <= addr && addr <= 0xbfff) return; // 8KB External RAM
         if(0xff80 <= addr && addr <= 0xfffe) return; // High RAM (HRAM)
 
+        // SOUND Control
+        if(addr == 0xff24) return;  // NR50 - Channel control / ON-OFF / Volume (R/W)
+        if(addr == 0xff25) return;  // NR51 - Selection of Sound output terminal (R/W)
+        if(addr == 0xff26) return;  // NR52 - Sound on/off
+
         // IO
         if(addr == 0xff40) return;  // LCDC - LCD Control (R/W)
         if(addr == 0xff41) return;  // STAT - LCDC Status (R/W)
