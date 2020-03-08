@@ -49,7 +49,7 @@ export namespace Register {
 
     export function updateFlags(gb: Gb.Env, value: number, n_flag: boolean){
         gb.flags.zero = value == 0;
-        gb.flags.carry = value < 0;
+        gb.flags.carry = (value & 0x80) != 0;
         gb.flags.half_carry = (value & 0x0f) < (value & 0x0f);
         gb.flags.add_sub = n_flag;
     }
