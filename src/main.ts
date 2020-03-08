@@ -7,9 +7,9 @@ import { Debug } from './debug';
 import { createCanvas } from 'canvas';
 //const { createCanvas, loadImage } = require('canvas')
 
-//const rom_file = "test.gb";
-//const rom_file = "roms/01-special.gb";
-const rom_file = "roms/hello.gb";
+//const rom_file = "roms/test.gb";
+const rom_file = "roms/01-special.gb";
+//const rom_file = "roms/hello.gb";
 
 
 function createPng(buf: Uint8Array) {
