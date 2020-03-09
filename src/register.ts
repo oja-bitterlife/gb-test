@@ -22,7 +22,7 @@ export namespace Register {
         carry: boolean;
     }
 
-    export function createRegisters() : Registers {
+    export function createRegisters(): Registers {
         return {
             a: 0,
             b: 0,
@@ -37,7 +37,7 @@ export namespace Register {
         };
     }
 
-    export function createFlags() : Flags {
+    export function createFlags(): Flags {
         return {
             zero: false,
             add_sub: false,
@@ -47,11 +47,28 @@ export namespace Register {
     }
 
 
-    export function updateFlags(gb: Gb.Env, value: number, n_flag: boolean){
-        gb.flags.zero = value == 0;
-        gb.flags.carry = (value & 0x80) != 0;
-        gb.flags.half_carry = (value & 0x0f) < (value & 0x0f);
-        gb.flags.add_sub = n_flag;
+    export function updateFlags(gb: Gb.Env, value: number, flagOp: number) {
+        if((flagOp>>7)&1) gb.flags.zero = value == 0;
+        gb.flags.add_sub = ((flagOp>>6)&1) != 0;
+        if((flagOp>>5)&1) gb.flags.half_carry = (value & 0x0f) < (value & 0x0f)
+        if((flagOp>>4)&1) gb.flags.carry = (value & 0x80) != 0;
     }
+    export function flagsToByte(gb: Gb.Env): number {
+        let f = 0;
+        if (gb.flags.zero) f |= 1 << 7;
+        if (gb.flags.add_sub) f |= 1 << 6;
+        if (gb.flags.half_carry) f |= 1 << 5;
+        if (gb.flags.carry) f |= 1 << 4;
+        return f;
+    }
+    export function byteToFlags(gb: Gb.Env, f : number) {
+        gb.flags.zero = ((f>>7)&1) != 0;
+        gb.flags.add_sub = ((f>>6)&1) != 0;
+        gb.flags.half_carry = ((f>>5)&1) != 0;
+        gb.flags.carry = ((f>>7)&4) != 0;
+    }
+
+
+
 }
 
