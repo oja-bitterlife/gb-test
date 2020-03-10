@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import { Header } from './header';
 import { Gb } from './gb';
-import { Vram } from './vram';
 import { Debug } from './debug';
 
 import { createCanvas } from 'canvas';
@@ -87,7 +86,7 @@ try {
             else if (answer == "r") console.log(gb.regs);
             else if (answer == "f") console.log(gb.flags);
             else if (answer == "q") break;
-            else if (answer == "run") break;
+            else if (answer == "run") Gb.run(gb);
         }
     })();
 
