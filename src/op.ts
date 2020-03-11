@@ -4,8 +4,9 @@ import { Register } from "./register";
 
 export namespace Op {
     export function formatDisAsm(op_code: number, gb: Gb.Env) : string{
+        const op_hex = hexByte(op_code);
         try{
-            return `0x${hexWord(gb.regs.pc-1)}(${op_code.toString(16)}): ${op_code_map[op_code].asm(gb)}`;
+            return `0x${hexWord(gb.regs.pc-1)}: (${op_hex}):${op_code_map[op_code].asm(gb)}`;
         }catch(ex){
             // not find instruction
             console.log("addr: 0x" + (gb.regs.pc-1).toString(16) + " => op: 0x" + op_code.toString(16));
