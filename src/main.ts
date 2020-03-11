@@ -8,8 +8,8 @@ import { createCanvas } from 'canvas';
 
 
 //const rom_file = "roms/test.gb";
-const rom_file = "roms/01-special.gb";
-//const rom_file = "roms/hello.gb";
+//const rom_file = "roms/01-special.gb";
+const rom_file = "roms/hello.gb";
 
 
 function createPng(buf: Uint8Array) {
@@ -52,7 +52,6 @@ try {
 //    Debug.runBreak(gb, [0x1ad]);
 //    const pixels = Vram.getScreen(gb.mem, 0x9800);
 //    createPng(pixels);
-
 //    process.exit(0);
 
 
