@@ -35,6 +35,20 @@ export namespace OpCb {
     } = {
         0x38: { asm: (gb) => { return "SRL  B"; },
                 func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.b&0x1) == 0x1; gb.regs.b >>= 1; }},
+            0x39: { asm: (gb) => { return "SRL  C"; },
+                func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.c&0x1) == 0x1; gb.regs.c >>= 1; }},
+            0x3a: { asm: (gb) => { return "SRL  D"; },
+                func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.d&0x1) == 0x1; gb.regs.d >>= 1; }},
+            0x3b: { asm: (gb) => { return "SRL  E"; },
+                func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.e&0x1) == 0x1; gb.regs.e >>= 1; }},
+            0x3c: { asm: (gb) => { return "SRL  H"; },
+                func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.h&0x1) == 0x1; gb.regs.h >>= 1; }},
+            0x3d: { asm: (gb) => { return "SRL  L"; },
+                func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.l&0x1) == 0x1; gb.regs.l >>= 1; }},
+            0x3e: { asm: (gb) => { return "SRL  (HL)"; },
+                func: (gb) => { Register.byteToFlags(gb, 0); const hl = ((gb.regs.h&0xff)<<8) | (gb.regs.l&0xff); let n = Memory.readUByte(gb.mem, hl); gb.flags.carry = (n&0x1) == 0x1; Memory.writeByte(gb.mem, hl, n>>1); }},
+            0x3f: { asm: (gb) => { return "SRL  A"; },
+                func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.a&0x1) == 0x1; gb.regs.a >>= 1; }},
     };
 
     export const cycles = [
