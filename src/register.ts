@@ -65,10 +65,7 @@ export namespace Register {
         gb.flags.zero = ((f>>7)&1) != 0;
         gb.flags.add_sub = ((f>>6)&1) != 0;
         gb.flags.half_carry = ((f>>5)&1) != 0;
-        gb.flags.carry = ((f>>7)&4) != 0;
+        gb.flags.carry = ((f>>4)&1) != 0;
     }
-
-
-
 }
 

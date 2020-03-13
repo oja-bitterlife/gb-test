@@ -12,9 +12,9 @@ export namespace OpCb {
             console.log("addr: 0x" + (gb.regs.pc-1).toString(16) + " => cb_op: 0x" + cb_code.toString(16));
             throw ex;  // exit
         }
-    }
+    };
 
-    export function process_cb_code(cb_code: number, gb: Gb.Env){
+    export const process_cb_code = (cb_code: number, gb: Gb.Env) => {
         try{
             cb_code_map[cb_code].func(gb);
         }catch(ex){
@@ -22,10 +22,10 @@ export namespace OpCb {
             console.log("addr: 0x" + (gb.regs.pc-1).toString(16) + " => cb_op: 0x" + cb_code.toString(16));
             throw ex;  // exit
         }
-    }
+    };
 
-    function hexByte(byte : number) : string{ return ( '00' + (byte&0xff).toString(16) ).slice( -2 ); }
-    function hexWord(word : number) : string{ return ( '0000' + (word&0xffff).toString(16) ).slice( -4 ); }
+    const hexByte = (byte : number) : string => { return ( '00' + (byte&0xff).toString(16) ).slice( -2 ); };
+    const hexWord = (word : number) : string => { return ( '0000' + (word&0xffff).toString(16) ).slice( -4 ); };
 
     const cb_code_map: {
         [cb_code: number]: {
@@ -33,9 +33,8 @@ export namespace OpCb {
             func: (gb: Gb.Env) => void
         }
     } = {
-//        inst{0x32, "SRL B", 0, 2, func(cpu *CPU, operands []byte) { cpu.srl_n(&cpu.Regs.B) }},        
         0x38: { asm: (gb) => { return "SRL  B"; },
-                func: (gb) => {}},
+                func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.b&0x1) == 0x1; gb.regs.b >>= 1; }},
     };
 
     export const cycles = [
