@@ -3,7 +3,7 @@ import { Memory } from "./memory";
 import { Register } from "./register";
 
 export namespace Op {
-    export function formatDisAsm(op_code: number, gb: Gb.Env) : string{
+    export const formatDisAsm = (op_code: number, gb: Gb.Env) : string => {
         const op_hex = hexByte(op_code);
         try{
             return `0x${hexWord(gb.regs.pc-1)}: (${op_hex}):${op_code_map[op_code].asm(gb)}`;
@@ -12,9 +12,9 @@ export namespace Op {
             console.log("addr: 0x" + (gb.regs.pc-1).toString(16) + " => op: 0x" + op_code.toString(16));
             throw ex;  // exit
         }
-    }
+    };
 
-    export function process_op_code(op_code: number, gb: Gb.Env){
+    export const process_op_code = (op_code: number, gb: Gb.Env) => {
         try{
             op_code_map[op_code].func(gb);
         }catch(ex){
@@ -22,10 +22,10 @@ export namespace Op {
             console.log("addr: 0x" + (gb.regs.pc-1).toString(16) + " => op: 0x" + op_code.toString(16));
             throw ex;  // exit
         }
-    }
+    };
 
-    function hexByte(byte : number) : string{ return ( '00' + (byte&0xff).toString(16) ).slice( -2 ); }
-    function hexWord(word : number) : string{ return ( '0000' + (word&0xffff).toString(16) ).slice( -4 ); }
+    const hexByte = (byte : number) : string => { return ( '00' + (byte&0xff).toString(16) ).slice( -2 ); };
+    const hexWord = (word : number) : string => { return ( '0000' + (word&0xffff).toString(16) ).slice( -4 ); };
 
     const op_code_map: {
         [op_code: number]: {
