@@ -6,7 +6,7 @@ import { Cpu } from "./cpu";
 export namespace Gb {
     export type Env = {
         cycle: number;  // current cycle 
-        mem: Memory.Memory;
+        mem: Uint8Array;
         regs: Register.Registers;
         flags: Register.Flags;
     };

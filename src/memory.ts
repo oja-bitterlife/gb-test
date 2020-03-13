@@ -1,7 +1,5 @@
 export namespace Memory {
-    export type Memory = Uint8Array;
-
-    export const create = (rom_: Uint8Array): Memory => {
+    export const create = (rom_: Uint8Array): Uint8Array => {
         let mem = new Uint8Array(65536);
         for (let i = 0; i < rom_.length && i < mem.length; i++) mem[i] = rom_[i];
         return mem;
@@ -10,21 +8,21 @@ export namespace Memory {
 
     // 読み書き基本セット
     // ************************************************************************
-    export const readUByte = (mem: Memory, addr: number): number => {
+    export const readUByte = (mem: Uint8Array, addr: number): number => {
         _checkImplement(addr);
         return mem[addr];
     };
-    export const readSByte = (mem: Memory, addr: number): number => {
+    export const readSByte = (mem: Uint8Array, addr: number): number => {
         _checkImplement(addr);
         if (mem[addr] & 0x80) return -(((mem[addr] ^ 0xff) + 1) & 0xff);
         return mem[addr];
     };
-    export const readWord = (mem: Memory, addr: number): number => {
+    export const readWord = (mem: Uint8Array, addr: number): number => {
         _checkImplement(addr);
         return (mem[addr + 1] << 8) | mem[addr];
     };
 
-    export const writeByte = (mem: Memory, addr: number, value: number): number => {
+    export const writeByte = (mem: Uint8Array, addr: number, value: number): number => {
         _checkImplement(addr);
         return mem[addr] = value;
     };

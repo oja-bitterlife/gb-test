@@ -9,7 +9,7 @@ export namespace Vram {
     const SCREEN_0 = 0x9800;  // 9800-9BFF
     const SCREEN_1 = 0x9c00;  // 9C00-9FFF
 
-    export const getTile = (mem: Memory.Memory, no: number): Uint8Array => {
+    export const getTile = (mem: Uint8Array, no: number): Uint8Array => {
         let tile = new Uint8Array(8 * 8);
 
         const offset = VRAM + no * 8*2;
@@ -35,7 +35,7 @@ export namespace Vram {
             }
         }
     };
-    export const getScreen = (mem: Memory.Memory, offset: number): Uint8Array => {
+    export const getScreen = (mem: Uint8Array, offset: number): Uint8Array => {
         let pixels = new Uint8Array(256 * 256);
 
         for (let y = 0; y < 32; y++) {

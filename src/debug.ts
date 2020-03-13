@@ -60,7 +60,7 @@ export namespace Debug {
         }
     };
 
-    export const dumpBytes = (mem: Memory.Memory, offset: number, width: number, height: number): void => {
+    export const dumpBytes = (mem: Uint8Array, offset: number, width: number, height: number): void => {
         for (let y = 0; y < height; y++) {
             let line = "";
             for (let x = 0; x < width; x++) {

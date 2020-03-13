@@ -23,7 +23,7 @@ export namespace Gpu {
             updateMode(now_gpu_cycle, gb.mem);
         }
     };
-    const addLY = (mem: Memory.Memory, value : number): number => {
+    const addLY = (mem: Uint8Array, value : number): number => {
         // 画面縦幅を超えたら０に戻す
         const ly = (Memory.readUByte(mem, Addr.ly) + value) % (COMPLETE_REFRESH / CYCLE_PER_LINE);
         Memory.writeByte(mem, Addr.ly, ly);
@@ -42,7 +42,7 @@ export namespace Gpu {
     //           2: During Searching OAM-RAM
     //           3: During Transfering Data to LCD Driver
 
-    const updateMode = (cycle: number, mem: Memory.Memory): void => {
+    const updateMode = (cycle: number, mem: Uint8Array): void => {
         const stat = Memory.readUByte(mem, Addr.stat) & ~0x3;
         Memory.writeByte(mem, Addr.stat, stat | getMode(cycle));
     };
