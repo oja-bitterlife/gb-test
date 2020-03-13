@@ -1,5 +1,6 @@
 import { Gb } from "./gb";
 import { Op } from "./op";
+import { OpCb } from "./op_cb";
 import { Cpu } from "./cpu";
 import { Gpu } from "./gpu";
 import { Memory } from "./memory";
@@ -7,26 +8,32 @@ import { Memory } from "./memory";
 export namespace Debug {
     export function printDisasm(gb: Gb.Env) {
         const op_code = Gb.loadUByte(gb);
-        console.log(Op.formatDisAsm(op_code, gb));
-        gb.regs.pc--;  // loadした分戻す
+        if (op_code != 0xcb) {
+            console.log(Op.formatDisAsm(op_code, gb));
+            gb.regs.pc -= 1;  // loadした分戻す
+        } else {
+            const cb_code = Gb.loadUByte(gb);
+            console.log(OpCb.formatDisAsm(cb_code, gb));
+            gb.regs.pc -= 2;  // loadした分戻す
+        }
     }
 
     // ステップ実行
     // ------------------------------------------------------------------------
     // step into
-    export function stepIn(gb: Gb.Env){
+    export function stepIn(gb: Gb.Env) {
         const old_cycle = gb.cycle;
         Cpu.step(gb);
         Gpu.step(gb, old_cycle);
     }
     // step over callの中に入らない
-    export function stepOver(gb: Gb.Env){
-        if(gb.mem[gb.regs.pc] == 0xcd) stepOut(gb); // call
+    export function stepOver(gb: Gb.Env) {
+        if (gb.mem[gb.regs.pc] == 0xcd) stepOut(gb); // call
         else stepIn(gb);
     }
     // step out callの外にでる。途中で別のRETが来たらそこで止まる
-    export function stepOut(gb: Gb.Env){
-        while(gb.mem[gb.regs.pc] != 0xc9) Gb.step(gb);  // RET前まで実行
+    export function stepOut(gb: Gb.Env) {
+        while (gb.mem[gb.regs.pc] != 0xc9) Gb.step(gb);  // RET前まで実行
         stepIn(gb);  // RETを実行
     }
 
@@ -34,20 +41,20 @@ export namespace Debug {
     // Break付き実行
     // ------------------------------------------------------------------------
     // Breakポイントまで実行
-    export function runBreak(gb: Gb.Env, breakAddrList: number[]){
-        while(breakAddrList.indexOf(gb.regs.pc) == -1) Gb.step(gb);
+    export function runBreak(gb: Gb.Env, breakAddrList: number[]) {
+        while (breakAddrList.indexOf(gb.regs.pc) == -1) Gb.step(gb);
     }
 
     // VBlankまで実行
-    export function runVBlank(gb: Gb.Env){
-        while(true){
+    export function runVBlank(gb: Gb.Env) {
+        while (true) {
             const old_ly = Memory.readUByte(gb.mem, Gpu.Addr.ly);
 
             Gb.step(gb);
 
             // VBlank start
             const ly = Memory.readUByte(gb.mem, Gpu.Addr.ly);
-            if(ly == 144 && ly != old_ly) break;
+            if (ly == 144 && ly != old_ly) break;
         }
     }
 

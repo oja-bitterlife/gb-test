@@ -24,12 +24,8 @@ export namespace Op {
         }
     }
 
-    function hexByte(byte : number) : string{
-        return ( '00' + (byte&0xff).toString(16) ).slice( -2 );
-    }
-    function hexWord(word : number) : string{
-        return ( '0000' + (word&0xffff).toString(16) ).slice( -4 );
-    }
+    function hexByte(byte : number) : string{ return ( '00' + (byte&0xff).toString(16) ).slice( -2 ); }
+    function hexWord(word : number) : string{ return ( '0000' + (word&0xffff).toString(16) ).slice( -4 ); }
 
     const op_code_map: {
         [op_code: number]: {
@@ -308,6 +304,7 @@ export namespace Op {
         0xfe: { asm: (gb) => { return `CP   0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
                 func: (gb) => { Register.updateFlags(gb, gb.regs.a-Gb.loadUByte(gb), 0xf0) }},
     };
+
 
     // op cycles table
     // from https://www.pastraiser.com/cpu/gameboy/gameboy_opcodes.html
