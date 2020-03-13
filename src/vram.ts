@@ -9,7 +9,7 @@ export namespace Vram {
     const SCREEN_0 = 0x9800;  // 9800-9BFF
     const SCREEN_1 = 0x9c00;  // 9C00-9FFF
 
-    export function getTile(mem: Memory.Memory, no: number): Uint8Array {
+    export const getTile = (mem: Memory.Memory, no: number): Uint8Array => {
         let tile = new Uint8Array(8 * 8);
 
         const offset = VRAM + no * 8*2;
@@ -24,9 +24,9 @@ export namespace Vram {
             }
         }
         return tile;
-    }
+    };
 
-    function drawTileToPixelBuf(buf_256x256: Uint8Array, buf_tile_x: number, buf_tile_y: number, tile_8x8: Uint8Array) {
+    const drawTileToPixelBuf = (buf_256x256: Uint8Array, buf_tile_x: number, buf_tile_y: number, tile_8x8: Uint8Array): void => {
         const buf_x = buf_tile_x * 8;
         const buf_y = buf_tile_y * 8;
         for (let y = 0; y < 8; y++) {
@@ -34,8 +34,8 @@ export namespace Vram {
                 buf_256x256[(buf_y + y) * 256 + buf_x + x] = tile_8x8[y * 8 + x];
             }
         }
-    }
-    export function getScreen(mem: Memory.Memory, offset: number): Uint8Array {
+    };
+    export const getScreen = (mem: Memory.Memory, offset: number): Uint8Array => {
         let pixels = new Uint8Array(256 * 256);
 
         for (let y = 0; y < 32; y++) {
@@ -47,5 +47,5 @@ export namespace Vram {
         }
 
         return pixels;
-    }
+    };
 }

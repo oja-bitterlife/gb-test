@@ -14,6 +14,6 @@ export namespace Interrupt {
 
     export type Interrupt = {
         enabled: boolean;  // enable/disable
-    }
+    };
 
 }

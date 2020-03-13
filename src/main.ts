@@ -12,7 +12,7 @@ const rom_file = "roms/01-special.gb";
 //const rom_file = "roms/hello.gb";
 
 
-function createPng(buf: Uint8Array) {
+const createPng = (buf: Uint8Array) => {
 //    Debug.dumpBytes(buf, 0, 256, 256);
     const canvas = createCanvas(160, 144);
     const ctx = canvas.getContext('2d')
@@ -38,7 +38,7 @@ function createPng(buf: Uint8Array) {
     ctx.putImageData(imageData, 0, 0);
 
     console.log('<br><img src="' + canvas.toDataURL() + '" />');
-}
+};
 
 
 try {
@@ -56,7 +56,7 @@ try {
 
 
     // Debug
-    function inputLoop(question: string): Promise<string> {
+    const inputLoop = (question: string): Promise<string> => {
         const readline = require('readline').createInterface({
             input: process.stdin,
             output: process.stdout

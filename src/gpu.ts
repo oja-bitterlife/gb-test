@@ -14,7 +14,7 @@ export namespace Gpu {
     const COMPLETE_REFRESH = 70224;
     const VBLANK_START = COMPLETE_REFRESH - 4560;
 
-    export function step(gb: Gb.Env, old_cycle: number) {
+    export const step = (gb: Gb.Env, old_cycle: number): void => {
         const now_gpu_cycle = gb.cycle % CYCLE_PER_LINE
         const old_gpu_cycle = old_cycle % CYCLE_PER_LINE
 
@@ -22,13 +22,13 @@ export namespace Gpu {
             const ly = addLY(gb.mem, 1);  // inc LY
             updateMode(now_gpu_cycle, gb.mem);
         }
-    }
-    function addLY(mem: Memory.Memory, value : number): number {
+    };
+    const addLY = (mem: Memory.Memory, value : number): number => {
         // 画面縦幅を超えたら０に戻す
         const ly = (Memory.readUByte(mem, Addr.ly) + value) % (COMPLETE_REFRESH / CYCLE_PER_LINE);
         Memory.writeByte(mem, Addr.ly, ly);
         return ly;
-    }
+    };
 
     // FF41 - STAT - LCDC Status (R/W)
     // Bit 6 - LYC=LY Coincidence Interrupt (1=Enable) (Read/Write)
@@ -42,17 +42,17 @@ export namespace Gpu {
     //           2: During Searching OAM-RAM
     //           3: During Transfering Data to LCD Driver
 
-    function updateMode(cycle: number, mem: Memory.Memory) {
+    const updateMode = (cycle: number, mem: Memory.Memory): void => {
         const stat = Memory.readUByte(mem, Addr.stat) & ~0x3;
         Memory.writeByte(mem, Addr.stat, stat | getMode(cycle));
-    }
+    };
 
     // Mode 0 is present between 201-207 clks, 2 about 77-83 clks, and 3 about 169-175 clks.
-    function getMode(cycle: number) {
+    const getMode = (cycle: number): number => {
         if(201 <= cycle && cycle <= 207) return 0;
         if(77 <= cycle && cycle <= 83) return 2;
         if(169 <= cycle && cycle <= 175) return 3;
         return 1;  // VBlank mode
-    }
+    };
 
 }
