@@ -529,6 +529,10 @@ export namespace Op {
             asm: (gb) => { return `CALL 0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const n = Gb.loadWord(gb); Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = n; }
         },
+        0xd1: {
+            asm: (gb) => { return `POP  DE`; },
+            func: (gb) => { gb.regs.e = Gb.pop(gb); gb.regs.d = Gb.pop(gb); }
+        },
         0xd5: {
             asm: (gb) => { return `PUSH DE`; },
             func: (gb) => { Gb.push(gb, gb.regs.d); Gb.push(gb, gb.regs.e); }
