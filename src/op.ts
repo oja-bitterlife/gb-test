@@ -550,12 +550,16 @@ export namespace Op {
             func: (gb) => { Gb.push(gb, gb.regs.h); Gb.push(gb, gb.regs.l); }
         },
         0xe6: {
-            asm: (gb) => { return `AND  A,${hexByte(Memory.readSByte(gb.mem, gb.regs.pc))}`; },
-            func: (gb) => { gb.regs.a = (gb.regs.a & Gb.loadSByte(gb)) & 0xff; Register.updateFlags(gb, gb.regs.a, 0x80); gb.flags.half_carry = true; gb.flags.carry = false; }
+            asm: (gb) => { return `AND  A,${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
+            func: (gb) => { gb.regs.a &= Gb.loadUByte(gb); Register.byteToFlags(gb, 0x20); Register.updateFlags(gb, gb.regs.a, 0x80); }
         },
         0xea: {
-            asm: (gb) => { return `LD   0x${hexWord(Memory.readUByte(gb.mem, gb.regs.pc + 1) | Memory.readUByte(gb.mem, gb.regs.pc))},A`; },
+            asm: (gb) => { return `LD   0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc + 1) | Memory.readUByte(gb.mem, gb.regs.pc))},A`; },
             func: (gb) => { Memory.writeByte(gb.mem, Gb.loadWord(gb), gb.regs.a); }
+        },
+        0xee: {
+            asm: (gb) => { return `XOR  0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc + 1) | Memory.readUByte(gb.mem, gb.regs.pc))},A`; },
+            func: (gb) => { gb.regs.a ^= Gb.loadUByte(gb); Register.byteToFlags(gb, 0); Register.updateFlags(gb, gb.regs.a, 0x80); }
         },
         0xf0: {
             asm: (gb) => { return `LDH  A,0x${hexWord(0xff00 | Memory.readUByte(gb.mem, gb.regs.pc))}`; },

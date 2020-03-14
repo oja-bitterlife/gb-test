@@ -80,7 +80,7 @@ try {
                 console.log("(S)tepOver, Step(I)n, Step(O)ut, GotoAddr(0x????), (R)egs, (F)lags, (Q)uit, (RUN)");
             }
             else if (answer == "s" || answer == "") Debug.stepOver(gb);
-            else if (answer == "i") Debug.stepIn(gb);
+            else if (answer == "i") Gb.step(gb);
             else if (answer == "o") Debug.stepOut(gb);
             else if (answer.indexOf("0x") != -1) Debug.runBreak(gb, [parseInt(answer, 16)]);
             else if (answer == "r") console.log(gb.regs);

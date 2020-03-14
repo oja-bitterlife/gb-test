@@ -22,21 +22,15 @@ export namespace Debug {
 
     // ステップ実行
     // ------------------------------------------------------------------------
-    // step into
-    export const stepIn = (gb: Gb.Env): void => {
-        const old_cycle = gb.cycle;
-        Cpu.step(gb);
-        Gpu.step(gb, old_cycle);
-    };
     // step over callの中に入らない
     export const stepOver = (gb: Gb.Env): void => {
         if (gb.mem[gb.regs.pc] == 0xcd) stepOut(gb); // call
-        else stepIn(gb);
+        else Gb.step(gb);
     };
     // step out callの外にでる。途中で別のRETが来たらそこで止まる
     export const stepOut = (gb: Gb.Env): void => {
         while (gb.mem[gb.regs.pc] != 0xc9) Gb.step(gb);  // RET前まで実行
-        stepIn(gb);  // RETを実行
+        Gb.step(gb);  // RETを実行
     };
 
 
