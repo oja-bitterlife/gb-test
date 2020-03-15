@@ -47,11 +47,11 @@ export namespace Op {
         },
         0x04: {
             asm: (gb) => { return "INC  B"; },
-            func: (gb) => { gb.regs.b = (gb.regs.b + 1) & 0xff; Register.updateFlags(gb, gb.regs.b, 0xa0); }
+            func: (gb) => { Register.setH(gb, ((gb.regs.b&0xf)+1)>>4); gb.regs.b = (gb.regs.b + 1) & 0xff; Register.checkZ(gb, gb.regs.b); Register.setN(gb, 0); }
         },
         0x05: {
             asm: (gb) => { return "DEC  B"; },
-            func: (gb) => { gb.regs.b = (gb.regs.b - 1) & 0xff; Register.updateFlags(gb, gb.regs.b, 0xe0); }
+            func: (gb) => { Register.setH(gb, ((gb.regs.b&0xf)-1)>>4); gb.regs.b = (gb.regs.b - 1) & 0xff; Register.checkZ(gb, gb.regs.b); Register.setN(gb, 1); }
         },
         0x06: {
             asm: (gb) => { return `LD   B,0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },

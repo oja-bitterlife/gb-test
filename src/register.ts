@@ -44,30 +44,20 @@ export namespace Register {
         };
     };
 
-    export const updateZ = (gb: Gb.Env, value: number): void => {
+    export const checkZ = (gb: Gb.Env, value: number): void => {
         gb.flags.zero = value == 0;
-    };
+    }
     export const setZ = (gb: Gb.Env, value: number): void => {
         gb.flags.zero = value != 0;
     };
     export const setN = (gb: Gb.Env, value: number): void => {
         gb.flags.add_sub = value != 0;
     };
-    export const updateH = (gb: Gb.Env, v1: number, v2: number): void => {
-        gb.flags.half_carry = (v1 & 0x0f) < (v2 & 0x0f)
-    };
     export const setH = (gb: Gb.Env, value: number): void => {
         gb.flags.half_carry = value != 0;
     };
-    export const updateC = (gb: Gb.Env, v1: number, v2: number): void => {
-        gb.flags.carry = (v1 & 0xff) < (v2 & 0xff);
-    };
     export const setC = (gb: Gb.Env, value: number): void => {
         gb.flags.carry = value != 0;
-    };
-    export const updateHC = (gb: Gb.Env, v1: number, v2: number): void => {
-        updateH(gb, v1, v2);
-        updateC(gb, v1, v2);
     };
     export const setNH = (gb: Gb.Env, n: number, h: number): void => {
         setN(gb, n);
