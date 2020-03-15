@@ -14,14 +14,6 @@ export namespace Register {
         pc: number;
         ie: boolean;
     };
-
-    export type Flags = {
-        zero: boolean;
-        add_sub: boolean;  // n
-        half_carry: boolean;
-        carry: boolean;
-    };
-
     export const createRegisters = (): Registers => {
         return {
             a: 0,
@@ -37,6 +29,12 @@ export namespace Register {
         };
     };
 
+    export type Flags = {
+        zero: boolean;
+        add_sub: boolean;  // n
+        half_carry: boolean;
+        carry: boolean;
+    };
     export const createFlags = (): Flags => {
         return {
             zero: false,
@@ -46,13 +44,41 @@ export namespace Register {
         };
     };
 
-
-    export const updateFlags = (gb: Gb.Env, value: number, flagOp: number): void => {
-        if((flagOp>>7)&1) gb.flags.zero = value == 0;
-        gb.flags.add_sub = ((flagOp>>6)&1) != 0;
-        if((flagOp>>5)&1) gb.flags.half_carry = (value & 0x0f) < (value & 0x0f)
-        if((flagOp>>4)&1) gb.flags.carry = (value & 0x80) != 0;
+    export const updateZ = (gb: Gb.Env, value: number): void => {
+        gb.flags.zero = value == 0;
     };
+    export const setZ = (gb: Gb.Env, value: number): void => {
+        gb.flags.zero = value != 0;
+    };
+    export const setN = (gb: Gb.Env, value: number): void => {
+        gb.flags.add_sub = value != 0;
+    };
+    export const updateH = (gb: Gb.Env, v1: number, v2: number): void => {
+        gb.flags.half_carry = (v1 & 0x0f) < (v2 & 0x0f)
+    };
+    export const setH = (gb: Gb.Env, value: number): void => {
+        gb.flags.half_carry = value != 0;
+    };
+    export const updateC = (gb: Gb.Env, v1: number, v2: number): void => {
+        gb.flags.carry = (v1 & 0xff) < (v2 & 0xff);
+    };
+    export const setC = (gb: Gb.Env, value: number): void => {
+        gb.flags.carry = value != 0;
+    };
+    export const updateHC = (gb: Gb.Env, v1: number, v2: number): void => {
+        updateH(gb, v1, v2);
+        updateC(gb, v1, v2);
+    };
+    export const setNH = (gb: Gb.Env, n: number, h: number): void => {
+        setN(gb, n);
+        setH(gb, h);
+    }
+    export const setNHC = (gb: Gb.Env, n: number, h: number, c: number): void => {
+        setN(gb, n);
+        setH(gb, h);
+        setH(gb, c);
+    }
+
     export const flagsToByte = (gb: Gb.Env): number => {
         let f = 0;
         if (gb.flags.zero) f |= 1 << 7;
@@ -61,11 +87,11 @@ export namespace Register {
         if (gb.flags.carry) f |= 1 << 4;
         return f;
     };
-    export const byteToFlags = (gb: Gb.Env, f : number): void => {
-        gb.flags.zero = ((f>>7)&1) != 0;
-        gb.flags.add_sub = ((f>>6)&1) != 0;
-        gb.flags.half_carry = ((f>>5)&1) != 0;
-        gb.flags.carry = ((f>>4)&1) != 0;
+    export const byteToFlags = (gb: Gb.Env, f: number): void => {
+        gb.flags.zero = ((f >> 7) & 1) != 0;
+        gb.flags.add_sub = ((f >> 6) & 1) != 0;
+        gb.flags.half_carry = ((f >> 5) & 1) != 0;
+        gb.flags.carry = ((f >> 4) & 1) != 0;
     };
 }
 
