@@ -557,6 +557,10 @@ export namespace Op {
             asm: (gb) => { return `AND  A,${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { gb.regs.a &= Gb.loadUByte(gb); Register.byteToFlags(gb, 0x20); Register.checkZ(gb, gb.regs.a); }
         },
+        0xe9: {
+            asm: (gb) => { return `JP   (HL)`; },
+            func: (gb) => { gb.regs.pc = (gb.regs.h << 8) | gb.regs.l; }
+        },
         0xea: {
             asm: (gb) => { return `LD   0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc + 1) | Memory.readUByte(gb.mem, gb.regs.pc))},A`; },
             func: (gb) => { Memory.writeByte(gb.mem, Gb.loadWord(gb), gb.regs.a); }
