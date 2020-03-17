@@ -5,6 +5,7 @@ import { Debug } from './debug';
 import { Vram } from './vram';
 
 import { createCanvas } from 'canvas';
+import { Memory } from './memory';
 
 
 //const rom_file = "roms/test.gb";
@@ -55,6 +56,8 @@ try {
 //    createPng(pixels);
 //    process.exit(0);
 
+    const hexByte = (byte: number): string => { return ('00' + (byte & 0xff).toString(16)).slice(-2); };
+    const hexWord = (word: number): string => { return ('0000' + (word & 0xffff).toString(16)).slice(-4); }
 
     // Debug
     const inputLoop = (question: string): Promise<string> => {
@@ -88,6 +91,14 @@ try {
             else if (answer == "f") console.log(gb.flags);
             else if (answer == "q") break;
             else if (answer == "run") Gb.run(gb);
+            else if (answer.indexOf("m") != -1){
+                const addr = parseInt(answer.substr(1), 16);
+                console.log("0x"+hexWord(addr) + ": 0x" + hexByte(Memory.readUByte(gb.mem, addr)));
+            }
+            else if (answer.indexOf("w") != -1){
+                const addr = parseInt(answer.substr(1), 16);
+                console.log("0x"+hexWord(addr) + ": 0x" + hexWord(Memory.readWord(gb.mem, addr)));
+            }
         }
     })();
 

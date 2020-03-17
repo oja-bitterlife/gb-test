@@ -526,7 +526,7 @@ export namespace Op {
             func: (gb) => { Gb.push(gb, gb.regs.b); Gb.push(gb, gb.regs.c); }
         },
         0xc6: {
-            asm: (gb) => { return `ADD  A,${hexByte(Memory.readSByte(gb.mem, gb.regs.pc))}`; },
+            asm: (gb) => { return `ADD  A,${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const n = Gb.loadUByte(gb); Register.setH(gb, ((gb.regs.a & 0xf) + (n & 0xf)) >> 4); Register.setC(gb, (gb.regs.a + n) >> 8); gb.regs.a = (gb.regs.a + n) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); }
         },
         0xc9: {
@@ -546,7 +546,7 @@ export namespace Op {
             func: (gb) => { Gb.push(gb, gb.regs.d); Gb.push(gb, gb.regs.e); }
         },
         0xd6: {
-            asm: (gb) => { return `SUB  ${hexByte(Memory.readSByte(gb.mem, gb.regs.pc))}`; },
+            asm: (gb) => { return `SUB  ${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const n = Gb.loadUByte(gb); Register.setH(gb, ((gb.regs.a & 0xf) - (n & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - n) >> 8); gb.regs.a = (gb.regs.a - n) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); }
         },
         0xe0: {
@@ -570,7 +570,7 @@ export namespace Op {
             func: (gb) => { gb.regs.pc = (gb.regs.h << 8) | gb.regs.l; }
         },
         0xea: {
-            asm: (gb) => { return `LD   0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc + 1) | Memory.readUByte(gb.mem, gb.regs.pc))},A`; },
+            asm: (gb) => { return `LD   0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))},A`; },
             func: (gb) => { Memory.writeByte(gb.mem, Gb.loadWord(gb), gb.regs.a); }
         },
         0xee: {
@@ -595,7 +595,7 @@ export namespace Op {
         },
         0xfa: {
             asm: (gb) => { return `LD   A,${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
-            func: (gb) => { gb.regs.a = Memory.readSByte(gb.mem, Gb.loadWord(gb)); }
+            func: (gb) => { gb.regs.a = Memory.readUByte(gb.mem, Gb.loadWord(gb)); }
         },
         0xfe: {
             asm: (gb) => { return `CP   0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
