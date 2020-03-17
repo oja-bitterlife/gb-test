@@ -35,67 +35,67 @@ export namespace OpCb {
     } = {
         0x18: {
             asm: (gb) => { return "RR   B"; },
-            func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.b & 0x1) == 0x1; gb.regs.b = (gb.regs.b >> 1) | msb; Register.updateFlags(gb, gb.regs.b, 0x80); }
+            func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.b & 0x1) == 0x1; gb.regs.b = (gb.regs.b >> 1) | msb; Register.checkZ(gb, gb.regs.b); }
         },
         0x19: {
             asm: (gb) => { return "RR   C"; },
-            func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.c & 0x1) == 0x1; gb.regs.c = (gb.regs.c >> 1) | msb; Register.updateFlags(gb, gb.regs.c, 0x80); }
+            func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.c & 0x1) == 0x1; gb.regs.c = (gb.regs.c >> 1) | msb; Register.checkZ(gb, gb.regs.c); }
         },
         0x1a: {
             asm: (gb) => { return "RR   D"; },
-            func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.d & 0x1) == 0x1; gb.regs.d = (gb.regs.d >> 1) | msb; Register.updateFlags(gb, gb.regs.d, 0x80); }
+            func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.d & 0x1) == 0x1; gb.regs.d = (gb.regs.d >> 1) | msb; Register.checkZ(gb, gb.regs.d); }
         },
         0x1b: {
             asm: (gb) => { return "RR   E"; },
-            func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.e & 0x1) == 0x1; gb.regs.e = (gb.regs.e >> 1) | msb; Register.updateFlags(gb, gb.regs.e, 0x80); }
+            func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.e & 0x1) == 0x1; gb.regs.e = (gb.regs.e >> 1) | msb; Register.checkZ(gb, gb.regs.e); }
         },
         0x1c: {
             asm: (gb) => { return "RR   H"; },
-            func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.h & 0x1) == 0x1; gb.regs.h = (gb.regs.h >> 1) | msb; Register.updateFlags(gb, gb.regs.h, 0x80); }
+            func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.h & 0x1) == 0x1; gb.regs.h = (gb.regs.h >> 1) | msb; Register.checkZ(gb, gb.regs.h); }
         },
         0x1d: {
             asm: (gb) => { return "RR   L"; },
-            func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.l & 0x1) == 0x1; gb.regs.l = (gb.regs.l >> 1) | msb; Register.updateFlags(gb, gb.regs.l, 0x80); }
+            func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.l & 0x1) == 0x1; gb.regs.l = (gb.regs.l >> 1) | msb; Register.checkZ(gb, gb.regs.l); }
         },
         0x1e: {
             asm: (gb) => { return "RR   (HL)"; },
-            func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); let n = Memory.readUByte(gb.mem, hl); gb.flags.carry = (n & 0x1) == 0x1; n = (n >> 1) | msb; Memory.writeByte(gb.mem, hl, n); Register.updateFlags(gb, n, 0x80); }
+            func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); let n = Memory.readUByte(gb.mem, hl); gb.flags.carry = (n & 0x1) == 0x1; n = (n >> 1) | msb; Memory.writeByte(gb.mem, hl, n); Register.checkZ(gb, n); }
         },
         0x1f: {
             asm: (gb) => { return "RR   A"; },
-            func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.a & 0x1) == 0x1; gb.regs.a = (gb.regs.a >> 1) | msb; Register.updateFlags(gb, gb.regs.a, 0x80); }
+            func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.a & 0x1) == 0x1; gb.regs.a = (gb.regs.a >> 1) | msb; Register.checkZ(gb, gb.regs.a); }
         },
         0x38: {
             asm: (gb) => { return "SRL  B"; },
-            func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.b & 0x1) == 0x1; gb.regs.b >>= 1; Register.updateFlags(gb, gb.regs.b, 0x80); }
+            func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.b & 0x1) == 0x1; gb.regs.b >>= 1; Register.checkZ(gb, gb.regs.b); }
         },
         0x39: {
             asm: (gb) => { return "SRL  C"; },
-            func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.c & 0x1) == 0x1; gb.regs.c >>= 1; Register.updateFlags(gb, gb.regs.c, 0x80); }
+            func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.c & 0x1) == 0x1; gb.regs.c >>= 1; Register.checkZ(gb, gb.regs.c); }
         },
         0x3a: {
             asm: (gb) => { return "SRL  D"; },
-            func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.d & 0x1) == 0x1; gb.regs.d >>= 1; Register.updateFlags(gb, gb.regs.d, 0x80); }
+            func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.d & 0x1) == 0x1; gb.regs.d >>= 1; Register.checkZ(gb, gb.regs.d); }
         },
         0x3b: {
             asm: (gb) => { return "SRL  E"; },
-            func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.e & 0x1) == 0x1; gb.regs.e >>= 1; Register.updateFlags(gb, gb.regs.e, 0x80); }
+            func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.e & 0x1) == 0x1; gb.regs.e >>= 1; Register.checkZ(gb, gb.regs.e); }
         },
         0x3c: {
             asm: (gb) => { return "SRL  H"; },
-            func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.h & 0x1) == 0x1; gb.regs.h >>= 1; Register.updateFlags(gb, gb.regs.h, 0x80); }
+            func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.h & 0x1) == 0x1; gb.regs.h >>= 1; Register.checkZ(gb, gb.regs.h); }
         },
         0x3d: {
             asm: (gb) => { return "SRL  L"; },
-            func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.l & 0x1) == 0x1; gb.regs.l >>= 1; Register.updateFlags(gb, gb.regs.l, 0x80); }
+            func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.l & 0x1) == 0x1; gb.regs.l >>= 1; Register.checkZ(gb, gb.regs.l); }
         },
         0x3e: {
             asm: (gb) => { return "SRL  (HL)"; },
-            func: (gb) => { Register.byteToFlags(gb, 0); const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); let n = Memory.readUByte(gb.mem, hl); gb.flags.carry = (n & 0x1) == 0x1; n >>= 1; Memory.writeByte(gb.mem, hl, n); Register.updateFlags(gb, n, 0x80); }
+            func: (gb) => { Register.byteToFlags(gb, 0); const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); let n = Memory.readUByte(gb.mem, hl); gb.flags.carry = (n & 0x1) == 0x1; n >>= 1; Memory.writeByte(gb.mem, hl, n); Register.checkZ(gb, n); }
         },
         0x3f: {
             asm: (gb) => { return "SRL  A"; },
-            func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.a & 0x1) == 0x1; gb.regs.a >>= 1; Register.updateFlags(gb, gb.regs.a, 0x80); }
+            func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.a & 0x1) == 0x1; gb.regs.a >>= 1; Register.checkZ(gb, gb.regs.a); }
         },
     };
 
