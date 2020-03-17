@@ -57,6 +57,10 @@ export namespace Op {
             asm: (gb) => { return `LD   B,0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { gb.regs.b = Gb.loadUByte(gb); }
         },
+        0xa: {
+            asm: (gb) => { return `LD   A,(BC)`; },
+            func: (gb) => { const bc = (gb.regs.b << 8) | gb.regs.c; gb.regs.a = Memory.readUByte(gb.mem, bc); }
+        },
         0x0c: {
             asm: (gb) => { return "INC  C"; },
             func: (gb) => { Register.setH(gb, ((gb.regs.c & 0xf) + 1) >> 4); gb.regs.c = (gb.regs.c + 1) & 0xff; Register.checkZ(gb, gb.regs.c); Register.setN(gb, 0); }
