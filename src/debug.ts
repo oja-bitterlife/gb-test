@@ -24,7 +24,9 @@ export namespace Debug {
     // ------------------------------------------------------------------------
     // step over callの中に入らない
     export const stepOver = (gb: Gb.Env): void => {
-        if (gb.mem[gb.regs.pc] == 0xcd) stepOut(gb); // call
+        if (gb.mem[gb.regs.pc] == 0xcd){ // call
+            Debug.runBreak(gb, [gb.regs.pc+3]);  // goto call next            
+        }
         else Gb.step(gb);
     };
     // step out callの外にでる。途中で別のRETが来たらそこで止まる
