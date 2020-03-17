@@ -8,7 +8,8 @@ import { createCanvas } from 'canvas';
 
 
 //const rom_file = "roms/test.gb";
-const rom_file = "roms/01-special.gb";
+//const rom_file = "roms/01-special.gb";
+const rom_file = "roms/11-op a,(hl).gb";
 //const rom_file = "roms/hello.gb";
 
 

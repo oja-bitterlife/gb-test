@@ -145,6 +145,10 @@ export namespace Op {
             asm: (gb) => { return `JR   Z,0x${hexWord(gb.regs.pc + 1 + Memory.readSByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const n = Gb.loadSByte(gb); if (gb.flags.zero) gb.regs.pc += n; }
         },
+        0x29: {
+            asm: (gb) => { return `ADD  HL,HL`; },
+            func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; const n = hl; Register.setH(gb, ((hl & 0xfff) + (n & 0xfff)) >> 12); Register.setC(gb, (hl + n) >> 16); hl += n; Register.setN(gb, 0); gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff;}
+        },
         0x2a: {
             asm: (gb) => { return `LD   A,(HL+)`; },
             func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; gb.regs.a = Memory.readUByte(gb.mem, hl); hl++; gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff; }
