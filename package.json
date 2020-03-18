@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@types/cli-color": "^2.0.0",
-    "@types/node": "^13.7.0",
+    "@types/node": "^13.9.1",
     "canvas": "^2.6.1"
   }
 }
