@@ -60,7 +60,7 @@ export namespace Gb {
         push(gb, value & 0xff);
     };
     export const pop = (gb: Env): number => {
-        return Memory.readSByte(gb.mem, ++gb.regs.sp);
+        return Memory.readUByte(gb.mem, ++gb.regs.sp);
     };
     export const popWord = (gb: Env): number => {
         return (pop(gb) & 0xff) | ((pop(gb) & 0xff) << 8);
