@@ -6,6 +6,7 @@ import { Vram } from './vram';
 
 import { createCanvas } from 'canvas';
 import { Memory } from './memory';
+import { Register } from './register';
 
 
 //const rom_file = "roms/test.gb";
@@ -87,15 +88,15 @@ try {
             else if (answer == "i") Gb.step(gb);
             else if (answer == "o") Debug.stepOut(gb);
             else if (answer.indexOf("0x") != -1) Debug.runBreak(gb, [parseInt(answer, 16)]);
-            else if (answer == "r") console.log(gb.regs);
+            else if (answer == "r") console.log(Register.toString(gb.regs));
             else if (answer == "f") console.log(gb.flags);
             else if (answer == "q") break;
             else if (answer == "run") Gb.run(gb);
-            else if (answer.indexOf("m") != -1){
+            else if (answer.indexOf("b") == 0){
                 const addr = parseInt(answer.substr(1), 16);
                 console.log("0x"+hexWord(addr) + ": 0x" + hexByte(Memory.readUByte(gb.mem, addr)));
             }
-            else if (answer.indexOf("w") != -1){
+            else if (answer.indexOf("w") == 0){
                 const addr = parseInt(answer.substr(1), 16);
                 console.log("0x"+hexWord(addr) + ": 0x" + hexWord(Memory.readWord(gb.mem, addr)));
             }

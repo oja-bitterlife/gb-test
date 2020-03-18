@@ -29,6 +29,15 @@ export namespace Register {
         };
     };
 
+    const hexByte = (byte: number): string => { return ('00' + (byte & 0xff).toString(16)).slice(-2); };
+    const hexWord = (word: number): string => { return ('0000' + (word & 0xffff).toString(16)).slice(-4); }
+
+    export const toString = (regs: Registers): string => {
+        return `a: 0x${hexByte(regs.a)}, b: 0x${hexByte(regs.b)}, c: 0x${hexByte(regs.c)}, d: 0x${hexByte(regs.d)}, e: 0x${hexByte(regs.e)}, h: 0x${hexByte(regs.h)}, , l: 0x${hexByte(regs.l)}
+sp: 0x${hexWord(regs.sp)}, pc: 0x${hexWord(regs.pc)}, ie: ${regs.ie}`;
+    };
+
+
     export type Flags = {
         zero: boolean;
         add_sub: boolean;  // n
