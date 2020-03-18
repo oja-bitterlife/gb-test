@@ -29,11 +29,10 @@ export namespace Register {
         };
     };
 
-    const hexByte = (byte: number): string => { return ('00' + (byte & 0xff).toString(16)).slice(-2); };
-    const hexWord = (word: number): string => { return ('0000' + (word & 0xffff).toString(16)).slice(-4); }
+    const hexWord = (word: number): string => { return ('0000' + word.toString(16)).slice(-4); }
 
     export const toString = (regs: Registers): string => {
-        return `a: 0x${hexByte(regs.a)}, b: 0x${hexByte(regs.b)}, c: 0x${hexByte(regs.c)}, d: 0x${hexByte(regs.d)}, e: 0x${hexByte(regs.e)}, h: 0x${hexByte(regs.h)}, , l: 0x${hexByte(regs.l)}
+        return `a: 0x${hexWord(regs.a)}, b: 0x${hexWord(regs.b)}, c: 0x${hexWord(regs.c)}, d: 0x${hexWord(regs.d)}, e: 0x${hexWord(regs.e)}, h: 0x${hexWord(regs.h)}, l: 0x${hexWord(regs.l)}
 sp: 0x${hexWord(regs.sp)}, pc: 0x${hexWord(regs.pc)}, ie: ${regs.ie}`;
     };
 
