@@ -497,7 +497,38 @@ export namespace Op {
             asm: (gb) => { return "ADD  A,A"; },
             func: (gb) => { gb.regs.a = (gb.regs.a + gb.regs.a) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.a & 0xf) + (gb.regs.a & 0xf)) >> 4); Register.setC(gb, (gb.regs.a + gb.regs.a) >> 8); }
         },
-
+        0x88: {
+            asm: (gb) => { return "ADC  A,B"; },
+            func: (gb) => { const c = gb.flags.carry ? 1 : 0; gb.regs.a = (gb.regs.a + gb.regs.b + c) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.a & 0xf) + (gb.regs.b & 0xf) + c) >> 4); Register.setC(gb, (gb.regs.a + gb.regs.b + c) >> 8); }
+        },
+        0x89: {
+            asm: (gb) => { return "ADC  A,C"; },
+            func: (gb) => { const c = gb.flags.carry ? 1 : 0; gb.regs.a = (gb.regs.a + gb.regs.c + c) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.a & 0xf) + (gb.regs.c & 0xf) + c) >> 4); Register.setC(gb, (gb.regs.a + gb.regs.c + c) >> 8); }
+        },
+        0x8a: {
+            asm: (gb) => { return "ADC  A,D"; },
+            func: (gb) => { const c = gb.flags.carry ? 1 : 0; gb.regs.a = (gb.regs.a + gb.regs.d + c) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.a & 0xf) + (gb.regs.d & 0xf) + c) >> 4); Register.setC(gb, (gb.regs.a + gb.regs.d + c) >> 8); }
+        },
+        0x8b: {
+            asm: (gb) => { return "ADC  A,E"; },
+            func: (gb) => { const c = gb.flags.carry ? 1 : 0; gb.regs.a = (gb.regs.a + gb.regs.e + c) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.a & 0xf) + (gb.regs.e & 0xf) + c) >> 4); Register.setC(gb, (gb.regs.a + gb.regs.e + c) >> 8); }
+        },
+        0x8c: {
+            asm: (gb) => { return "ADC  A,H"; },
+            func: (gb) => { const c = gb.flags.carry ? 1 : 0; gb.regs.a = (gb.regs.a + gb.regs.h + c) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.a & 0xf) + (gb.regs.h & 0xf) + c) >> 4); Register.setC(gb, (gb.regs.a + gb.regs.h + c) >> 8); }
+        },
+        0x8d: {
+            asm: (gb) => { return "ADC  A,L"; },
+            func: (gb) => { const c = gb.flags.carry ? 1 : 0; gb.regs.a = (gb.regs.a + gb.regs.l + c) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.a & 0xf) + (gb.regs.l & 0xf) + c) >> 4); Register.setC(gb, (gb.regs.a + gb.regs.l + c) >> 8); }
+        },
+        0x8e: {
+            asm: (gb) => { return "ADC  A,(HL)"; },
+            func: (gb) => { const c = gb.flags.carry ? 1 : 0; const hl = (gb.regs.h << 8) | gb.regs.l; const n = Memory.readUByte(gb.mem, hl); gb.regs.a = (gb.regs.a + n + c) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.a & 0xf) + (n & 0xf) + c) >> 4); Register.setC(gb, (gb.regs.a + n + c) >> 8); }
+        },
+        0x8f: {
+            asm: (gb) => { return "ADC  A,A"; },
+            func: (gb) => { const c = gb.flags.carry ? 1 : 0; gb.regs.a = (gb.regs.a + gb.regs.a + c) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.a & 0xf) + (gb.regs.a & 0xf) + c) >> 4); Register.setC(gb, (gb.regs.a + gb.regs.a + c) >> 8); }
+        },
         0xa8: {
             asm: (gb) => { return "XOR  B"; },
             func: (gb) => { gb.regs.a = (gb.regs.a ^ gb.regs.b) & 0xff; Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.a); }
