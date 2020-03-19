@@ -531,7 +531,7 @@ export namespace Op {
         },
         0xc8: {
             asm: (gb) => { return "RET  Z"; },
-            func: (gb) => { const n = Gb.popWord(gb); if(gb.flags.zero) gb.regs.pc = n; }
+            func: (gb) => { if(gb.flags.zero) gb.regs.pc = Gb.popWord(gb); }
         },
         0xc9: {
             asm: (gb) => { return "RET"; },
@@ -547,7 +547,7 @@ export namespace Op {
         },
         0xd0: {
             asm: (gb) => { return "RET  NC"; },
-            func: (gb) => { const n = Gb.popWord(gb); if(!gb.flags.carry) gb.regs.pc = n; }
+            func: (gb) => { if(!gb.flags.carry) gb.regs.pc = Gb.popWord(gb); }
         },
         0xd1: {
             asm: (gb) => { return `POP  DE`; },
