@@ -529,6 +529,10 @@ export namespace Op {
             asm: (gb) => { return `ADD  A,${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const n = Gb.loadUByte(gb); Register.setH(gb, ((gb.regs.a & 0xf) + (n & 0xf)) >> 4); Register.setC(gb, (gb.regs.a + n) >> 8); gb.regs.a = (gb.regs.a + n) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); }
         },
+        0xc8: {
+            asm: (gb) => { return "RET  Z"; },
+            func: (gb) => { const n = Gb.popWord(gb); if(gb.flags.zero) gb.regs.pc = n; }
+        },
         0xc9: {
             asm: (gb) => { return "RET"; },
             func: (gb) => { gb.regs.pc = Gb.popWord(gb); }
@@ -536,6 +540,14 @@ export namespace Op {
         0xcd: {
             asm: (gb) => { return `CALL 0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const n = Gb.loadWord(gb); Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = n; }
+        },
+        0xce: {
+            asm: (gb) => { return `ADC  A,0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
+            func: (gb) => { const n = Gb.loadUByte(gb); const c = gb.flags.carry ? 1 : 0; Register.setH(gb, ((gb.regs.a & 0xf) + (n & 0xf) + c) >> 4); Register.setC(gb, (gb.regs.a + n + c) >> 8); gb.regs.a = (gb.regs.a + n + c) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); }
+        },
+        0xd0: {
+            asm: (gb) => { return "RET  NC"; },
+            func: (gb) => { const n = Gb.popWord(gb); if(!gb.flags.carry) gb.regs.pc = n; }
         },
         0xd1: {
             asm: (gb) => { return `POP  DE`; },
