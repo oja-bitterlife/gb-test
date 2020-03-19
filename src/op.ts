@@ -465,6 +465,39 @@ export namespace Op {
             asm: (gb) => { return `LD   A,A`; },
             func: (gb) => { gb.regs.a = gb.regs.a; }
         },
+        0x80: {
+            asm: (gb) => { return "ADD  A,B"; },
+            func: (gb) => { gb.regs.a = (gb.regs.a + gb.regs.b) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.a & 0xf) + (gb.regs.b & 0xf)) >> 4); Register.setC(gb, (gb.regs.a + gb.regs.b) >> 8); }
+        },
+        0x81: {
+            asm: (gb) => { return "ADD  A,C"; },
+            func: (gb) => { gb.regs.a = (gb.regs.a + gb.regs.c) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.a & 0xf) + (gb.regs.c & 0xf)) >> 4); Register.setC(gb, (gb.regs.a + gb.regs.c) >> 8); }
+        },
+        0x82: {
+            asm: (gb) => { return "ADD  A,D"; },
+            func: (gb) => { gb.regs.a = (gb.regs.a + gb.regs.d) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.a & 0xf) + (gb.regs.d & 0xf)) >> 4); Register.setC(gb, (gb.regs.a + gb.regs.d) >> 8); }
+        },
+        0x83: {
+            asm: (gb) => { return "ADD  A,E"; },
+            func: (gb) => { gb.regs.a = (gb.regs.a + gb.regs.e) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.a & 0xf) + (gb.regs.e & 0xf)) >> 4); Register.setC(gb, (gb.regs.a + gb.regs.e) >> 8); }
+        },
+        0x84: {
+            asm: (gb) => { return "ADD  A,H"; },
+            func: (gb) => { gb.regs.a = (gb.regs.a + gb.regs.h) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.a & 0xf) + (gb.regs.h & 0xf)) >> 4); Register.setC(gb, (gb.regs.a + gb.regs.h) >> 8); }
+        },
+        0x85: {
+            asm: (gb) => { return "ADD  A,L"; },
+            func: (gb) => { gb.regs.a = (gb.regs.a + gb.regs.l) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.a & 0xf) + (gb.regs.l & 0xf)) >> 4); Register.setC(gb, (gb.regs.a + gb.regs.l) >> 8); }
+        },
+        0x86: {
+            asm: (gb) => { return "ADD  A,(HL)"; },
+            func: (gb) => { const hl = (gb.regs.h << 8) | gb.regs.l; const n = Memory.readUByte(gb.mem, hl); gb.regs.a = (gb.regs.a + n) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.a & 0xf) + (n & 0xf)) >> 4); Register.setC(gb, (gb.regs.a + n) >> 8); }
+        },
+        0x87: {
+            asm: (gb) => { return "ADD  A,A"; },
+            func: (gb) => { gb.regs.a = (gb.regs.a + gb.regs.a) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.a & 0xf) + (gb.regs.a & 0xf)) >> 4); Register.setC(gb, (gb.regs.a + gb.regs.a) >> 8); }
+        },
+
         0xa8: {
             asm: (gb) => { return "XOR  B"; },
             func: (gb) => { gb.regs.a = (gb.regs.a ^ gb.regs.b) & 0xff; Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.a); }
