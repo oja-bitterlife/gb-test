@@ -41,6 +41,10 @@ export namespace Op {
             asm: (gb) => { return `LD   BC,0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { gb.regs.c = Gb.loadUByte(gb); gb.regs.b = Gb.loadUByte(gb); }
         },
+        0x02: {
+            asm: (gb) => { return `LD   (BC),A`; },
+            func: (gb) => { const bc = (gb.regs.b << 8) | gb.regs.c; Memory.writeByte(gb.mem, bc, gb.regs.a); }
+        },
         0x03: {
             asm: (gb) => { return `INC  BC`; },
             func: (gb) => { let bc = (gb.regs.b << 8) | gb.regs.c; bc++; gb.regs.b = (bc >> 8) & 0xff; gb.regs.c = bc & 0xff; }
@@ -165,6 +169,10 @@ export namespace Op {
             asm: (gb) => { return `DEC  L`; },
             func: (gb) => { Register.setH(gb, ((gb.regs.l & 0xf) - 1) >> 4); gb.regs.l = (gb.regs.l - 1) & 0xff; Register.checkZ(gb, gb.regs.l); Register.setN(gb, 1); }
         },
+        0x2e: {
+            asm: (gb) => { return `LD   L,${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
+            func: (gb) => { gb.regs.l = Gb.loadUByte(gb); }
+        },
         0x30: {
             asm: (gb) => { return `JR   NC,0x${hexWord(gb.regs.pc + 1 + Memory.readSByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const n = Gb.loadSByte(gb); if (!gb.flags.carry) gb.regs.pc += n; }
@@ -176,6 +184,18 @@ export namespace Op {
         0x32: {
             asm: (gb) => { return `LD   (HL-),A`; },
             func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; Memory.writeByte(gb.mem, hl, gb.regs.a); hl--; gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff; }
+        },
+        0x34: {
+            asm: (gb) => { return `INC  (HL)`; },
+            func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; const n = Memory.readUByte(gb.mem, hl); Memory.writeByte(gb.mem, hl, n+1); }
+        },
+        0x35: {
+            asm: (gb) => { return `DEC  (HL)`; },
+            func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; const n = Memory.readUByte(gb.mem, hl); Memory.writeByte(gb.mem, hl, n-1); }
+        },
+        0x3a: {
+            asm: (gb) => { return `LD   A,(HL-)`; },
+            func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; gb.regs.a = Memory.readUByte(gb.mem, hl); hl--; gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff; }
         },
         0x3c: {
             asm: (gb) => { return `INC  A`; },
@@ -508,6 +528,10 @@ export namespace Op {
         0xb7: {
             asm: (gb) => { return "OR   A"; },
             func: (gb) => { gb.regs.a = (gb.regs.a | gb.regs.a) & 0xff; Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.a); }
+        },
+        0xbe: {
+            asm: (gb) => { return `CP   (HL)`; },
+            func: (gb) => { const hl = (gb.regs.h << 8) | gb.regs.l; const n = Memory.readUByte(gb.mem, hl); Register.checkZ(gb, gb.regs.a - n); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (n & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - n) >> 8); }
         },
         0xc1: {
             asm: (gb) => { return `POP  BC`; },
