@@ -197,6 +197,10 @@ export namespace Op {
             asm: (gb) => { return `SCF`; },
             func: (gb) => { Register.setNHC(gb, 0, 0, 1); }
         },
+        0x38: {
+            asm: (gb) => { return `JR   C,0x${hexWord(gb.regs.pc + 1 + Memory.readSByte(gb.mem, gb.regs.pc))}`; },
+            func: (gb) => { const n = Gb.loadSByte(gb); if (gb.flags.carry) gb.regs.pc += n; }
+        },
         0x3a: {
             asm: (gb) => { return `LD   A,(HL-)`; },
             func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; gb.regs.a = Memory.readUByte(gb.mem, hl); hl--; gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff; }
@@ -596,6 +600,38 @@ export namespace Op {
         0x9f: {
             asm: (gb) => { return "SBC  A,A"; },
             func: (gb) => { const c = gb.flags.carry ? 1 : 0; gb.regs.a = (gb.regs.a - gb.regs.a - c) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.a & 0xf) - c) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.a - c) >> 8); }
+        },
+        0xa0: {
+            asm: (gb) => { return "AND  B"; },
+            func: (gb) => { gb.regs.a = (gb.regs.a & gb.regs.b) & 0xff; Register.setNHC(gb, 0, 1, 0); Register.checkZ(gb, gb.regs.a); }
+        },
+        0xa1: {
+            asm: (gb) => { return "AND  C"; },
+            func: (gb) => { gb.regs.a = (gb.regs.a & gb.regs.c) & 0xff; Register.setNHC(gb, 0, 1, 0); Register.checkZ(gb, gb.regs.a); }
+        },
+        0xa2: {
+            asm: (gb) => { return "AND  D"; },
+            func: (gb) => { gb.regs.a = (gb.regs.a & gb.regs.d) & 0xff; Register.setNHC(gb, 0, 1, 0); Register.checkZ(gb, gb.regs.a); }
+        },
+        0xa3: {
+            asm: (gb) => { return "AND  E"; },
+            func: (gb) => { gb.regs.a = (gb.regs.a & gb.regs.e) & 0xff; Register.setNHC(gb, 0, 1, 0); Register.checkZ(gb, gb.regs.a); }
+        },
+        0xa4: {
+            asm: (gb) => { return "AND  H"; },
+            func: (gb) => { gb.regs.a = (gb.regs.a & gb.regs.h) & 0xff; Register.setNHC(gb, 0, 1, 0); Register.checkZ(gb, gb.regs.a); }
+        },
+        0xa5: {
+            asm: (gb) => { return "AND  L"; },
+            func: (gb) => { gb.regs.a = (gb.regs.a & gb.regs.l) & 0xff; Register.setNHC(gb, 0, 1, 0); Register.checkZ(gb, gb.regs.a); }
+        },
+        0xa6: {
+            asm: (gb) => { return "AND  (HL)"; },
+            func: (gb) => { const hl = (gb.regs.h << 8) | gb.regs.l; gb.regs.a = (gb.regs.a & Memory.readUByte(gb.mem, hl)) & 0xff; Register.setNHC(gb, 0, 1, 0); Register.checkZ(gb, gb.regs.a); }
+        },
+        0xa7: {
+            asm: (gb) => { return "AND  A"; },
+            func: (gb) => { gb.regs.a = (gb.regs.a & gb.regs.a) & 0xff; Register.setNHC(gb, 0, 1, 0); Register.checkZ(gb, gb.regs.a); }
         },
         0xa8: {
             asm: (gb) => { return "XOR  B"; },
