@@ -65,6 +65,38 @@ export namespace OpCb {
             asm: (gb) => { return "RR   A"; },
             func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.a & 0x1) == 0x1; gb.regs.a = (gb.regs.a >> 1) | msb; Register.checkZ(gb, gb.regs.a); }
         },
+        0x30: {
+            asm: (gb) => { return "SWAP B"; },
+            func: (gb) => { gb.regs.b = ((gb.regs.b >> 4) & 0xf) | ((gb.regs.b << 4 ) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.b); }
+        },
+        0x31: {
+            asm: (gb) => { return "SWAP C"; },
+            func: (gb) => { gb.regs.c = ((gb.regs.c >> 4) & 0xf) | ((gb.regs.c << 4 ) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.c); }
+        },
+        0x32: {
+            asm: (gb) => { return "SWAP D"; },
+            func: (gb) => { gb.regs.d = ((gb.regs.d >> 4) & 0xf) | ((gb.regs.d << 4 ) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.d); }
+        },
+        0x33: {
+            asm: (gb) => { return "SWAP E"; },
+            func: (gb) => { gb.regs.e = ((gb.regs.e >> 4) & 0xf) | ((gb.regs.e << 4 ) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.e); }
+        },
+        0x34: {
+            asm: (gb) => { return "SWAP H"; },
+            func: (gb) => { gb.regs.h = ((gb.regs.h >> 4) & 0xf) | ((gb.regs.h << 4 ) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.h); }
+        },
+        0x35: {
+            asm: (gb) => { return "SWAP L"; },
+            func: (gb) => { gb.regs.l = ((gb.regs.l >> 4) & 0xf) | ((gb.regs.l << 4 ) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.l); }
+        },
+        0x36: {
+            asm: (gb) => { return "SWAP (HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); let n = Memory.readUByte(gb.mem, hl); n = ((n >> 4) & 0xf) | ((n << 4 ) & 0xf0); Memory.writeByte(gb.mem, hl, n); Register.byteToFlags(gb, 0); Register.checkZ(gb, n); }
+        },
+        0x37: {
+            asm: (gb) => { return "SWAP A"; },
+            func: (gb) => { gb.regs.a = ((gb.regs.a >> 4) & 0xf) | ((gb.regs.a << 4 ) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.a); }
+        },
         0x38: {
             asm: (gb) => { return "SRL  B"; },
             func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.b & 0x1) == 0x1; gb.regs.b >>= 1; Register.checkZ(gb, gb.regs.b); }

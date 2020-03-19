@@ -193,6 +193,10 @@ export namespace Op {
             asm: (gb) => { return `DEC  (HL)`; },
             func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; const n = Memory.readUByte(gb.mem, hl); Memory.writeByte(gb.mem, hl, n-1); }
         },
+        0x37: {
+            asm: (gb) => { return `SCF`; },
+            func: (gb) => { Register.setNHC(gb, 0, 0, 1); }
+        },
         0x3a: {
             asm: (gb) => { return `LD   A,(HL-)`; },
             func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; gb.regs.a = Memory.readUByte(gb.mem, hl); hl--; gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff; }
