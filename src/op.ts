@@ -160,7 +160,7 @@ export namespace Op {
                     if(gb.flags.half_carry || (n & 0x0f) >= 10) n += 6;
                     if(gb.flags.carry || n >= 0xa0) n += 0x60;
                 }
-                gb.regs.a = n & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setC(gb, (n >> 8) & 0x1);
+                gb.regs.a = n & 0xff; Register.checkZ(gb, gb.regs.a); Register.setH(gb, 0); Register.setC(gb, (n >> 8) & 0x1);
             }
         },
         0x28: {
@@ -766,6 +766,10 @@ export namespace Op {
         0xd6: {
             asm: (gb) => { return `SUB  ${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const n = Gb.loadUByte(gb); Register.setH(gb, ((gb.regs.a & 0xf) - (n & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - n) >> 8); gb.regs.a = (gb.regs.a - n) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); }
+        },
+        0xd8: {
+            asm: (gb) => { return "RET  C"; },
+            func: (gb) => { if(gb.flags.carry) gb.regs.pc = Gb.popWord(gb); }
         },
         0xe0: {
             asm: (gb) => { return `LDH  0x${hexWord(0xff00 | Memory.readUByte(gb.mem, gb.regs.pc))},A`; },

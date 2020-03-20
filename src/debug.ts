@@ -33,7 +33,15 @@ export namespace Debug {
     };
     // step out callの外にでる。途中で別のRETが来たらそこで止まる
     export const stepOut = (gb: Gb.Env): void => {
-        while (gb.mem[gb.regs.pc] != 0xc9) Gb.step(gb);  // RET前まで実行
+        while (true){
+            // retが実行される時は停止する
+            if(gb.mem[gb.regs.pc] != 0xc9  // ret
+            || (gb.mem[gb.regs.pc] != 0xc8 && gb.flags.zero)  // ret z
+            || (gb.mem[gb.regs.pc] != 0xd8 && gb.flags.carry)  // ret c
+            ) break;
+
+            Gb.step(gb);  // RETでないときの実行
+        }
         Gb.step(gb);  // RETを実行
     };
 
