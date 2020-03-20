@@ -801,6 +801,262 @@ export namespace OpCb {
             asm: (gb) => { return "RES  7,A"; },
             func: (gb) => { gb.regs.a &= ~(1 << 7); }
         },
+        0xc0: {
+            asm: (gb) => { return "SET  0,B"; },
+            func: (gb) => { gb.regs.b |= (1 << 0); }
+        },
+        0xc1: {
+            asm: (gb) => { return "SET  0,C"; },
+            func: (gb) => { gb.regs.c |= (1 << 0); }
+        },
+        0xc2: {
+            asm: (gb) => { return "SET  0,D"; },
+            func: (gb) => { gb.regs.d |= (1 << 0); }
+        },
+        0xc3: {
+            asm: (gb) => { return "SET  0,E"; },
+            func: (gb) => { gb.regs.e |= (1 << 0); }
+        },
+        0xc4: {
+            asm: (gb) => { return "SET  0,H"; },
+            func: (gb) => { gb.regs.h |= (1 << 0); }
+        },
+        0xc5: {
+            asm: (gb) => { return "SET  0,L"; },
+            func: (gb) => { gb.regs.l |= (1 << 0); }
+        },
+        0xc6: {
+            asm: (gb) => { return "SET  0,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & (1 << 0); Memory.writeByte(gb.mem, hl, n); }
+        },
+        0xc7: {
+            asm: (gb) => { return "SET  0,A"; },
+            func: (gb) => { gb.regs.a |= (1 << 0); }
+        },
+        0xc8: {
+            asm: (gb) => { return "SET  1,B"; },
+            func: (gb) => { gb.regs.b |= (1 << 1); }
+        },
+        0xc9: {
+            asm: (gb) => { return "SET  1,C"; },
+            func: (gb) => { gb.regs.c |= (1 << 1); }
+        },
+        0xca: {
+            asm: (gb) => { return "SET  1,D"; },
+            func: (gb) => { gb.regs.d |= (1 << 1); }
+        },
+        0xcb: {
+            asm: (gb) => { return "SET  1,E"; },
+            func: (gb) => { gb.regs.e |= (1 << 1); }
+        },
+        0xcc: {
+            asm: (gb) => { return "SET  1,H"; },
+            func: (gb) => { gb.regs.h |= (1 << 1); }
+        },
+        0xcd: {
+            asm: (gb) => { return "SET  1,L"; },
+            func: (gb) => { gb.regs.l |= (1 << 1); }
+        },
+        0xce: {
+            asm: (gb) => { return "SET  1,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & (1 << 1); Memory.writeByte(gb.mem, hl, n); }
+        },
+        0xcf: {
+            asm: (gb) => { return "SET  1,A"; },
+            func: (gb) => { gb.regs.a |= (1 << 1); }
+        },
+        0xd0: {
+            asm: (gb) => { return "SET  2,B"; },
+            func: (gb) => { gb.regs.b |= (1 << 2); }
+        },
+        0xd1: {
+            asm: (gb) => { return "SET  2,C"; },
+            func: (gb) => { gb.regs.c |= (1 << 2); }
+        },
+        0xd2: {
+            asm: (gb) => { return "SET  2,D"; },
+            func: (gb) => { gb.regs.d |= (1 << 2); }
+        },
+        0xd3: {
+            asm: (gb) => { return "SET  2,E"; },
+            func: (gb) => { gb.regs.e |= (1 << 2); }
+        },
+        0xd4: {
+            asm: (gb) => { return "SET  2,H"; },
+            func: (gb) => { gb.regs.h |= (1 << 2); }
+        },
+        0xd5: {
+            asm: (gb) => { return "SET  2,L"; },
+            func: (gb) => { gb.regs.l |= (1 << 2); }
+        },
+        0xd6: {
+            asm: (gb) => { return "SET  2,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & (1 << 2); Memory.writeByte(gb.mem, hl, n); }
+        },
+        0xd7: {
+            asm: (gb) => { return "SET  2,A"; },
+            func: (gb) => { gb.regs.a |= (1 << 2); }
+        },
+        0xd8: {
+            asm: (gb) => { return "SET  3,B"; },
+            func: (gb) => { gb.regs.b |= (1 << 3); }
+        },
+        0xd9: {
+            asm: (gb) => { return "SET  3,C"; },
+            func: (gb) => { gb.regs.c |= (1 << 3); }
+        },
+        0xda: {
+            asm: (gb) => { return "SET  3,D"; },
+            func: (gb) => { gb.regs.d |= (1 << 3); }
+        },
+        0xdb: {
+            asm: (gb) => { return "SET  3,E"; },
+            func: (gb) => { gb.regs.e |= (1 << 3); }
+        },
+        0xdc: {
+            asm: (gb) => { return "SET  3,H"; },
+            func: (gb) => { gb.regs.h |= (1 << 3); }
+        },
+        0xdd: {
+            asm: (gb) => { return "SET  3,L"; },
+            func: (gb) => { gb.regs.l |= (1 << 3); }
+        },
+        0xde: {
+            asm: (gb) => { return "SET  3,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & (1 << 3); Memory.writeByte(gb.mem, hl, n); }
+        },
+        0xdf: {
+            asm: (gb) => { return "SET  3,A"; },
+            func: (gb) => { gb.regs.a |= (1 << 3); }
+        },
+        0xe0: {
+            asm: (gb) => { return "SET  4,B"; },
+            func: (gb) => { gb.regs.b |= (1 << 4); }
+        },
+        0xe1: {
+            asm: (gb) => { return "SET  4,C"; },
+            func: (gb) => { gb.regs.c |= (1 << 4); }
+        },
+        0xe2: {
+            asm: (gb) => { return "SET  4,D"; },
+            func: (gb) => { gb.regs.d |= (1 << 4); }
+        },
+        0xe3: {
+            asm: (gb) => { return "SET  4,E"; },
+            func: (gb) => { gb.regs.e |= (1 << 4); }
+        },
+        0xe4: {
+            asm: (gb) => { return "SET  4,H"; },
+            func: (gb) => { gb.regs.h |= (1 << 4); }
+        },
+        0xe5: {
+            asm: (gb) => { return "SET  4,L"; },
+            func: (gb) => { gb.regs.l |= (1 << 4); }
+        },
+        0xe6: {
+            asm: (gb) => { return "SET  4,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & (1 << 4); Memory.writeByte(gb.mem, hl, n); }
+        },
+        0xe7: {
+            asm: (gb) => { return "SET  4,A"; },
+            func: (gb) => { gb.regs.a |= (1 << 4); }
+        },
+        0xe8: {
+            asm: (gb) => { return "SET  5,B"; },
+            func: (gb) => { gb.regs.b |= (1 << 5); }
+        },
+        0xe9: {
+            asm: (gb) => { return "SET  5,C"; },
+            func: (gb) => { gb.regs.c |= (1 << 5); }
+        },
+        0xea: {
+            asm: (gb) => { return "SET  5,D"; },
+            func: (gb) => { gb.regs.d |= (1 << 5); }
+        },
+        0xeb: {
+            asm: (gb) => { return "SET  5,E"; },
+            func: (gb) => { gb.regs.e |= (1 << 5); }
+        },
+        0xec: {
+            asm: (gb) => { return "SET  5,H"; },
+            func: (gb) => { gb.regs.h |= (1 << 5); }
+        },
+        0xed: {
+            asm: (gb) => { return "SET  5,L"; },
+            func: (gb) => { gb.regs.l |= (1 << 5); }
+        },
+        0xee: {
+            asm: (gb) => { return "SET  5,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & (1 << 5); Memory.writeByte(gb.mem, hl, n); }
+        },
+        0xef: {
+            asm: (gb) => { return "SET  5,A"; },
+            func: (gb) => { gb.regs.a |= (1 << 5); }
+        },
+        0xf0: {
+            asm: (gb) => { return "SET  6,B"; },
+            func: (gb) => { gb.regs.b |= (1 << 6); }
+        },
+        0xf1: {
+            asm: (gb) => { return "SET  6,C"; },
+            func: (gb) => { gb.regs.c |= (1 << 6); }
+        },
+        0xf2: {
+            asm: (gb) => { return "SET  6,D"; },
+            func: (gb) => { gb.regs.d |= (1 << 6); }
+        },
+        0xf3: {
+            asm: (gb) => { return "SET  6,E"; },
+            func: (gb) => { gb.regs.e |= (1 << 6); }
+        },
+        0xf4: {
+            asm: (gb) => { return "SET  6,H"; },
+            func: (gb) => { gb.regs.h |= (1 << 6); }
+        },
+        0xf5: {
+            asm: (gb) => { return "SET  6,L"; },
+            func: (gb) => { gb.regs.l |= (1 << 6); }
+        },
+        0xf6: {
+            asm: (gb) => { return "SET  6,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & (1 << 6); Memory.writeByte(gb.mem, hl, n); }
+        },
+        0xf7: {
+            asm: (gb) => { return "SET  6,A"; },
+            func: (gb) => { gb.regs.a |= (1 << 6); }
+        },
+        0xf8: {
+            asm: (gb) => { return "SET  7,B"; },
+            func: (gb) => { gb.regs.b |= (1 << 7); }
+        },
+        0xf9: {
+            asm: (gb) => { return "SET  7,C"; },
+            func: (gb) => { gb.regs.c |= (1 << 7); }
+        },
+        0xfa: {
+            asm: (gb) => { return "SET  7,D"; },
+            func: (gb) => { gb.regs.d |= (1 << 7); }
+        },
+        0xfb: {
+            asm: (gb) => { return "SET  7,E"; },
+            func: (gb) => { gb.regs.e |= (1 << 7); }
+        },
+        0xfc: {
+            asm: (gb) => { return "SET  7,H"; },
+            func: (gb) => { gb.regs.h |= (1 << 7); }
+        },
+        0xfd: {
+            asm: (gb) => { return "SET  7,L"; },
+            func: (gb) => { gb.regs.l |= (1 << 7); }
+        },
+        0xfe: {
+            asm: (gb) => { return "SET  7,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & (1 << 7); Memory.writeByte(gb.mem, hl, n); }
+        },
+        0xff: {
+            asm: (gb) => { return "SET  7,A"; },
+            func: (gb) => { gb.regs.a |= (1 << 7); }
+        },
     };
 
     export const cycles = [
