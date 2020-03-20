@@ -40,7 +40,7 @@ const createPng = (buf: Uint8Array) => {
 
     ctx.putImageData(imageData, 0, 0);
 
-    console.log('<br><img src="' + canvas.toDataURL() + '" />');
+    console.log(`<br><img width="320px" height="288px" src="${canvas.toDataURL()}" />`);
 };
 
 
@@ -53,9 +53,10 @@ try {
 
     // run
 //    Debug.runBreak(gb, [0x1ad]);
-//    const pixels = Vram.getScreen(gb.mem, 0x9800);
-//    createPng(pixels);
-//    process.exit(0);
+    Debug.runBreak(gb, [0xcc62]);
+    const pixels = Vram.getScreen(gb.mem, 0x9800);
+    createPng(pixels);
+    process.exit(0);
 
     const hexByte = (byte: number): string => { return ('00' + (byte & 0xff).toString(16)).slice(-2); };
     const hexWord = (word: number): string => { return ('0000' + (word & 0xffff).toString(16)).slice(-4); }
