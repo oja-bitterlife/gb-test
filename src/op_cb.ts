@@ -475,7 +475,7 @@ export namespace OpCb {
         },
         0x6e: {
             asm: (gb) => { return "BIT  5,(HL)"; },
-            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = (Memory.readUByte(gb.mem, hl) >> 1) & 0x5; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = (Memory.readUByte(gb.mem, hl) >> 5) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
         },
         0x6f: {
             asm: (gb) => { return "BIT  5,A"; },
@@ -827,7 +827,7 @@ export namespace OpCb {
         },
         0xc6: {
             asm: (gb) => { return "SET  0,(HL)"; },
-            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & (1 << 0); Memory.writeByte(gb.mem, hl, n); }
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) | (1 << 0); Memory.writeByte(gb.mem, hl, n); }
         },
         0xc7: {
             asm: (gb) => { return "SET  0,A"; },
@@ -859,7 +859,7 @@ export namespace OpCb {
         },
         0xce: {
             asm: (gb) => { return "SET  1,(HL)"; },
-            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & (1 << 1); Memory.writeByte(gb.mem, hl, n); }
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) | (1 << 1); Memory.writeByte(gb.mem, hl, n); }
         },
         0xcf: {
             asm: (gb) => { return "SET  1,A"; },
@@ -891,7 +891,7 @@ export namespace OpCb {
         },
         0xd6: {
             asm: (gb) => { return "SET  2,(HL)"; },
-            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & (1 << 2); Memory.writeByte(gb.mem, hl, n); }
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) | (1 << 2); Memory.writeByte(gb.mem, hl, n); }
         },
         0xd7: {
             asm: (gb) => { return "SET  2,A"; },
@@ -923,7 +923,7 @@ export namespace OpCb {
         },
         0xde: {
             asm: (gb) => { return "SET  3,(HL)"; },
-            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & (1 << 3); Memory.writeByte(gb.mem, hl, n); }
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) | (1 << 3); Memory.writeByte(gb.mem, hl, n); }
         },
         0xdf: {
             asm: (gb) => { return "SET  3,A"; },
@@ -955,7 +955,7 @@ export namespace OpCb {
         },
         0xe6: {
             asm: (gb) => { return "SET  4,(HL)"; },
-            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & (1 << 4); Memory.writeByte(gb.mem, hl, n); }
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) | (1 << 4); Memory.writeByte(gb.mem, hl, n); }
         },
         0xe7: {
             asm: (gb) => { return "SET  4,A"; },
@@ -987,7 +987,7 @@ export namespace OpCb {
         },
         0xee: {
             asm: (gb) => { return "SET  5,(HL)"; },
-            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & (1 << 5); Memory.writeByte(gb.mem, hl, n); }
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) | (1 << 5); Memory.writeByte(gb.mem, hl, n); }
         },
         0xef: {
             asm: (gb) => { return "SET  5,A"; },
@@ -1019,7 +1019,7 @@ export namespace OpCb {
         },
         0xf6: {
             asm: (gb) => { return "SET  6,(HL)"; },
-            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & (1 << 6); Memory.writeByte(gb.mem, hl, n); }
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) | (1 << 6); Memory.writeByte(gb.mem, hl, n); }
         },
         0xf7: {
             asm: (gb) => { return "SET  6,A"; },
@@ -1051,7 +1051,7 @@ export namespace OpCb {
         },
         0xfe: {
             asm: (gb) => { return "SET  7,(HL)"; },
-            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & (1 << 7); Memory.writeByte(gb.mem, hl, n); }
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) | (1 << 7); Memory.writeByte(gb.mem, hl, n); }
         },
         0xff: {
             asm: (gb) => { return "SET  7,A"; },
