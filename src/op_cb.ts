@@ -545,6 +545,262 @@ export namespace OpCb {
             asm: (gb) => { return "BIT  7,A"; },
             func: (gb) => { const n = (gb.regs.a >> 7) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
         },
+        0x80: {
+            asm: (gb) => { return "RES  0,B"; },
+            func: (gb) => { gb.regs.b &= ~(1 << 0); }
+        },
+        0x81: {
+            asm: (gb) => { return "RES  0,C"; },
+            func: (gb) => { gb.regs.c &= ~(1 << 0); }
+        },
+        0x82: {
+            asm: (gb) => { return "RES  0,D"; },
+            func: (gb) => { gb.regs.d &= ~(1 << 0); }
+        },
+        0x83: {
+            asm: (gb) => { return "RES  0,E"; },
+            func: (gb) => { gb.regs.e &= ~(1 << 0); }
+        },
+        0x84: {
+            asm: (gb) => { return "RES  0,H"; },
+            func: (gb) => { gb.regs.h &= ~(1 << 0); }
+        },
+        0x85: {
+            asm: (gb) => { return "RES  0,L"; },
+            func: (gb) => { gb.regs.l &= ~(1 << 0); }
+        },
+        0x86: {
+            asm: (gb) => { return "RES  0,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & ~(1 << 0); Memory.writeByte(gb.mem, hl, n); }
+        },
+        0x87: {
+            asm: (gb) => { return "RES  0,A"; },
+            func: (gb) => { gb.regs.a &= ~(1 << 0); }
+        },
+        0x88: {
+            asm: (gb) => { return "RES  1,B"; },
+            func: (gb) => { gb.regs.b &= ~(1 << 1); }
+        },
+        0x89: {
+            asm: (gb) => { return "RES  1,C"; },
+            func: (gb) => { gb.regs.c &= ~(1 << 1); }
+        },
+        0x8a: {
+            asm: (gb) => { return "RES  1,D"; },
+            func: (gb) => { gb.regs.d &= ~(1 << 1); }
+        },
+        0x8b: {
+            asm: (gb) => { return "RES  1,E"; },
+            func: (gb) => { gb.regs.e &= ~(1 << 1); }
+        },
+        0x8c: {
+            asm: (gb) => { return "RES  1,H"; },
+            func: (gb) => { gb.regs.h &= ~(1 << 1); }
+        },
+        0x8d: {
+            asm: (gb) => { return "RES  1,L"; },
+            func: (gb) => { gb.regs.l &= ~(1 << 1); }
+        },
+        0x8e: {
+            asm: (gb) => { return "RES  1,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & ~(1 << 1); Memory.writeByte(gb.mem, hl, n); }
+        },
+        0x8f: {
+            asm: (gb) => { return "RES  1,A"; },
+            func: (gb) => { gb.regs.a &= ~(1 << 1); }
+        },
+        0x90: {
+            asm: (gb) => { return "RES  2,B"; },
+            func: (gb) => { gb.regs.b &= ~(1 << 2); }
+        },
+        0x91: {
+            asm: (gb) => { return "RES  2,C"; },
+            func: (gb) => { gb.regs.c &= ~(1 << 2); }
+        },
+        0x92: {
+            asm: (gb) => { return "RES  2,D"; },
+            func: (gb) => { gb.regs.d &= ~(1 << 2); }
+        },
+        0x93: {
+            asm: (gb) => { return "RES  2,E"; },
+            func: (gb) => { gb.regs.e &= ~(1 << 2); }
+        },
+        0x94: {
+            asm: (gb) => { return "RES  2,H"; },
+            func: (gb) => { gb.regs.h &= ~(1 << 2); }
+        },
+        0x95: {
+            asm: (gb) => { return "RES  2,L"; },
+            func: (gb) => { gb.regs.l &= ~(1 << 2); }
+        },
+        0x96: {
+            asm: (gb) => { return "RES  2,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & ~(1 << 2); Memory.writeByte(gb.mem, hl, n); }
+        },
+        0x97: {
+            asm: (gb) => { return "RES  2,A"; },
+            func: (gb) => { gb.regs.a &= ~(1 << 2); }
+        },
+        0x98: {
+            asm: (gb) => { return "RES  3,B"; },
+            func: (gb) => { gb.regs.b &= ~(1 << 3); }
+        },
+        0x99: {
+            asm: (gb) => { return "RES  3,C"; },
+            func: (gb) => { gb.regs.c &= ~(1 << 3); }
+        },
+        0x9a: {
+            asm: (gb) => { return "RES  3,D"; },
+            func: (gb) => { gb.regs.d &= ~(1 << 3); }
+        },
+        0x9b: {
+            asm: (gb) => { return "RES  3,E"; },
+            func: (gb) => { gb.regs.e &= ~(1 << 3); }
+        },
+        0x9c: {
+            asm: (gb) => { return "RES  3,H"; },
+            func: (gb) => { gb.regs.h &= ~(1 << 3); }
+        },
+        0x9d: {
+            asm: (gb) => { return "RES  3,L"; },
+            func: (gb) => { gb.regs.l &= ~(1 << 3); }
+        },
+        0x9e: {
+            asm: (gb) => { return "RES  3,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & ~(1 << 3); Memory.writeByte(gb.mem, hl, n); }
+        },
+        0x9f: {
+            asm: (gb) => { return "RES  3,A"; },
+            func: (gb) => { gb.regs.a &= ~(1 << 3); }
+        },
+        0xa0: {
+            asm: (gb) => { return "RES  4,B"; },
+            func: (gb) => { gb.regs.b &= ~(1 << 4); }
+        },
+        0xa1: {
+            asm: (gb) => { return "RES  4,C"; },
+            func: (gb) => { gb.regs.c &= ~(1 << 4); }
+        },
+        0xa2: {
+            asm: (gb) => { return "RES  4,D"; },
+            func: (gb) => { gb.regs.d &= ~(1 << 4); }
+        },
+        0xa3: {
+            asm: (gb) => { return "RES  4,E"; },
+            func: (gb) => { gb.regs.e &= ~(1 << 4); }
+        },
+        0xa4: {
+            asm: (gb) => { return "RES  4,H"; },
+            func: (gb) => { gb.regs.h &= ~(1 << 4); }
+        },
+        0xa5: {
+            asm: (gb) => { return "RES  4,L"; },
+            func: (gb) => { gb.regs.l &= ~(1 << 4); }
+        },
+        0xa6: {
+            asm: (gb) => { return "RES  4,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & ~(1 << 4); Memory.writeByte(gb.mem, hl, n); }
+        },
+        0xa7: {
+            asm: (gb) => { return "RES  4,A"; },
+            func: (gb) => { gb.regs.a &= ~(1 << 4); }
+        },
+        0xa8: {
+            asm: (gb) => { return "RES  5,B"; },
+            func: (gb) => { gb.regs.b &= ~(1 << 5); }
+        },
+        0xa9: {
+            asm: (gb) => { return "RES  5,C"; },
+            func: (gb) => { gb.regs.c &= ~(1 << 5); }
+        },
+        0xaa: {
+            asm: (gb) => { return "RES  5,D"; },
+            func: (gb) => { gb.regs.d &= ~(1 << 5); }
+        },
+        0xab: {
+            asm: (gb) => { return "RES  5,E"; },
+            func: (gb) => { gb.regs.e &= ~(1 << 5); }
+        },
+        0xac: {
+            asm: (gb) => { return "RES  5,H"; },
+            func: (gb) => { gb.regs.h &= ~(1 << 5); }
+        },
+        0xad: {
+            asm: (gb) => { return "RES  5,L"; },
+            func: (gb) => { gb.regs.l &= ~(1 << 5); }
+        },
+        0xae: {
+            asm: (gb) => { return "RES  5,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & ~(1 << 5); Memory.writeByte(gb.mem, hl, n); }
+        },
+        0xaf: {
+            asm: (gb) => { return "RES  5,A"; },
+            func: (gb) => { gb.regs.a &= ~(1 << 5); }
+        },
+        0xb0: {
+            asm: (gb) => { return "RES  6,B"; },
+            func: (gb) => { gb.regs.b &= ~(1 << 6); }
+        },
+        0xb1: {
+            asm: (gb) => { return "RES  6,C"; },
+            func: (gb) => { gb.regs.c &= ~(1 << 6); }
+        },
+        0xb2: {
+            asm: (gb) => { return "RES  6,D"; },
+            func: (gb) => { gb.regs.d &= ~(1 << 6); }
+        },
+        0xb3: {
+            asm: (gb) => { return "RES  6,E"; },
+            func: (gb) => { gb.regs.e &= ~(1 << 6); }
+        },
+        0xb4: {
+            asm: (gb) => { return "RES  6,H"; },
+            func: (gb) => { gb.regs.h &= ~(1 << 6); }
+        },
+        0xb5: {
+            asm: (gb) => { return "RES  6,L"; },
+            func: (gb) => { gb.regs.l &= ~(1 << 6); }
+        },
+        0xb6: {
+            asm: (gb) => { return "RES  6,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & ~(1 << 6); Memory.writeByte(gb.mem, hl, n); }
+        },
+        0xb7: {
+            asm: (gb) => { return "RES  6,A"; },
+            func: (gb) => { gb.regs.a &= ~(1 << 6); }
+        },
+        0xb8: {
+            asm: (gb) => { return "RES  7,B"; },
+            func: (gb) => { gb.regs.b &= ~(1 << 7); }
+        },
+        0xb9: {
+            asm: (gb) => { return "RES  7,C"; },
+            func: (gb) => { gb.regs.c &= ~(1 << 7); }
+        },
+        0xba: {
+            asm: (gb) => { return "RES  7,D"; },
+            func: (gb) => { gb.regs.d &= ~(1 << 7); }
+        },
+        0xbb: {
+            asm: (gb) => { return "RES  7,E"; },
+            func: (gb) => { gb.regs.e &= ~(1 << 7); }
+        },
+        0xbc: {
+            asm: (gb) => { return "RES  7,H"; },
+            func: (gb) => { gb.regs.h &= ~(1 << 7); }
+        },
+        0xbd: {
+            asm: (gb) => { return "RES  7,L"; },
+            func: (gb) => { gb.regs.l &= ~(1 << 7); }
+        },
+        0xbe: {
+            asm: (gb) => { return "RES  7,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = Memory.readUByte(gb.mem, hl) & ~(1 << 7); Memory.writeByte(gb.mem, hl, n); }
+        },
+        0xbf: {
+            asm: (gb) => { return "RES  7,A"; },
+            func: (gb) => { gb.regs.a &= ~(1 << 7); }
+        },
     };
 
     export const cycles = [
