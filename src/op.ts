@@ -157,10 +157,10 @@ export namespace Op {
                     if(gb.flags.half_carry) n = (n - 0x06) & 0xff;
                     if(gb.flags.carry) n -= 0x60;
                 } else {
-                    if(gb.flags.half_carry || (n & 0x0f) >= 10) n += 6;
-                    if(gb.flags.carry || n >= 10*16) n += 0x60;
+                    if(gb.flags.half_carry || (n & 0x0f) >= 0x0a) n += 0x06;
+                    if(gb.flags.carry || n >= 0xa0) n += 0x60;
                 }
-                gb.regs.a = n & 0xff; Register.checkZ(gb, gb.regs.a); Register.setH(gb, 0); Register.setC(gb, n >> 8);
+                gb.regs.a = n & 0xff; Register.checkZ(gb, gb.regs.a); Register.setH(gb, 0); Register.setC(gb, n & 0x100);
             }
         },
         0x28: {
