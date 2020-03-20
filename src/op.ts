@@ -149,6 +149,20 @@ export namespace Op {
             asm: (gb) => { return `LD   H,0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { gb.regs.h = Gb.loadUByte(gb); }
         },
+        0x27: {
+            asm: (gb) => { return `DAA`; },
+            func: (gb) => {
+                let n = gb.regs.a;
+                if (gb.flags.add_sub) {
+                    if(gb.flags.half_carry) n = (n - 0x06) & 0xff;
+                    if(gb.flags.carry) n -= 0x60;
+                } else {
+                    if(gb.flags.half_carry || (n & 0x0f) >= 10) n += 6;
+                    if(gb.flags.carry || n >= 0xa0) n += 0x60;
+                }
+                gb.regs.a = n & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); Register.setC(gb, (n >> 8) & 0x1);
+            }
+        },
         0x28: {
             asm: (gb) => { return `JR   Z,0x${hexWord(gb.regs.pc + 1 + Memory.readSByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const n = Gb.loadSByte(gb); if (gb.flags.zero) gb.regs.pc += n; }
