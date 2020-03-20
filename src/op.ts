@@ -553,35 +553,35 @@ export namespace Op {
         },
         0x90: {
             asm: (gb) => { return "SUB  A,B"; },
-            func: (gb) => { gb.regs.a = (gb.regs.a - gb.regs.b) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.b & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.b) >> 8); }
+            func: (gb) => { Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.b & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.b) >> 8); gb.regs.a = (gb.regs.a - gb.regs.b) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); }
         },
         0x91: {
             asm: (gb) => { return "SUB  A,C"; },
-            func: (gb) => { gb.regs.a = (gb.regs.a - gb.regs.c) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.c & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.c) >> 8); }
+            func: (gb) => { Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.c & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.c) >> 8); gb.regs.a = (gb.regs.a - gb.regs.c) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); }
         },
         0x92: {
             asm: (gb) => { return "SUB  A,D"; },
-            func: (gb) => { gb.regs.a = (gb.regs.a - gb.regs.d) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.d & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.d) >> 8); }
+            func: (gb) => { Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.d & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.d) >> 8); gb.regs.a = (gb.regs.a - gb.regs.d) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); }
         },
         0x93: {
             asm: (gb) => { return "SUB  A,E"; },
-            func: (gb) => { gb.regs.a = (gb.regs.a - gb.regs.e) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.e & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.e) >> 8); }
+            func: (gb) => { Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.e & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.e) >> 8); gb.regs.a = (gb.regs.a - gb.regs.e) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); }
         },
         0x94: {
             asm: (gb) => { return "SUB  A,H"; },
-            func: (gb) => { gb.regs.a = (gb.regs.a - gb.regs.h) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.h & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.h) >> 8); }
+            func: (gb) => { Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.h & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.h) >> 8); gb.regs.a = (gb.regs.a - gb.regs.h) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); }
         },
         0x95: {
             asm: (gb) => { return "SUB  A,L"; },
-            func: (gb) => { gb.regs.a = (gb.regs.a - gb.regs.l) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.l & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.l) >> 8); }
+            func: (gb) => { Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.l & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.l) >> 8); gb.regs.a = (gb.regs.a - gb.regs.l) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); }
         },
         0x96: {
             asm: (gb) => { return "SUB  A,(HL)"; },
-            func: (gb) => { const hl = (gb.regs.h << 8) | gb.regs.l; const n = Memory.readUByte(gb.mem, hl); gb.regs.a = (gb.regs.a - n) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (n & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - n) >> 8); }
+            func: (gb) => { const hl = (gb.regs.h << 8) | gb.regs.l; const n = Memory.readUByte(gb.mem, hl); Register.setH(gb, ((gb.regs.a & 0xf) - (n & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - n) >> 8); gb.regs.a = (gb.regs.a - n) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); }
         },
         0x97: {
             asm: (gb) => { return "SUB  A,A"; },
-            func: (gb) => { gb.regs.a = (gb.regs.a - gb.regs.a) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.a & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.a) >> 8); }
+            func: (gb) => { Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.a & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.a) >> 8); gb.regs.a = (gb.regs.a - gb.regs.a) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); }
         },
         0x98: {
             asm: (gb) => { return "SBC  A,B"; },
