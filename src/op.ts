@@ -153,14 +153,15 @@ export namespace Op {
             asm: (gb) => { return `DAA`; },
             func: (gb) => {
                 let n = gb.regs.a;
+                let c = 0;
                 if (gb.flags.add_sub) {
                     if(gb.flags.half_carry) n = (n - 0x06) & 0xff;
-                    if(gb.flags.carry) n -= 0x60;
+                    if(gb.flags.carry){ n -= 0x60; c = 1; }
                 } else {
-                    if(gb.flags.half_carry || (n & 0x0f) >= 0x0a) n += 0x06;
-                    if(gb.flags.carry || n >= 0xa0) n += 0x60;
+                    if(gb.flags.half_carry || (n & 0x0f) > 0x09) n += 0x06;
+                    if(gb.flags.carry || n > 0x99){ n += 0x60; c = 1; }
                 }
-                gb.regs.a = n & 0xff; Register.checkZ(gb, gb.regs.a); Register.setH(gb, 0); Register.setC(gb, n & 0x100);
+                gb.regs.a = n & 0xff; Register.checkZ(gb, gb.regs.a); Register.setH(gb, 0); Register.setC(gb, c);
             }
         },
         0x28: {

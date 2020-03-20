@@ -11,8 +11,8 @@ import { Register } from './register';
 
 //const rom_file = "roms/test.gb";
 //const rom_file = "roms/01-special.gb";
-//const rom_file = "roms/11-op a,(hl).gb";
-const rom_file = "roms/10-bit ops.gb";
+const rom_file = "roms/11-op a,(hl).gb";
+//const rom_file = "roms/10-bit ops.gb";
 //const rom_file = "roms/hello.gb";
 
 
@@ -54,8 +54,8 @@ try {
 
     // run
 //    Debug.runBreak(gb, [0x1ad]);  // roms/hello.gb
-//    Debug.runBreak(gb, [0xcc62]);  // roms/11-op a,(hl).gb
-    Debug.runBreak(gb, [0xcf58]);  // roms/10-bit ops.gb
+    Debug.runBreak(gb, [0xcc62]);  // roms/11-op a,(hl).gb
+//    Debug.runBreak(gb, [0xcf58]);  // roms/10-bit ops.gb
     const pixels = Vram.getScreen(gb.mem, 0x9800);
     createPng(pixels);
     process.exit(0);
