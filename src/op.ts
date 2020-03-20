@@ -201,11 +201,11 @@ export namespace Op {
         },
         0x34: {
             asm: (gb) => { return `INC  (HL)`; },
-            func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; const n = Memory.readUByte(gb.mem, hl); Memory.writeByte(gb.mem, hl, n+1); }
+            func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; const n = Memory.readUByte(gb.mem, hl); Memory.writeByte(gb.mem, hl, n + 1); Register.setN(gb, 0); Register.checkZ(gb, (n + 1) & 0xff); Register.setH(gb, ((n & 0xf) + 1) >> 4); }
         },
         0x35: {
             asm: (gb) => { return `DEC  (HL)`; },
-            func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; const n = Memory.readUByte(gb.mem, hl); Memory.writeByte(gb.mem, hl, n-1); }
+            func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; const n = Memory.readUByte(gb.mem, hl); Memory.writeByte(gb.mem, hl, n - 1); Register.setN(gb, 1); Register.checkZ(gb, (n - 1) & 0xff); Register.setH(gb, ((n & 0x0f) - 1) >> 4); }
         },
         0x37: {
             asm: (gb) => { return `SCF`; },
