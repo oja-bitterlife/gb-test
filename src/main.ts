@@ -82,7 +82,7 @@ try {
         while (true) {
             const answer = await inputLoop("(help?): ");
             if (answer == "h" || answer == "help") {
-                console.log("(S)tepOver, Step(I)n, Step(O)ut, GotoAddr(0x????), (R)egs, (F)lags, (Q)uit, (RUN)");
+                console.log("(S)tepOver, Step(I)n, Step(O)ut, GotoAddr(0x????), (R)egs, (F)lags, (Q)uit, RUN(run)\nDumpByte(b????) DumpWord(w????");
             }
             else if (answer == "s" || answer == "") Debug.stepOver(gb);
             else if (answer == "i") Gb.step(gb);
