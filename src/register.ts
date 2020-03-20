@@ -74,7 +74,7 @@ sp: 0x${hexWord(regs.sp)}, pc: 0x${hexWord(regs.pc)}, ie: ${regs.ie}`;
     export const setNHC = (gb: Gb.Env, n: number, h: number, c: number): void => {
         setN(gb, n);
         setH(gb, h);
-        setH(gb, c);
+        setC(gb, c);
     }
 
     export const flagsToByte = (gb: Gb.Env): number => {
