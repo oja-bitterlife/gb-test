@@ -163,35 +163,35 @@ export namespace OpCb {
         },
         0x20: {
             asm: (gb) => { return "SLA  B"; },
-            func: (gb) => { const c = (gb.regs.b>>7) & 0x1; gb.regs.b = (gb.regs.b << 1) & 0xff; Register.setNH(gb, 0, 0); Register.checkZ(gb, gb.regs.b); Register.setC(gb, c); }
+            func: (gb) => { const c = (gb.regs.b >> 7) & 0x1; gb.regs.b = (gb.regs.b << 1) & 0xff; Register.setNH(gb, 0, 0); Register.checkZ(gb, gb.regs.b); Register.setC(gb, c); }
         },
         0x21: {
             asm: (gb) => { return "SLA  C"; },
-            func: (gb) => { const c = (gb.regs.c>>7) & 0x1; gb.regs.c = (gb.regs.c << 1) & 0xff; Register.setNH(gb, 0, 0); Register.checkZ(gb, gb.regs.c); Register.setC(gb, c); }
+            func: (gb) => { const c = (gb.regs.c >> 7) & 0x1; gb.regs.c = (gb.regs.c << 1) & 0xff; Register.setNH(gb, 0, 0); Register.checkZ(gb, gb.regs.c); Register.setC(gb, c); }
         },
         0x22: {
             asm: (gb) => { return "SLA  D"; },
-            func: (gb) => { const c = (gb.regs.d>>7) & 0x1; gb.regs.d = (gb.regs.d << 1) & 0xff; Register.setNH(gb, 0, 0); Register.checkZ(gb, gb.regs.d); Register.setC(gb, c); }
+            func: (gb) => { const c = (gb.regs.d >> 7) & 0x1; gb.regs.d = (gb.regs.d << 1) & 0xff; Register.setNH(gb, 0, 0); Register.checkZ(gb, gb.regs.d); Register.setC(gb, c); }
         },
         0x23: {
             asm: (gb) => { return "SLA  E"; },
-            func: (gb) => { const c = (gb.regs.e>>7) & 0x1; gb.regs.e = (gb.regs.e << 1) & 0xff; Register.setNH(gb, 0, 0); Register.checkZ(gb, gb.regs.e); Register.setC(gb, c); }
+            func: (gb) => { const c = (gb.regs.e >> 7) & 0x1; gb.regs.e = (gb.regs.e << 1) & 0xff; Register.setNH(gb, 0, 0); Register.checkZ(gb, gb.regs.e); Register.setC(gb, c); }
         },
         0x24: {
             asm: (gb) => { return "SLA  H"; },
-            func: (gb) => { const c = (gb.regs.h>>7) & 0x1; gb.regs.h = (gb.regs.h << 1) & 0xff; Register.setNH(gb, 0, 0); Register.checkZ(gb, gb.regs.h); Register.setC(gb, c); }
+            func: (gb) => { const c = (gb.regs.h >> 7) & 0x1; gb.regs.h = (gb.regs.h << 1) & 0xff; Register.setNH(gb, 0, 0); Register.checkZ(gb, gb.regs.h); Register.setC(gb, c); }
         },
         0x25: {
             asm: (gb) => { return "SLA  L"; },
-            func: (gb) => { const c = (gb.regs.l>>7) & 0x1; gb.regs.l = (gb.regs.l << 1) & 0xff; Register.setNH(gb, 0, 0); Register.checkZ(gb, gb.regs.l); Register.setC(gb, c); }
+            func: (gb) => { const c = (gb.regs.l >> 7) & 0x1; gb.regs.l = (gb.regs.l << 1) & 0xff; Register.setNH(gb, 0, 0); Register.checkZ(gb, gb.regs.l); Register.setC(gb, c); }
         },
         0x26: {
             asm: (gb) => { return "SLA  (HL)"; },
-            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); let n = Memory.readUByte(gb.mem, hl); const c = (gb.regs.b>>7) & 0x1; n = (n << 1) & 0xff; Memory.writeByte(gb.mem, hl, n); Register.setNH(gb, 0, 0); Register.checkZ(gb, n); Register.setC(gb, c); }
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); let n = Memory.readUByte(gb.mem, hl); const c = (gb.regs.b >> 7) & 0x1; n = (n << 1) & 0xff; Memory.writeByte(gb.mem, hl, n); Register.setNH(gb, 0, 0); Register.checkZ(gb, n); Register.setC(gb, c); }
         },
         0x27: {
             asm: (gb) => { return "SLA  A"; },
-            func: (gb) => { const c = (gb.regs.a>>7) & 0x1; gb.regs.a = (gb.regs.a << 1) & 0xff; Register.setNH(gb, 0, 0); Register.checkZ(gb, gb.regs.a); Register.setC(gb, c); }
+            func: (gb) => { const c = (gb.regs.a >> 7) & 0x1; gb.regs.a = (gb.regs.a << 1) & 0xff; Register.setNH(gb, 0, 0); Register.checkZ(gb, gb.regs.a); Register.setC(gb, c); }
         },
         0x28: {
             asm: (gb) => { return "SRA  B"; },
@@ -227,35 +227,35 @@ export namespace OpCb {
         },
         0x30: {
             asm: (gb) => { return "SWAP B"; },
-            func: (gb) => { gb.regs.b = ((gb.regs.b >> 4) & 0xf) | ((gb.regs.b << 4 ) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.b); }
+            func: (gb) => { gb.regs.b = ((gb.regs.b >> 4) & 0xf) | ((gb.regs.b << 4) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.b); }
         },
         0x31: {
             asm: (gb) => { return "SWAP C"; },
-            func: (gb) => { gb.regs.c = ((gb.regs.c >> 4) & 0xf) | ((gb.regs.c << 4 ) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.c); }
+            func: (gb) => { gb.regs.c = ((gb.regs.c >> 4) & 0xf) | ((gb.regs.c << 4) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.c); }
         },
         0x32: {
             asm: (gb) => { return "SWAP D"; },
-            func: (gb) => { gb.regs.d = ((gb.regs.d >> 4) & 0xf) | ((gb.regs.d << 4 ) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.d); }
+            func: (gb) => { gb.regs.d = ((gb.regs.d >> 4) & 0xf) | ((gb.regs.d << 4) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.d); }
         },
         0x33: {
             asm: (gb) => { return "SWAP E"; },
-            func: (gb) => { gb.regs.e = ((gb.regs.e >> 4) & 0xf) | ((gb.regs.e << 4 ) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.e); }
+            func: (gb) => { gb.regs.e = ((gb.regs.e >> 4) & 0xf) | ((gb.regs.e << 4) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.e); }
         },
         0x34: {
             asm: (gb) => { return "SWAP H"; },
-            func: (gb) => { gb.regs.h = ((gb.regs.h >> 4) & 0xf) | ((gb.regs.h << 4 ) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.h); }
+            func: (gb) => { gb.regs.h = ((gb.regs.h >> 4) & 0xf) | ((gb.regs.h << 4) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.h); }
         },
         0x35: {
             asm: (gb) => { return "SWAP L"; },
-            func: (gb) => { gb.regs.l = ((gb.regs.l >> 4) & 0xf) | ((gb.regs.l << 4 ) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.l); }
+            func: (gb) => { gb.regs.l = ((gb.regs.l >> 4) & 0xf) | ((gb.regs.l << 4) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.l); }
         },
         0x36: {
             asm: (gb) => { return "SWAP (HL)"; },
-            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); let n = Memory.readUByte(gb.mem, hl); n = ((n >> 4) & 0xf) | ((n << 4 ) & 0xf0); Memory.writeByte(gb.mem, hl, n); Register.byteToFlags(gb, 0); Register.checkZ(gb, n); }
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); let n = Memory.readUByte(gb.mem, hl); n = ((n >> 4) & 0xf) | ((n << 4) & 0xf0); Memory.writeByte(gb.mem, hl, n); Register.byteToFlags(gb, 0); Register.checkZ(gb, n); }
         },
         0x37: {
             asm: (gb) => { return "SWAP A"; },
-            func: (gb) => { gb.regs.a = ((gb.regs.a >> 4) & 0xf) | ((gb.regs.a << 4 ) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.a); }
+            func: (gb) => { gb.regs.a = ((gb.regs.a >> 4) & 0xf) | ((gb.regs.a << 4) & 0xf0); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.a); }
         },
         0x38: {
             asm: (gb) => { return "SRL  B"; },
@@ -289,25 +289,281 @@ export namespace OpCb {
             asm: (gb) => { return "SRL  A"; },
             func: (gb) => { Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.a & 0x1) == 0x1; gb.regs.a >>= 1; Register.checkZ(gb, gb.regs.a); }
         },
+        0x40: {
+            asm: (gb) => { return "BIT  0,B"; },
+            func: (gb) => { const n = (gb.regs.b >> 0) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x41: {
+            asm: (gb) => { return "BIT  0,C"; },
+            func: (gb) => { const n = (gb.regs.c >> 0) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x42: {
+            asm: (gb) => { return "BIT  0,D"; },
+            func: (gb) => { const n = (gb.regs.d >> 0) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x43: {
+            asm: (gb) => { return "BIT  0,E"; },
+            func: (gb) => { const n = (gb.regs.e >> 0) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x44: {
+            asm: (gb) => { return "BIT  0,H"; },
+            func: (gb) => { const n = (gb.regs.h >> 0) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x45: {
+            asm: (gb) => { return "BIT  0,L"; },
+            func: (gb) => { const n = (gb.regs.l >> 0) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x46: {
+            asm: (gb) => { return "BIT  0,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = (Memory.readUByte(gb.mem, hl) >> 0) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x47: {
+            asm: (gb) => { return "BIT  0,A"; },
+            func: (gb) => { const n = (gb.regs.a >> 0) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x48: {
+            asm: (gb) => { return "BIT  1,B"; },
+            func: (gb) => { const n = (gb.regs.b >> 1) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x49: {
+            asm: (gb) => { return "BIT  1,C"; },
+            func: (gb) => { const n = (gb.regs.c >> 1) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x4a: {
+            asm: (gb) => { return "BIT  1,D"; },
+            func: (gb) => { const n = (gb.regs.d >> 1) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x4b: {
+            asm: (gb) => { return "BIT  1,E"; },
+            func: (gb) => { const n = (gb.regs.e >> 1) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x4c: {
+            asm: (gb) => { return "BIT  1,H"; },
+            func: (gb) => { const n = (gb.regs.h >> 1) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x4d: {
+            asm: (gb) => { return "BIT  1,L"; },
+            func: (gb) => { const n = (gb.regs.l >> 1) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x4e: {
+            asm: (gb) => { return "BIT  1,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = (Memory.readUByte(gb.mem, hl) >> 1) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x4f: {
+            asm: (gb) => { return "BIT  1,A"; },
+            func: (gb) => { const n = (gb.regs.a >> 1) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x50: {
+            asm: (gb) => { return "BIT  2,B"; },
+            func: (gb) => { const n = (gb.regs.b >> 2) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x51: {
+            asm: (gb) => { return "BIT  2,C"; },
+            func: (gb) => { const n = (gb.regs.c >> 2) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x52: {
+            asm: (gb) => { return "BIT  2,D"; },
+            func: (gb) => { const n = (gb.regs.d >> 2) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x53: {
+            asm: (gb) => { return "BIT  2,E"; },
+            func: (gb) => { const n = (gb.regs.e >> 2) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x54: {
+            asm: (gb) => { return "BIT  2,H"; },
+            func: (gb) => { const n = (gb.regs.h >> 2) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x55: {
+            asm: (gb) => { return "BIT  2,L"; },
+            func: (gb) => { const n = (gb.regs.l >> 2) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x56: {
+            asm: (gb) => { return "BIT  2,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = (Memory.readUByte(gb.mem, hl) >> 2) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x57: {
+            asm: (gb) => { return "BIT  2,A"; },
+            func: (gb) => { const n = (gb.regs.a >> 2) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x58: {
+            asm: (gb) => { return "BIT  3,B"; },
+            func: (gb) => { const n = (gb.regs.b >> 3) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x59: {
+            asm: (gb) => { return "BIT  3,C"; },
+            func: (gb) => { const n = (gb.regs.c >> 3) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x5a: {
+            asm: (gb) => { return "BIT  3,D"; },
+            func: (gb) => { const n = (gb.regs.d >> 3) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x5b: {
+            asm: (gb) => { return "BIT  3,E"; },
+            func: (gb) => { const n = (gb.regs.e >> 3) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x5c: {
+            asm: (gb) => { return "BIT  3,H"; },
+            func: (gb) => { const n = (gb.regs.h >> 3) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x5d: {
+            asm: (gb) => { return "BIT  3,L"; },
+            func: (gb) => { const n = (gb.regs.l >> 3) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x5e: {
+            asm: (gb) => { return "BIT  3,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = (Memory.readUByte(gb.mem, hl) >> 3) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x5f: {
+            asm: (gb) => { return "BIT  3,A"; },
+            func: (gb) => { const n = (gb.regs.a >> 3) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x60: {
+            asm: (gb) => { return "BIT  4,B"; },
+            func: (gb) => { const n = (gb.regs.b >> 4) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x61: {
+            asm: (gb) => { return "BIT  4,C"; },
+            func: (gb) => { const n = (gb.regs.c >> 4) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x62: {
+            asm: (gb) => { return "BIT  4,D"; },
+            func: (gb) => { const n = (gb.regs.d >> 4) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x63: {
+            asm: (gb) => { return "BIT  4,E"; },
+            func: (gb) => { const n = (gb.regs.e >> 4) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x64: {
+            asm: (gb) => { return "BIT  4,H"; },
+            func: (gb) => { const n = (gb.regs.h >> 4) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x65: {
+            asm: (gb) => { return "BIT  4,L"; },
+            func: (gb) => { const n = (gb.regs.l >> 4) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x66: {
+            asm: (gb) => { return "BIT  4,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = (Memory.readUByte(gb.mem, hl) >> 4) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x67: {
+            asm: (gb) => { return "BIT  4,A"; },
+            func: (gb) => { const n = (gb.regs.a >> 4) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x68: {
+            asm: (gb) => { return "BIT  5,B"; },
+            func: (gb) => { const n = (gb.regs.b >> 5) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x69: {
+            asm: (gb) => { return "BIT  5,C"; },
+            func: (gb) => { const n = (gb.regs.c >> 5) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x6a: {
+            asm: (gb) => { return "BIT  5,D"; },
+            func: (gb) => { const n = (gb.regs.d >> 5) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x6b: {
+            asm: (gb) => { return "BIT  5,E"; },
+            func: (gb) => { const n = (gb.regs.e >> 5) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x6c: {
+            asm: (gb) => { return "BIT  5,H"; },
+            func: (gb) => { const n = (gb.regs.h >> 5) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x6d: {
+            asm: (gb) => { return "BIT  5,L"; },
+            func: (gb) => { const n = (gb.regs.l >> 5) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x6e: {
+            asm: (gb) => { return "BIT  5,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = (Memory.readUByte(gb.mem, hl) >> 1) & 0x5; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x6f: {
+            asm: (gb) => { return "BIT  5,A"; },
+            func: (gb) => { const n = (gb.regs.a >> 5) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x70: {
+            asm: (gb) => { return "BIT  6,B"; },
+            func: (gb) => { const n = (gb.regs.b >> 6) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x71: {
+            asm: (gb) => { return "BIT  6,C"; },
+            func: (gb) => { const n = (gb.regs.c >> 6) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x72: {
+            asm: (gb) => { return "BIT  6,D"; },
+            func: (gb) => { const n = (gb.regs.d >> 6) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x73: {
+            asm: (gb) => { return "BIT  6,E"; },
+            func: (gb) => { const n = (gb.regs.e >> 6) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x74: {
+            asm: (gb) => { return "BIT  6,H"; },
+            func: (gb) => { const n = (gb.regs.h >> 6) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x75: {
+            asm: (gb) => { return "BIT  6,L"; },
+            func: (gb) => { const n = (gb.regs.l >> 6) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x76: {
+            asm: (gb) => { return "BIT  6,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = (Memory.readUByte(gb.mem, hl) >> 6) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x77: {
+            asm: (gb) => { return "BIT  6,A"; },
+            func: (gb) => { const n = (gb.regs.a >> 6) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x78: {
+            asm: (gb) => { return "BIT  7,B"; },
+            func: (gb) => { const n = (gb.regs.b >> 7) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x79: {
+            asm: (gb) => { return "BIT  7,C"; },
+            func: (gb) => { const n = (gb.regs.c >> 7) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x7a: {
+            asm: (gb) => { return "BIT  7,D"; },
+            func: (gb) => { const n = (gb.regs.d >> 7) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x7b: {
+            asm: (gb) => { return "BIT  7,E"; },
+            func: (gb) => { const n = (gb.regs.e >> 7) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x7c: {
+            asm: (gb) => { return "BIT  7,H"; },
+            func: (gb) => { const n = (gb.regs.h >> 7) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x7d: {
+            asm: (gb) => { return "BIT  7,L"; },
+            func: (gb) => { const n = (gb.regs.l >> 7) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x7e: {
+            asm: (gb) => { return "BIT  7,(HL)"; },
+            func: (gb) => { const hl = ((gb.regs.h & 0xff) << 8) | (gb.regs.l & 0xff); const n = (Memory.readUByte(gb.mem, hl) >> 7) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
+        0x7f: {
+            asm: (gb) => { return "BIT  7,A"; },
+            func: (gb) => { const n = (gb.regs.a >> 7) & 0x1; Register.checkZ(gb, n); Register.setNH(gb, 0, 1); }
+        },
     };
 
     export const cycles = [
         //  0  1  2  3   4  5  6  7   8  9  a  b   c  d  e  f
-            8, 8, 8, 8,  8, 8, 16, 8,  8, 8, 8, 8,  8, 8, 16, 8,  // 0
-            8, 8, 8, 8,  8, 8, 16, 8,  8, 8, 8, 8,  8, 8, 16, 8,  // 1
-            8, 8, 8, 8,  8, 8, 16, 8,  8, 8, 8, 8,  8, 8, 16, 8,  // 2
-            8, 8, 8, 8,  8, 8, 16, 8,  8, 8, 8, 8,  8, 8, 16, 8,  // 3
-            8, 8, 8, 8,  8, 8, 18, 8,  8, 8, 8, 8,  8, 8, 18, 8,  // 4
-            8, 8, 8, 8,  8, 8, 18, 8,  8, 8, 8, 8,  8, 8, 18, 8,  // 5
-            8, 8, 8, 8,  8, 8, 18, 8,  8, 8, 8, 8,  8, 8, 18, 8,  // 6
-            8, 8, 8, 8,  8, 8, 18, 8,  8, 8, 8, 8,  8, 8, 18, 8,  // 7
-            8, 8, 8, 8,  8, 8, 16, 8,  8, 8, 8, 8,  8, 8, 16, 8,  // 8
-            8, 8, 8, 8,  8, 8, 16, 8,  8, 8, 8, 8,  8, 8, 16, 8,  // 9
-            8, 8, 8, 8,  8, 8, 16, 8,  8, 8, 8, 8,  8, 8, 16, 8,  // a
-            8, 8, 8, 8,  8, 8, 16, 8,  8, 8, 8, 8,  8, 8, 16, 8,  // b
-            8, 8, 8, 8,  8, 8, 16, 8,  8, 8, 8, 8,  8, 8, 16, 8,  // c
-            8, 8, 8, 8,  8, 8, 16, 8,  8, 8, 8, 8,  8, 8, 16, 8,  // d
-            8, 8, 8, 8,  8, 8, 16, 8,  8, 8, 8, 8,  8, 8, 16, 8,  // e
-            8, 8, 8, 8,  8, 8, 16, 8,  8, 8, 8, 8,  8, 8, 16, 8,  // f
+        8, 8, 8, 8, 8, 8, 16, 8, 8, 8, 8, 8, 8, 8, 16, 8,  // 0
+        8, 8, 8, 8, 8, 8, 16, 8, 8, 8, 8, 8, 8, 8, 16, 8,  // 1
+        8, 8, 8, 8, 8, 8, 16, 8, 8, 8, 8, 8, 8, 8, 16, 8,  // 2
+        8, 8, 8, 8, 8, 8, 16, 8, 8, 8, 8, 8, 8, 8, 16, 8,  // 3
+        8, 8, 8, 8, 8, 8, 18, 8, 8, 8, 8, 8, 8, 8, 18, 8,  // 4
+        8, 8, 8, 8, 8, 8, 18, 8, 8, 8, 8, 8, 8, 8, 18, 8,  // 5
+        8, 8, 8, 8, 8, 8, 18, 8, 8, 8, 8, 8, 8, 8, 18, 8,  // 6
+        8, 8, 8, 8, 8, 8, 18, 8, 8, 8, 8, 8, 8, 8, 18, 8,  // 7
+        8, 8, 8, 8, 8, 8, 16, 8, 8, 8, 8, 8, 8, 8, 16, 8,  // 8
+        8, 8, 8, 8, 8, 8, 16, 8, 8, 8, 8, 8, 8, 8, 16, 8,  // 9
+        8, 8, 8, 8, 8, 8, 16, 8, 8, 8, 8, 8, 8, 8, 16, 8,  // a
+        8, 8, 8, 8, 8, 8, 16, 8, 8, 8, 8, 8, 8, 8, 16, 8,  // b
+        8, 8, 8, 8, 8, 8, 16, 8, 8, 8, 8, 8, 8, 8, 16, 8,  // c
+        8, 8, 8, 8, 8, 8, 16, 8, 8, 8, 8, 8, 8, 8, 16, 8,  // d
+        8, 8, 8, 8, 8, 8, 16, 8, 8, 8, 8, 8, 8, 8, 16, 8,  // e
+        8, 8, 8, 8, 8, 8, 16, 8, 8, 8, 8, 8, 8, 8, 16, 8,  // f
     ];
 }
