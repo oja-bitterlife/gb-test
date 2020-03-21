@@ -14,7 +14,8 @@ import { Register } from './register';
 //const rom_file = "roms/11-op a,(hl).gb";
 //const rom_file = "roms/10-bit ops.gb";
 //const rom_file = "roms/09-op r,r.gb";
-const rom_file = "roms/08-misc instrs.gb";
+//const rom_file = "roms/08-misc instrs.gb";
+const rom_file = "roms/07-jr,jp,call,ret,rst.gb";
 //const rom_file = "roms/hello.gb";
 
 
