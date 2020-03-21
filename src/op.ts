@@ -244,6 +244,10 @@ export namespace Op {
             asm: (gb) => { return `LD   (HL-),A`; },
             func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; Memory.writeByte(gb.mem, hl, gb.regs.a); hl--; gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff; }
         },
+        0x33: {
+            asm: (gb) => { return `INC  SP`; },
+            func: (gb) => { gb.regs.sp++; }
+        },
         0x34: {
             asm: (gb) => { return `INC  (HL)`; },
             func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; const n = Memory.readUByte(gb.mem, hl); Memory.writeByte(gb.mem, hl, n + 1); Register.setN(gb, 0); Register.checkZ(gb, (n + 1) & 0xff); Register.setH(gb, ((n & 0xf) + 1) >> 4); }
@@ -271,6 +275,10 @@ export namespace Op {
         0x3a: {
             asm: (gb) => { return `LD   A,(HL-)`; },
             func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; gb.regs.a = Memory.readUByte(gb.mem, hl); hl--; gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff; }
+        },
+        0x3b: {
+            asm: (gb) => { return `DEC  SP`; },
+            func: (gb) => { gb.regs.sp--; }
         },
         0x3c: {
             asm: (gb) => { return `INC  A`; },
@@ -936,6 +944,10 @@ export namespace Op {
             asm: (gb) => { return `RST  0x20`; },
             func: (gb) => { Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = 0x20; }
         },
+        0xe8: {
+            asm: (gb) => { return `ADD  SP,${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
+            func: (gb) => { const v = Gb.loadUByte(gb); Register.setZ(gb, 0); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.sp & 0x0f) + (v & 0x0f)) >> 4); Register.setC(gb, (gb.regs.sp + v) >> 8); gb.regs.sp = (gb.regs.sp + v) & 0xff; }
+        },
         0xe9: {
             asm: (gb) => { return `JP   (HL)`; },
             func: (gb) => { gb.regs.pc = (gb.regs.h << 8) | gb.regs.l; }
@@ -979,6 +991,10 @@ export namespace Op {
         0xf7: {
             asm: (gb) => { return `RST  0x30`; },
             func: (gb) => { Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = 0x30; }
+        },
+        0xf8: {
+            asm: (gb) => { return `ADD  HL,SP+${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
+            func: (gb) => { const v = Gb.loadUByte(gb); Register.setZ(gb, 0); Register.setN(gb, 0); Register.setH(gb, ((gb.regs.sp & 0x0f) + (v & 0x0f)) >> 4); Register.setC(gb, (gb.regs.sp + v) >> 8); const hl = (gb.regs.sp + v); gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff; }
         },
         0xf9: {
             asm: (gb) => { return `LD   SP,HL`; },
