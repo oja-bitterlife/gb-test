@@ -73,6 +73,10 @@ export namespace Op {
             asm: (gb) => { return `LD   A,(BC)`; },
             func: (gb) => { const bc = (gb.regs.b << 8) | gb.regs.c; gb.regs.a = Memory.readUByte(gb.mem, bc); }
         },
+        0x0b: {
+            asm: (gb) => { return `DEC  BC`; },
+            func: (gb) => { let bc = (gb.regs.b << 8) | gb.regs.c; bc--; gb.regs.b = (bc >> 8) & 0xff; gb.regs.c = bc & 0xff; }
+        },
         0x0c: {
             asm: (gb) => { return "INC  C"; },
             func: (gb) => { Register.setH(gb, ((gb.regs.c & 0xf) + 1) >> 4); gb.regs.c = (gb.regs.c + 1) & 0xff; Register.checkZ(gb, gb.regs.c); Register.setN(gb, 0); }
@@ -124,6 +128,10 @@ export namespace Op {
         0x1a: {
             asm: (gb) => { return `LD   A,(DE)`; },
             func: (gb) => { const de = (gb.regs.d << 8) | gb.regs.e; gb.regs.a = Memory.readUByte(gb.mem, de); }
+        },
+        0x1b: {
+            asm: (gb) => { return `DEC  DE`; },
+            func: (gb) => { let de = (gb.regs.d << 8) | gb.regs.e; de--; gb.regs.d = (de >> 8) & 0xff; gb.regs.e = de & 0xff; }
         },
         0x1c: {
             asm: (gb) => { return `INC  E`; },
@@ -191,6 +199,10 @@ export namespace Op {
         0x2a: {
             asm: (gb) => { return `LD   A,(HL+)`; },
             func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; gb.regs.a = Memory.readUByte(gb.mem, hl); hl++; gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff; }
+        },
+        0x2b: {
+            asm: (gb) => { return `DEC  HL`; },
+            func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; hl++; gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff; }
         },
         0x2c: {
             asm: (gb) => { return `INC  L`; },
