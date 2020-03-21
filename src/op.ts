@@ -188,6 +188,10 @@ export namespace Op {
             asm: (gb) => { return `LD   L,${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { gb.regs.l = Gb.loadUByte(gb); }
         },
+        0x2f: {
+            asm: (gb) => { return `CPL`; },
+            func: (gb) => { gb.regs.a = ~gb.regs.a; Register.setNH(gb, 1, 1); }
+        },
         0x30: {
             asm: (gb) => { return `JR   NC,0x${hexWord(gb.regs.pc + 1 + Memory.readSByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const n = Gb.loadSByte(gb); if (!gb.flags.carry) gb.regs.pc += n; }
@@ -235,6 +239,10 @@ export namespace Op {
         0x3e: {
             asm: (gb) => { return `LD   A,0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { gb.regs.a = Gb.loadUByte(gb); }
+        },
+        0x3f: {
+            asm: (gb) => { return `CCF`; },
+            func: (gb) => { Register.setNHC(gb, 0, 0, gb.flags.carry ? 0 : 1); }
         },
         0x40: {
             asm: (gb) => { return `LD   B,B`; },
