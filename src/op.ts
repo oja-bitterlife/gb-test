@@ -69,6 +69,10 @@ export namespace Op {
             asm: (gb) => { return `LD   ${hexWord(Memory.readWord(gb.mem, gb.regs.pc))},SP`; },
             func: (gb) => { const addr = Gb.loadWord(gb); Memory.writeByte(gb.mem, addr, gb.regs.sp & 0xff); Memory.writeByte(gb.mem, addr+1, (gb.regs.sp >> 8) & 0xff); }
         },
+        0x09: {
+            asm: (gb) => { return `ADD  HL,BC`; },
+            func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; const n = (gb.regs.b << 8) | gb.regs.c; Register.setN(gb, 0); Register.setH(gb, ((hl & 0xfff) + (n & 0xfff)) >> 12); Register.setC(gb, (hl + n) >> 16); hl += n; gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff;}
+        },
         0x0a: {
             asm: (gb) => { return `LD   A,(BC)`; },
             func: (gb) => { const bc = (gb.regs.b << 8) | gb.regs.c; gb.regs.a = Memory.readUByte(gb.mem, bc); }
@@ -124,6 +128,10 @@ export namespace Op {
         0x18: {
             asm: (gb) => { return `JR   0x${hexWord(gb.regs.pc + 1 + Memory.readSByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const n = Gb.loadSByte(gb); gb.regs.pc += n; }
+        },
+        0x19: {
+            asm: (gb) => { return `ADD  HL,DE`; },
+            func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; const n = (gb.regs.d << 8) | gb.regs.e; Register.setN(gb, 0); Register.setH(gb, ((hl & 0xfff) + (n & 0xfff)) >> 12); Register.setC(gb, (hl + n) >> 16); hl += n; gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff;}
         },
         0x1a: {
             asm: (gb) => { return `LD   A,(DE)`; },
@@ -251,6 +259,10 @@ export namespace Op {
         0x38: {
             asm: (gb) => { return `JR   C,0x${hexWord(gb.regs.pc + 1 + Memory.readSByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const n = Gb.loadSByte(gb); if (gb.flags.carry) gb.regs.pc += n; }
+        },
+        0x39: {
+            asm: (gb) => { return `ADD  HL,DE`; },
+            func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; const n = gb.regs.sp; Register.setN(gb, 0); Register.setH(gb, ((hl & 0xfff) + (n & 0xfff)) >> 12); Register.setC(gb, (hl + n) >> 16); hl += n; gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff;}
         },
         0x3a: {
             asm: (gb) => { return `LD   A,(HL-)`; },
