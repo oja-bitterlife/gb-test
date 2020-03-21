@@ -724,9 +724,37 @@ export namespace Op {
             asm: (gb) => { return "OR   A"; },
             func: (gb) => { gb.regs.a = (gb.regs.a | gb.regs.a) & 0xff; Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.a); }
         },
+        0xb8: {
+            asm: (gb) => { return `CP   B`; },
+            func: (gb) => { Register.checkZ(gb, gb.regs.a - gb.regs.b); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.b & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.b) >> 8); }
+        },
+        0xb9: {
+            asm: (gb) => { return `CP   C`; },
+            func: (gb) => { Register.checkZ(gb, gb.regs.a - gb.regs.c); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.c & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.c) >> 8); }
+        },
+        0xba: {
+            asm: (gb) => { return `CP   D`; },
+            func: (gb) => { Register.checkZ(gb, gb.regs.a - gb.regs.d); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.d & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.d) >> 8); }
+        },
+        0xbb: {
+            asm: (gb) => { return `CP   E`; },
+            func: (gb) => { Register.checkZ(gb, gb.regs.a - gb.regs.e); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.e & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.e) >> 8); }
+        },
+        0xbc: {
+            asm: (gb) => { return `CP   H`; },
+            func: (gb) => { Register.checkZ(gb, gb.regs.a - gb.regs.h); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.h & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.h) >> 8); }
+        },
+        0xbd: {
+            asm: (gb) => { return `CP   L`; },
+            func: (gb) => { Register.checkZ(gb, gb.regs.a - gb.regs.l); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.l & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.l) >> 8); }
+        },
         0xbe: {
             asm: (gb) => { return `CP   (HL)`; },
             func: (gb) => { const hl = (gb.regs.h << 8) | gb.regs.l; const n = Memory.readUByte(gb.mem, hl); Register.checkZ(gb, gb.regs.a - n); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (n & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - n) >> 8); }
+        },
+        0xbf: {
+            asm: (gb) => { return `CP   A`; },
+            func: (gb) => { Register.checkZ(gb, gb.regs.a - gb.regs.a); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.a & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.a) >> 8); }
         },
         0xc1: {
             asm: (gb) => { return `POP  BC`; },
