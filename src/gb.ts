@@ -56,14 +56,14 @@ export namespace Gb {
     // stack operation
     // ------------------------------------------------------------------------
     export const push = (gb: Env, value: number): void => {
-        Memory.writeByte(gb.mem, gb.regs.sp--, value);
+        Memory.writeByte(gb.mem, --gb.regs.sp, value);
     };
     export const pushWord = (gb: Env, value: number): void => {
         push(gb, (value >> 8) & 0xff);
         push(gb, value & 0xff);
     };
     export const pop = (gb: Env): number => {
-        return Memory.readUByte(gb.mem, ++gb.regs.sp);
+        return Memory.readUByte(gb.mem, gb.regs.sp++);
     };
     export const popWord = (gb: Env): number => {
         return (pop(gb) & 0xff) | ((pop(gb) & 0xff) << 8);
