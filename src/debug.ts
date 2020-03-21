@@ -27,7 +27,10 @@ export namespace Debug {
     // step over callの中に入らない
     export const stepOver = (gb: Gb.Env): void => {
         if (gb.mem[gb.regs.pc] == 0xcd // call
-        || gb.mem[gb.regs.pc] == 0xc4 && gb.flags.zero == false  // call nz
+        || gb.mem[gb.regs.pc] == 0xc4 && !gb.flags.zero  // call nz
+        || gb.mem[gb.regs.pc] == 0xcc && gb.flags.zero  // call z
+        || gb.mem[gb.regs.pc] == 0xd4 && !gb.flags.carry  // call nc
+        || gb.mem[gb.regs.pc] == 0xdc && gb.flags.carry  // call c
         ){
             Debug.runBreak(gb, [gb.regs.pc+3]);  // goto call next            
         }

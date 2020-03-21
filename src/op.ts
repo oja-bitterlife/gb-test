@@ -808,9 +808,13 @@ export namespace Op {
             asm: (gb) => { return `JP   Z,0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const addr = Gb.loadWord(gb); if(gb.flags.zero) gb.regs.pc = addr; }
         },
+        0xcc: {
+            asm: (gb) => { return `CALL Z,0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
+            func: (gb) => { const addr = Gb.loadWord(gb); if(gb.flags.zero){ Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = addr; } }
+        },
         0xcd: {
             asm: (gb) => { return `CALL 0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
-            func: (gb) => { const n = Gb.loadWord(gb); Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = n; }
+            func: (gb) => { const addr = Gb.loadWord(gb); Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = addr; }
         },
         0xce: {
             asm: (gb) => { return `ADC  A,0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
@@ -828,6 +832,10 @@ export namespace Op {
             asm: (gb) => { return `JP   NC,0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const addr = Gb.loadWord(gb); if(!gb.flags.carry) gb.regs.pc = addr; }
         },
+        0xd4: {
+            asm: (gb) => { return `CALL NC,0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
+            func: (gb) => { const addr = Gb.loadWord(gb); if(!gb.flags.carry){ Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = addr; } }
+        },
         0xd5: {
             asm: (gb) => { return `PUSH DE`; },
             func: (gb) => { Gb.push(gb, gb.regs.d); Gb.push(gb, gb.regs.e); }
@@ -843,6 +851,10 @@ export namespace Op {
         0xda: {
             asm: (gb) => { return `JP   C,0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const addr = Gb.loadWord(gb); if(gb.flags.carry) gb.regs.pc = addr; }
+        },
+        0xdc: {
+            asm: (gb) => { return `CALL C,0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
+            func: (gb) => { const addr = Gb.loadWord(gb); if(gb.flags.carry){ Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = addr; } }
         },
         0xe0: {
             asm: (gb) => { return `LDH  0x${hexWord(0xff00 | Memory.readUByte(gb.mem, gb.regs.pc))},A`; },
