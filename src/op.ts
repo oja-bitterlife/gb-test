@@ -210,7 +210,7 @@ export namespace Op {
         },
         0x2b: {
             asm: (gb) => { return `DEC  HL`; },
-            func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; hl++; gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff; }
+            func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; hl--; gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff; }
         },
         0x2c: {
             asm: (gb) => { return `INC  L`; },
