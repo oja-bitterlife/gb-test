@@ -11,12 +11,12 @@ import { Register } from './register';
 
 //const rom_file = "roms/test.gb";
 //const rom_file = "roms/01-special.gb";
-const rom_file = "roms/11-op a,(hl).gb";
+//const rom_file = "roms/11-op a,(hl).gb";
 //const rom_file = "roms/10-bit ops.gb";
-//const rom_file = "roms/hello.gb";
+const rom_file = "roms/hello.gb";
 
 
-const createPng = (buf: Uint8Array) => {
+const createPng = async (buf: Uint8Array, file_name: string) => {
 //    Debug.dumpBytes(buf, 0, 256, 256);
     const canvas = createCanvas(160, 144);
     const ctx = canvas.getContext('2d')
@@ -38,75 +38,90 @@ const createPng = (buf: Uint8Array) => {
             imageData.data[(y*imageData.width+x)*4 + 3] = 255;
         }
     }
-
     ctx.putImageData(imageData, 0, 0);
 
-    console.log(`<br><img width="320px" height="288px" src="${canvas.toDataURL()}" />`);
+    return new Promise((resolve, reject) => {
+        const png_stream = canvas.createPNGStream()
+        const out_file = fs.createWriteStream(file_name);
+        out_file.on('finish', () => {
+            console.log(`${file_name} was created.`);
+            resolve();
+        });
+        png_stream.pipe(out_file);
+    });
 };
 
+const node_main = async () => {
+    try {
+        const buf = fs.readFileSync(rom_file)
+        const header = new Header(buf);
+        console.log(header);
 
-try {
-    const buf = fs.readFileSync(rom_file)
-    const header = new Header(buf);
-    console.log(header);
+        const gb = Gb.create(buf);
 
-    const gb = Gb.create(buf);
+        // run
+        if(rom_file == "roms/hello.gb") Debug.runBreak(gb, [0x1ad]);
+        else if(rom_file == "roms/11-op a,(hl).gb") Debug.runBreak(gb, [0xcc62]);
+        else if(rom_file == "roms/10-bit ops.gb") Debug.runBreak(gb, [0xcf58]);
 
-    // run
-//    Debug.runBreak(gb, [0x1ad]);  // roms/hello.gb
-    Debug.runBreak(gb, [0xcc62]);  // roms/11-op a,(hl).gb
-//    Debug.runBreak(gb, [0xcf58]);  // roms/10-bit ops.gb
-    const pixels = Vram.getScreen(gb.mem, 0x9800);
-    createPng(pixels);
-    process.exit(0);
+        const pixels = Vram.getScreen(gb.mem, 0x9800);
+        await createPng(pixels, "screen0.png");
+        process.exit(0);
 
-    const hexByte = (byte: number): string => { return ('00' + (byte & 0xff).toString(16)).slice(-2); };
-    const hexWord = (word: number): string => { return ('0000' + (word & 0xffff).toString(16)).slice(-4); }
+        const hexByte = (byte: number): string => { return ('00' + (byte & 0xff).toString(16)).slice(-2); };
+        const hexWord = (word: number): string => { return ('0000' + (word & 0xffff).toString(16)).slice(-4); }
 
-    // Debug
-    const inputLoop = (question: string): Promise<string> => {
-        const readline = require('readline').createInterface({
-            input: process.stdin,
-            output: process.stdout
-        });
-
-        return new Promise((resolve, reject) => {
-            // 現在地点のop_codeを表示して
-            Debug.printDisasm(gb);
-
-            // キー入力待ち
-            readline.question(question, (answer: string) => {
-                resolve(answer.toLowerCase());
-                readline.close();
+        // Debug
+        const inputLoop = (question: string): Promise<string> => {
+            const readline = require('readline').createInterface({
+                input: process.stdin,
+                output: process.stdout
             });
-        });
-    }
-    (async function () {
-        while (true) {
-            const answer = await inputLoop("(help?): ");
-            if (answer == "h" || answer == "help") {
-                console.log("(S)tepOver, Step(I)n, Step(O)ut, GotoAddr(0x????), (R)egs, (F)lags, (Q)uit, RUN(run)\nDumpByte(b????) DumpWord(w????");
-            }
-            else if (answer == "s" || answer == "") Debug.stepOver(gb);
-            else if (answer == "i") Gb.step(gb);
-            else if (answer == "o") Debug.stepOut(gb);
-            else if (answer.indexOf("0x") != -1) Debug.runBreak(gb, [parseInt(answer, 16)]);
-            else if (answer == "r") console.log(Register.toString(gb.regs));
-            else if (answer == "f") console.log(gb.flags);
-            else if (answer == "q") break;
-            else if (answer == "run") Gb.run(gb);
-            else if (answer.indexOf("b") == 0){
-                const addr = parseInt(answer.substr(1), 16);
-                console.log("0x"+hexWord(addr) + ": 0x" + hexByte(Memory.readUByte(gb.mem, addr)));
-            }
-            else if (answer.indexOf("w") == 0){
-                const addr = parseInt(answer.substr(1), 16);
-                console.log("0x"+hexWord(addr) + ": 0x" + hexWord(Memory.readWord(gb.mem, addr)));
-            }
-        }
-    })();
 
-} catch (error) {
-    console.log(error);
+            return new Promise((resolve, reject) => {
+                // 現在地点のop_codeを表示して
+                Debug.printDisasm(gb);
+
+                // キー入力待ち
+                readline.question(question, (answer: string) => {
+                    resolve(answer.toLowerCase());
+                    readline.close();
+                });
+            });
+        }
+        (async function () {
+            while (true) {
+                const answer = await inputLoop("(help?): ");
+                if (answer == "h" || answer == "help") {
+                    console.log("(S)tepOver, Step(I)n, Step(O)ut, GotoAddr(0x????), (R)egs, (F)lags, (Q)uit, RUN(run)\nDumpByte(b????) DumpWord(w????");
+                }
+                else if (answer == "s" || answer == "") Debug.stepOver(gb);
+                else if (answer == "i") Gb.step(gb);
+                else if (answer == "o") Debug.stepOut(gb);
+                else if (answer.indexOf("0x") != -1) Debug.runBreak(gb, [parseInt(answer, 16)]);
+                else if (answer == "r") console.log(Register.toString(gb.regs));
+                else if (answer == "f") console.log(gb.flags);
+                else if (answer == "q") break;
+                else if (answer == "run") Gb.run(gb);
+                else if (answer.indexOf("b") == 0){
+                    const addr = parseInt(answer.substr(1), 16);
+                    console.log("0x"+hexWord(addr) + ": 0x" + hexByte(Memory.readUByte(gb.mem, addr)));
+                }
+                else if (answer.indexOf("w") == 0){
+                    const addr = parseInt(answer.substr(1), 16);
+                    console.log("0x"+hexWord(addr) + ": 0x" + hexWord(Memory.readWord(gb.mem, addr)));
+                }
+                else if (answer == "v") Debug.runVBlank(gb);
+                else if (answer == "png"){
+                    const pixels = Vram.getScreen(gb.mem, 0x9800);
+                }
+            }
+        })();
+
+    } catch (error) {
+        console.log(error);
+    }
 }
 
+// run main
+node_main();
