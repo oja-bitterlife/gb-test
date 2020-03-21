@@ -107,7 +107,7 @@ export namespace OpCb {
         },
         0x12: {
             asm: (gb) => { return "RL   D"; },
-            func: (gb) => { const c = gb.regs.e >> 7; gb.regs.d = ((gb.regs.d << 1) | (gb.flags.carry ? 1 : 0)) & 0xff; Register.setNH(gb, 0, 0); Register.checkZ(gb, gb.regs.d); Register.setC(gb, c); }
+            func: (gb) => { const c = gb.regs.d >> 7; gb.regs.d = ((gb.regs.d << 1) | (gb.flags.carry ? 1 : 0)) & 0xff; Register.setNH(gb, 0, 0); Register.checkZ(gb, gb.regs.d); Register.setC(gb, c); }
         },
         0x13: {
             asm: (gb) => { return "RL   E"; },
