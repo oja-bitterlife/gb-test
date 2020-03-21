@@ -149,6 +149,10 @@ export namespace Op {
             asm: (gb) => { return `DEC  E`; },
             func: (gb) => { Register.setH(gb, ((gb.regs.e & 0xf) - 1) >> 4); gb.regs.e = (gb.regs.e - 1) & 0xff; Register.checkZ(gb, gb.regs.e); Register.setN(gb, 1); }
         },
+        0x1e: {
+            asm: (gb) => { return `LD   E,0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
+            func: (gb) => { gb.regs.e = Gb.loadUByte(gb); }
+        },
         0x1f: {
             asm: (gb) => { return `RRA`; },
             func: (gb) => { const c = gb.regs.a & 0x1; gb.regs.a = ((gb.regs.a >> 1) | ((gb.flags.carry ? 1 : 0) << 7)) & 0xff; Register.setZ(gb, 0); Register.setNHC(gb, 0, 0, c); }
@@ -900,6 +904,10 @@ export namespace Op {
             asm: (gb) => { return `CALL C,0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const addr = Gb.loadWord(gb); if(gb.flags.carry){ Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = addr; } }
         },
+        0xde: {
+            asm: (gb) => { return `SBC  A,${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
+            func: (gb) => { const c = gb.flags.carry ? 1 : 0; const v = Gb.loadUByte(gb); Register.setH(gb, ((gb.regs.a & 0xf) - (v & 0xf) - c) >> 4); Register.setC(gb, (gb.regs.a - v - c) >> 8); gb.regs.a = (gb.regs.a - v - c) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); }
+        },
         0xdf: {
             asm: (gb) => { return `RST  0x18`; },
             func: (gb) => { Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = 0x18; }
@@ -921,8 +929,8 @@ export namespace Op {
             func: (gb) => { Gb.push(gb, gb.regs.h); Gb.push(gb, gb.regs.l); }
         },
         0xe6: {
-            asm: (gb) => { return `AND  A,${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
-            func: (gb) => { gb.regs.a &= Gb.loadUByte(gb); Register.byteToFlags(gb, 0x20); Register.checkZ(gb, gb.regs.a); }
+            asm: (gb) => { return `AND  ${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
+            func: (gb) => { gb.regs.a &= Gb.loadUByte(gb); Register.setNHC(gb, 0, 1, 0); Register.checkZ(gb, gb.regs.a); }
         },
         0xe7: {
             asm: (gb) => { return `RST  0x20`; },
@@ -963,6 +971,10 @@ export namespace Op {
         0xf5: {
             asm: (gb) => { return `PUSH AF`; },
             func: (gb) => { Gb.push(gb, gb.regs.a); Gb.push(gb, Register.flagsToByte(gb)); }
+        },
+        0xf6: {
+            asm: (gb) => { return `OR  ${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
+            func: (gb) => { gb.regs.a |= Gb.loadUByte(gb); Register.setNHC(gb, 0, 0, 0); Register.checkZ(gb, gb.regs.a); }
         },
         0xf7: {
             asm: (gb) => { return `RST  0x30`; },
