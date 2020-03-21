@@ -65,6 +65,10 @@ export namespace Op {
             asm: (gb) => { return `RLCA`; },
             func: (gb) => { const c = (gb.regs.a >> 7) & 0x1; gb.regs.a = ((gb.regs.a << 1) | c) & 0xff; Register.setZ(gb, 0); Register.setNHC(gb, 0, 0, c); }
         },
+        0x08: {
+            asm: (gb) => { return `LD   ${hexWord(Memory.readWord(gb.mem, gb.regs.pc))},SP`; },
+            func: (gb) => { const addr = Gb.loadWord(gb); Memory.writeByte(gb.mem, addr, gb.regs.sp & 0xff); Memory.writeByte(gb.mem, addr+1, (gb.regs.sp >> 8) & 0xff); }
+        },
         0x0a: {
             asm: (gb) => { return `LD   A,(BC)`; },
             func: (gb) => { const bc = (gb.regs.b << 8) | gb.regs.c; gb.regs.a = Memory.readUByte(gb.mem, bc); }
@@ -864,6 +868,10 @@ export namespace Op {
             asm: (gb) => { return `POP  AF`; },
             func: (gb) => { Register.byteToFlags(gb, Gb.pop(gb)); gb.regs.a = Gb.pop(gb); }
         },
+        0xf2: {
+            asm: (gb) => { return `LD   A,(C)`; },
+            func: (gb) => { gb.regs.a = Memory.readUByte(gb.mem, 0xff00 | gb.regs.c); }
+        },
         0xf3: {
             asm: (gb) => { return "DI"; },
             func: (gb) => { gb.regs.ie = false; }
@@ -871,6 +879,10 @@ export namespace Op {
         0xf5: {
             asm: (gb) => { return `PUSH AF`; },
             func: (gb) => { Gb.push(gb, gb.regs.a); Gb.push(gb, Register.flagsToByte(gb)); }
+        },
+        0xf9: {
+            asm: (gb) => { return `LD   SP,HL`; },
+            func: (gb) => { const hl = (gb.regs.h << 8) | gb.regs.l; gb.regs.sp = hl; }
         },
         0xfa: {
             asm: (gb) => { return `LD   A,${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
