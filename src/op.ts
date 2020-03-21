@@ -81,6 +81,10 @@ export namespace Op {
             asm: (gb) => { return `LD   C,0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { gb.regs.c = Gb.loadUByte(gb); }
         },
+        0x0f: {
+            asm: (gb) => { return `RRCA`; },
+            func: (gb) => { const c = gb.regs.a & 0x1; gb.regs.a = ((gb.regs.a >> 1) | (c << 7)) & 0xff; Register.setZ(gb, 0); Register.setNHC(gb, 0, 0, c); }
+        },
         0x11: {
             asm: (gb) => { return `LD   DE,0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { gb.regs.e = Gb.loadUByte(gb); gb.regs.d = Gb.loadUByte(gb); }
@@ -127,7 +131,7 @@ export namespace Op {
         },
         0x1f: {
             asm: (gb) => { return `RRA`; },
-            func: (gb) => { const msb = gb.flags.carry ? 0x80 : 0; Register.byteToFlags(gb, 0); gb.flags.carry = (gb.regs.a & 0x01) != 0; gb.regs.a = (gb.regs.a >> 1) | msb; }
+            func: (gb) => { const c = gb.regs.a & 0x1; gb.regs.a = ((gb.regs.a >> 1) | ((gb.flags.carry ? 1 : 0) << 7)) & 0xff; Register.setZ(gb, 0); Register.setNHC(gb, 0, 0, c); }
         },
         0x20: {
             asm: (gb) => { return `JR   NZ,0x${hexWord(gb.regs.pc + 1 + Memory.readSByte(gb.mem, gb.regs.pc))}`; },
