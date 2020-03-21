@@ -1004,6 +1004,10 @@ export namespace Op {
             asm: (gb) => { return `LD   A,${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { gb.regs.a = Memory.readUByte(gb.mem, Gb.loadWord(gb)); }
         },
+        0xfb: {
+            asm: (gb) => { return "EI"; },
+            func: (gb) => { gb.regs.ie = true; }
+        },
         0xfe: {
             asm: (gb) => { return `CP   0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const n = Gb.loadUByte(gb); Register.checkZ(gb, gb.regs.a - n); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (n & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - n) >> 8); }
