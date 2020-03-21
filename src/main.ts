@@ -13,11 +13,11 @@ import { Register } from './register';
 //const rom_file = "roms/01-special.gb";
 //const rom_file = "roms/11-op a,(hl).gb";
 //const rom_file = "roms/10-bit ops.gb";
-const rom_file = "roms/hello.gb";
+const rom_file = "roms/09-op r,r.gb";
+//const rom_file = "roms/hello.gb";
 
 
 const createPng = async (buf: Uint8Array, file_name: string) => {
-//    Debug.dumpBytes(buf, 0, 256, 256);
     const canvas = createCanvas(160, 144);
     const ctx = canvas.getContext('2d')
 
@@ -58,15 +58,6 @@ const node_main = async () => {
         console.log(header);
 
         const gb = Gb.create(buf);
-
-        // run
-/*        if(rom_file == "roms/hello.gb") Debug.runBreak(gb, [0x1ad]);
-        else if(rom_file == "roms/11-op a,(hl).gb") Debug.runBreak(gb, [0xcc62]);
-        else if(rom_file == "roms/10-bit ops.gb") Debug.runBreak(gb, [0xcf58]);
-        const pixels = Vram.getScreen(gb.mem, 0x9800);
-        await createPng(pixels, "screen0.png");
-        process.exit(0);
-*/
 
         const hexByte = (byte: number): string => { return ('00' + (byte & 0xff).toString(16)).slice(-2); };
         const hexWord = (word: number): string => { return ('0000' + (word & 0xffff).toString(16)).slice(-4); }
