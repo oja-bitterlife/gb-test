@@ -800,6 +800,10 @@ export namespace Op {
             asm: (gb) => { return `ADD  A,${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const n = Gb.loadUByte(gb); Register.setH(gb, ((gb.regs.a & 0xf) + (n & 0xf)) >> 4); Register.setC(gb, (gb.regs.a + n) >> 8); gb.regs.a = (gb.regs.a + n) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); }
         },
+        0xc7: {
+            asm: (gb) => { return `RST  0x00`; },
+            func: (gb) => { Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = 0x00; }
+        },
         0xc8: {
             asm: (gb) => { return "RET  Z"; },
             func: (gb) => { if(gb.flags.zero) gb.regs.pc = Gb.popWord(gb); }
@@ -823,6 +827,10 @@ export namespace Op {
         0xce: {
             asm: (gb) => { return `ADC  A,0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const n = Gb.loadUByte(gb); const c = gb.flags.carry ? 1 : 0; Register.setH(gb, ((gb.regs.a & 0xf) + (n & 0xf) + c) >> 4); Register.setC(gb, (gb.regs.a + n + c) >> 8); gb.regs.a = (gb.regs.a + n + c) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 0); }
+        },
+        0xcf: {
+            asm: (gb) => { return `RST  0x08`; },
+            func: (gb) => { Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = 0x08; }
         },
         0xd0: {
             asm: (gb) => { return "RET  NC"; },
@@ -848,6 +856,10 @@ export namespace Op {
             asm: (gb) => { return `SUB  ${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const n = Gb.loadUByte(gb); Register.setH(gb, ((gb.regs.a & 0xf) - (n & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - n) >> 8); gb.regs.a = (gb.regs.a - n) & 0xff; Register.checkZ(gb, gb.regs.a); Register.setN(gb, 1); }
         },
+        0xd7: {
+            asm: (gb) => { return `RST  0x10`; },
+            func: (gb) => { Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = 0x10; }
+        },
         0xd8: {
             asm: (gb) => { return "RET  C"; },
             func: (gb) => { if(gb.flags.carry) gb.regs.pc = Gb.popWord(gb); }
@@ -863,6 +875,10 @@ export namespace Op {
         0xdc: {
             asm: (gb) => { return `CALL C,0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { const addr = Gb.loadWord(gb); if(gb.flags.carry){ Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = addr; } }
+        },
+        0xdf: {
+            asm: (gb) => { return `RST  0x18`; },
+            func: (gb) => { Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = 0x18; }
         },
         0xe0: {
             asm: (gb) => { return `LDH  0x${hexWord(0xff00 | Memory.readUByte(gb.mem, gb.regs.pc))},A`; },
@@ -884,6 +900,10 @@ export namespace Op {
             asm: (gb) => { return `AND  A,${hexByte(Memory.readUByte(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { gb.regs.a &= Gb.loadUByte(gb); Register.byteToFlags(gb, 0x20); Register.checkZ(gb, gb.regs.a); }
         },
+        0xe7: {
+            asm: (gb) => { return `RST  0x20`; },
+            func: (gb) => { Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = 0x20; }
+        },
         0xe9: {
             asm: (gb) => { return `JP   (HL)`; },
             func: (gb) => { gb.regs.pc = (gb.regs.h << 8) | gb.regs.l; }
@@ -895,6 +915,10 @@ export namespace Op {
         0xee: {
             asm: (gb) => { return `XOR  0x${hexByte(Memory.readUByte(gb.mem, gb.regs.pc + 1) | Memory.readUByte(gb.mem, gb.regs.pc))},A`; },
             func: (gb) => { gb.regs.a ^= Gb.loadUByte(gb); Register.byteToFlags(gb, 0); Register.checkZ(gb, gb.regs.a); }
+        },
+        0xef: {
+            asm: (gb) => { return `RST  0x28`; },
+            func: (gb) => { Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = 0x28; }
         },
         0xf0: {
             asm: (gb) => { return `LDH  A,0x${hexWord(0xff00 | Memory.readUByte(gb.mem, gb.regs.pc))}`; },
@@ -915,6 +939,10 @@ export namespace Op {
         0xf5: {
             asm: (gb) => { return `PUSH AF`; },
             func: (gb) => { Gb.push(gb, gb.regs.a); Gb.push(gb, Register.flagsToByte(gb)); }
+        },
+        0xf7: {
+            asm: (gb) => { return `RST  0x30`; },
+            func: (gb) => { Gb.pushWord(gb, gb.regs.pc); gb.regs.pc = 0x30; }
         },
         0xf9: {
             asm: (gb) => { return `LD   SP,HL`; },
