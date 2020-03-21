@@ -26,11 +26,11 @@ export namespace Debug {
     // ------------------------------------------------------------------------
     // step over callの中に入らない
     export const stepOver = (gb: Gb.Env): void => {
-        if (gb.mem[gb.regs.pc] == 0xcd // call
-        || gb.mem[gb.regs.pc] == 0xc4 && !gb.flags.zero  // call nz
-        || gb.mem[gb.regs.pc] == 0xcc && gb.flags.zero  // call z
-        || gb.mem[gb.regs.pc] == 0xd4 && !gb.flags.carry  // call nc
-        || gb.mem[gb.regs.pc] == 0xdc && gb.flags.carry  // call c
+        if ( (gb.mem[gb.regs.pc] == 0xcd) // call
+            || (gb.mem[gb.regs.pc] == 0xc4 && !gb.flags.zero)  // call nz
+            || (gb.mem[gb.regs.pc] == 0xcc && gb.flags.zero)  // call z
+            || (gb.mem[gb.regs.pc] == 0xd4 && !gb.flags.carry)  // call nc
+            || (gb.mem[gb.regs.pc] == 0xdc && gb.flags.carry)  // call c
         ){
             Debug.runBreak(gb, [gb.regs.pc+3]);  // goto call next            
         }
@@ -40,9 +40,12 @@ export namespace Debug {
     export const stepOut = (gb: Gb.Env): void => {
         while (true){
             // retが実行される時は停止する
-            if(gb.mem[gb.regs.pc] != 0xc9  // ret
-            || (gb.mem[gb.regs.pc] != 0xc8 && gb.flags.zero)  // ret z
-            || (gb.mem[gb.regs.pc] != 0xd8 && gb.flags.carry)  // ret c
+            if( (gb.mem[gb.regs.pc] != 0xc9)  // ret
+                || (gb.mem[gb.regs.pc] != 0xc0 && !gb.flags.zero)  // ret nz
+                || (gb.mem[gb.regs.pc] != 0xc8 && gb.flags.zero)  // ret z
+                || (gb.mem[gb.regs.pc] != 0xd0 && !gb.flags.carry)  // ret nc
+                || (gb.mem[gb.regs.pc] != 0xd8 && gb.flags.carry)  // ret c
+                || (gb.mem[gb.regs.pc] != 0xd9)  // reti
             ) break;
 
             Gb.step(gb);  // RETでないときの実行

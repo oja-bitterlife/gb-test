@@ -772,6 +772,10 @@ export namespace Op {
             asm: (gb) => { return `CP   A`; },
             func: (gb) => { Register.checkZ(gb, gb.regs.a - gb.regs.a); Register.setN(gb, 1); Register.setH(gb, ((gb.regs.a & 0xf) - (gb.regs.a & 0xf)) >> 4); Register.setC(gb, (gb.regs.a - gb.regs.a) >> 8); }
         },
+        0xc0: {
+            asm: (gb) => { return "RET  NZ"; },
+            func: (gb) => { if(!gb.flags.zero) gb.regs.pc = Gb.popWord(gb); }
+        },
         0xc1: {
             asm: (gb) => { return `POP  BC`; },
             func: (gb) => { gb.regs.c = Gb.pop(gb); gb.regs.b = Gb.pop(gb); }
@@ -847,6 +851,10 @@ export namespace Op {
         0xd8: {
             asm: (gb) => { return "RET  C"; },
             func: (gb) => { if(gb.flags.carry) gb.regs.pc = Gb.popWord(gb); }
+        },
+        0xd9: {
+            asm: (gb) => { return "RETI"; },
+            func: (gb) => { gb.regs.pc = Gb.popWord(gb); gb.regs.ie = true; }
         },
         0xda: {
             asm: (gb) => { return `JP   C,0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
