@@ -6,6 +6,8 @@ import { Gpu } from "./gpu";
 import { Memory } from "./memory";
 
 export namespace Debug {
+    export let total_step_count = 0;  // ステップ数を実行する
+
     export const printDisasm = (gb: Gb.Env): void => {
         const op_code = Gb.loadUByte(gb);
 

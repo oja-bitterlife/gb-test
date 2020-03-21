@@ -60,13 +60,13 @@ const node_main = async () => {
         const gb = Gb.create(buf);
 
         // run
-        if(rom_file == "roms/hello.gb") Debug.runBreak(gb, [0x1ad]);
+/*        if(rom_file == "roms/hello.gb") Debug.runBreak(gb, [0x1ad]);
         else if(rom_file == "roms/11-op a,(hl).gb") Debug.runBreak(gb, [0xcc62]);
         else if(rom_file == "roms/10-bit ops.gb") Debug.runBreak(gb, [0xcf58]);
-
         const pixels = Vram.getScreen(gb.mem, 0x9800);
         await createPng(pixels, "screen0.png");
         process.exit(0);
+*/
 
         const hexByte = (byte: number): string => { return ('00' + (byte & 0xff).toString(16)).slice(-2); };
         const hexWord = (word: number): string => { return ('0000' + (word & 0xffff).toString(16)).slice(-4); }
@@ -93,12 +93,12 @@ const node_main = async () => {
             while (true) {
                 const answer = await inputLoop("(help?): ");
                 if (answer == "h" || answer == "help") {
-                    console.log("(S)tepOver, Step(I)n, Step(O)ut, GotoAddr(0x????), (R)egs, (F)lags, (Q)uit, RUN(run)\nDumpByte(b????) DumpWord(w????");
+                    console.log("(S)tepOver, Step(I)n, Step(O)ut, GotoAddr(0x????), (R)egs, (F)lags, (Q)uit, RUN(run) waitVBlanc(v??)\nDumpByte(b????) DumpWord(w????\nSS(png)");
                 }
                 else if (answer == "s" || answer == "") Debug.stepOver(gb);
                 else if (answer == "i") Gb.step(gb);
                 else if (answer == "o") Debug.stepOut(gb);
-                else if (answer.indexOf("0x") != -1) Debug.runBreak(gb, [parseInt(answer, 16)]);
+                else if (answer.indexOf("0x") == 0) Debug.runBreak(gb, [parseInt(answer, 16)]);
                 else if (answer == "r") console.log(Register.toString(gb.regs));
                 else if (answer == "f") console.log(gb.flags);
                 else if (answer == "q") break;
@@ -111,9 +111,14 @@ const node_main = async () => {
                     const addr = parseInt(answer.substr(1), 16);
                     console.log("0x"+hexWord(addr) + ": 0x" + hexWord(Memory.readWord(gb.mem, addr)));
                 }
-                else if (answer == "v") Debug.runVBlank(gb);
+                else if (answer.indexOf("v") == 0){
+                    let count = parseInt(answer.substr(1));
+                    if(!count) count = 1;
+                    for(let i = 0; i < count; i++) Debug.runVBlank(gb);
+                }
                 else if (answer == "png"){
                     const pixels = Vram.getScreen(gb.mem, 0x9800);
+                    await createPng(pixels, "screen0.png");
                 }
             }
         })();

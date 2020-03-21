@@ -2,6 +2,7 @@ import { Register } from "./register";
 import { Memory } from "./memory";
 import { Gpu } from "./gpu";
 import { Cpu } from "./cpu";
+import { Debug } from "./debug";
 
 export namespace Gb {
     export type Env = {
@@ -28,6 +29,8 @@ export namespace Gb {
         const old_cycle = gb.cycle;
         Cpu.step(gb);
         Gpu.step(gb, old_cycle);
+
+        Debug.total_step_count++;  // ステップ数を数える
     };
     export const run = (gb: Env) => {
         while (true) step(gb);
