@@ -22,9 +22,10 @@ export namespace Memory {
         return (mem[addr + 1] << 8) | mem[addr];
     };
 
-    export const writeByte = (mem: Uint8Array, addr: number, value: number): number => {
+    export const writeByte = (mem: Uint8Array, addr: number, value: number) => {
         _checkImplement(addr);
-        return mem[addr] = value;
+        mem[addr] = value;
+        return;
     };
 
 

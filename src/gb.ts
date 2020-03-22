@@ -30,6 +30,12 @@ export namespace Gb {
         Cpu.step(gb);
         Gpu.step(gb, old_cycle);
 
+        if(gb.regs.ie && (gb.mem[0xffff] & 4) && (gb.mem[0xff0f] & 4)){
+            Gb.pushWord(gb, gb.regs.pc);
+            gb.mem[0xff0f] &= ~4;
+            gb.regs.pc = 0x0050;
+        }
+
         Debug.total_step_count++;  // ステップ数を数える
     };
     export const run = (gb: Env) => {

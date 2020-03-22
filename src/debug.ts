@@ -1,7 +1,6 @@
 import { Gb } from "./gb";
 import { Op } from "./op";
 import { OpCb } from "./op_cb";
-import { Cpu } from "./cpu";
 import { Gpu } from "./gpu";
 import { Memory } from "./memory";
 
