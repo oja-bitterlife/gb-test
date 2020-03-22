@@ -195,7 +195,7 @@ export namespace Op {
                     if(gb.flags.carry){ n -= 0x60; c = 1; }
                 } else {
                     if(gb.flags.half_carry || (n & 0x0f) > 0x09) n += 0x06;
-                    if(gb.flags.carry || n > 0x99){ n += 0x60; c = 1; }
+                    if(gb.flags.carry || n > 0x9f){ n += 0x60; c = 1; }
                 }
                 gb.regs.a = n & 0xff; Register.checkZ(gb, gb.regs.a); Register.setH(gb, 0); Register.setC(gb, c);
             }
