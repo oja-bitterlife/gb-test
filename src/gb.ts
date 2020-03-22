@@ -3,6 +3,7 @@ import { Memory } from "./memory";
 import { Gpu } from "./gpu";
 import { Cpu } from "./cpu";
 import { Debug } from "./debug";
+import { Interrupt } from "./interrupt";
 
 export namespace Gb {
     export type Env = {
@@ -29,14 +30,10 @@ export namespace Gb {
         const old_cycle = gb.cycle;
         Cpu.step(gb);
         Gpu.step(gb, old_cycle);
-
-        if(gb.regs.ie && (gb.mem[0xffff] & 4) && (gb.mem[0xff0f] & 4)){
-            Gb.pushWord(gb, gb.regs.pc);
-            gb.mem[0xff0f] &= ~4;
-            gb.regs.pc = 0x0050;
-        }
-
         Debug.total_step_count++;  // ステップ数を数える
+
+        // 割り込みチェック
+        if(gb.regs.ie) Interrupt.check(gb);
     };
     export const run = (gb: Env) => {
         while (true) step(gb);
