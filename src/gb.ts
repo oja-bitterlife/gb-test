@@ -4,6 +4,7 @@ import { Gpu } from "./gpu";
 import { Cpu } from "./cpu";
 import { Debug } from "./debug";
 import { Interrupt } from "./interrupt";
+import { Timer } from "./timer";
 
 export namespace Gb {
     export type Env = {
@@ -31,6 +32,10 @@ export namespace Gb {
         Cpu.step(gb);
         Gpu.step(gb, old_cycle);
         Debug.total_step_count++;  // ステップ数を数える
+
+        // タイマー更新
+        const trans_cycle = gb.cycle - old_cycle;
+        Timer.update(gb, trans_cycle);
 
         // 割り込みチェック
         if(gb.regs.ie) Interrupt.check(gb);

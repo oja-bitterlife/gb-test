@@ -9,21 +9,18 @@ export namespace Memory {
     // 読み書き基本セット
     // ************************************************************************
     export const readUByte = (mem: Uint8Array, addr: number): number => {
-        _checkImplement(addr);
         return mem[addr];
     };
     export const readSByte = (mem: Uint8Array, addr: number): number => {
-        _checkImplement(addr);
         if (mem[addr] & 0x80) return -(((mem[addr] ^ 0xff) + 1) & 0xff);
         return mem[addr];
     };
     export const readWord = (mem: Uint8Array, addr: number): number => {
-        _checkImplement(addr);
         return (mem[addr + 1] << 8) | mem[addr];
     };
 
     export const writeByte = (mem: Uint8Array, addr: number, value: number) => {
-        _checkImplement(addr);
+        _checkImplement(addr, value);
         mem[addr] = value;
         return;
     };
@@ -32,7 +29,7 @@ export namespace Memory {
     // デバッグ用
     // ************************************************************************
     // 未実装なとき例外を出す。デバッグ用
-    const _checkImplement = (addr: number): void => {
+    const _checkImplement = (addr: number, value: number): void => {
         // main memory (ROM)
         if(addr < 0x8000) return;
 
@@ -70,7 +67,7 @@ export namespace Memory {
         if(addr == 0xff04) return;  // DIV - Divider Register (R/W)
         if(addr == 0xff05) return;  // TIMA - Timer counter (R/W)
         if(addr == 0xff06) return;  // TMA - Timer Modulo (R/W)
-//        if(addr == 0xff07) return;  // TAC - Timer Control (R/W)
+        if(addr == 0xff07) return;  // TAC - Timer Control (R/W)
 
         // Interrupt
         if(addr == 0xff0f) return;  // IF - Interrupt Flag (R/W)
