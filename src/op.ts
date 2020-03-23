@@ -4,22 +4,26 @@ import { Register } from "./register";
 
 export namespace Op {
     export const formatDisAsm = (op_code: number, gb: Gb.Env): string => {
-        const op_hex = hexByte(op_code);
+        const pc_org = gb.regs.pc-1;  // デバッグ表示用
+
         try {
+            const op_hex = hexByte(op_code);
             return `0x${hexWord(gb.regs.pc - 1)}: (${op_hex}):${op_code_map[op_code].asm(gb)}`;
         } catch (ex) {
             // not find instruction
-            console.log("addr: 0x" + (gb.regs.pc - 1).toString(16) + " => op: 0x" + op_code.toString(16));
+            console.log("addr: 0x" + pc_org.toString(16) + " => op: 0x" + op_code.toString(16));
             throw ex;  // exit
         }
     };
 
     export const process_op_code = (op_code: number, gb: Gb.Env) => {
+        const pc_org = gb.regs.pc-1;  // デバッグ表示用
+
         try {
             op_code_map[op_code].func(gb);
         } catch (ex) {
             // not find instruction
-            console.log("addr: 0x" + (gb.regs.pc - 1).toString(16) + " => op: 0x" + op_code.toString(16));
+            console.log("addr: 0x" + pc_org.toString(16) + " => op: 0x" + op_code.toString(16));
             throw ex;  // exit
         }
     };

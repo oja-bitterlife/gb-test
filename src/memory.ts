@@ -70,7 +70,7 @@ export namespace Memory {
         if(addr == 0xff04) return;  // DIV - Divider Register (R/W)
         if(addr == 0xff05) return;  // TIMA - Timer counter (R/W)
         if(addr == 0xff06) return;  // TMA - Timer Modulo (R/W)
-        if(addr == 0xff07) return;  // TAC - Timer Control (R/W)
+//        if(addr == 0xff07) return;  // TAC - Timer Control (R/W)
 
         // Interrupt
         if(addr == 0xff0f) return;  // IF - Interrupt Flag (R/W)
