@@ -518,7 +518,7 @@ export namespace Op {
         },
         0x76: {
             asm: (gb) => { return "HALT"; },
-            func: (gb) => { }
+            func: (gb) => { gb.halt = true; }
         },
         0x77: {
             asm: (gb) => { return `LD   (HL),A`; },

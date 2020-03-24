@@ -23,12 +23,14 @@ export namespace Interrupt {
     // Bit 2: Timer    Interrupt Request (INT 50h)  (1=Request)
     // Bit 3: Serial   Interrupt Request (INT 58h)  (1=Request)
     // Bit 4: Joypad   Interrupt Request (INT 60h)  (1=Request)
-    export const check = (gb: Gb.Env) => {
+    export const check = (gb: Gb.Env): boolean => {
         // timer
-        if(_check(gb, 0, 0x0040)) return;
-        if(_check(gb, 1, 0x0048)) return;
-        if(_check(gb, 2, 0x0050)) return;
-        if(_check(gb, 3, 0x0058)) return;
-        if(_check(gb, 4, 0x0060)) return;
+        if(_check(gb, 0, 0x0040)) return true;
+        if(_check(gb, 1, 0x0048)) return true;
+        if(_check(gb, 2, 0x0050)) return true;
+        if(_check(gb, 3, 0x0058)) return true;
+        if(_check(gb, 4, 0x0060)) return true;
+
+        return false;
     }
 }

@@ -4,6 +4,8 @@ import { OpCb } from './op_cb';
 
 export namespace Cpu {
     export const step = (gb: Gb.Env): void => {
+        if(gb.halt) gb.regs.pc--;  // HALT継続
+
         const op_code = Gb.loadUByte(gb);
 
         if (op_code != 0xcb) {

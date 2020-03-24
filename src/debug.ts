@@ -8,7 +8,9 @@ export namespace Debug {
     export let total_step_count = 0;  // ステップ数を実行する
 
     export const printDisasm = (gb: Gb.Env): void => {
+        if(gb.halt) gb.regs.pc--;  // HALT継続
         const op_code = Gb.loadUByte(gb);
+        if(gb.halt) gb.regs.pc++;  // HALT継続
 
         if (op_code != 0xcb) {
             console.log(Op.formatDisAsm(op_code, gb));

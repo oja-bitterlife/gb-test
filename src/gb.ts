@@ -14,6 +14,7 @@ export namespace Gb {
         mem: Uint8Array;
         regs: Register.Registers;
         flags: Register.Flags;
+        halt: boolean;  // wait for irq
     };
 
 
@@ -23,6 +24,7 @@ export namespace Gb {
             mem: Memory.create(buf),
             regs: Register.createRegisters(),
             flags: Register.createFlags(),
+            halt: false,
         }
     };
 
@@ -40,7 +42,9 @@ export namespace Gb {
         Timer.update(gb, trans_cycle);
 
         // 割り込みチェック
-        if(gb.regs.ie) Interrupt.check(gb);
+        if(gb.regs.ie){
+            if(Interrupt.check(gb)) gb.halt = false;
+        }
     };
     export const run = (gb: Env) => {
         while (true) step(gb);
