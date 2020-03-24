@@ -7,6 +7,8 @@ import { Interrupt } from "./interrupt";
 import { Timer } from "./timer";
 
 export namespace Gb {
+    export const CLOCK_SPEED = (1<<22);  // 4.194304 MHz
+
     export type Env = {
         cycle: number;  // current cycle 
         mem: Uint8Array;
