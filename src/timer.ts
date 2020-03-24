@@ -18,7 +18,7 @@ export namespace Timer {
                 }
             })(Memory.readUByte(gb.mem, 0xff07) & 0x03);
 
-            for (; internal_cycle_heap >= 0; internal_cycle_heap -= consume_cycle) {
+            for (; internal_cycle_heap >= consume_cycle; internal_cycle_heap -= consume_cycle) {
                 let tima = Memory.readUByte(gb.mem, 0xff05) + 1;
                 if(tima >> 8){  // timer overflow?
                     tima = Memory.readUByte(gb.mem, 0xff06);  // reset
