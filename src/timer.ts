@@ -16,7 +16,7 @@ export namespace Timer {
                     case 3: return Gb.CLOCK_SPEED / 16384;
                     default: throw new Error("timer clock error: " + (gb.mem[0xff07] & 0x03));
                 }
-            })(Memory.readUByte(gb.mem, 0xff06) & 0x03);
+            })(Memory.readUByte(gb.mem, 0xff07) & 0x03);
 
             for (; internal_cycle_heap >= 0; internal_cycle_heap -= consume_cycle) {
                 let tima = Memory.readUByte(gb.mem, 0xff05) + 1;
