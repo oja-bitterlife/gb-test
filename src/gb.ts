@@ -42,9 +42,7 @@ export namespace Gb {
         Timer.update(gb, trans_cycle);
 
         // 割り込みチェック
-        if(gb.regs.ie){
-            if(Interrupt.check(gb)) gb.halt = false;
-        }
+        if(Interrupt.check(gb)) gb.halt = false;
     };
     export const run = (gb: Env) => {
         while (true) step(gb);

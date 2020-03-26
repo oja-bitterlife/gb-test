@@ -1,17 +1,23 @@
 import { Gb } from "./gb";
+import { Memory } from "./memory";
 
 export namespace Interrupt {
     // フラグが立っていたら割り込み実行
     const _check = (gb: Gb.Env, flag_bit: number, addr: number) => {
         const flag = 1 << flag_bit;
 
-        // IE & IF
-        if((gb.mem[0xffff] & flag) && (gb.mem[0xff0f] & flag)){
-            gb.mem[0xff0f] &= ~flag;  // この割り込みは処理済みなのでフラグを落とす
+        const IE = Memory.readUByte(gb.mem, 0xffff);
+        const IF = Memory.readUByte(gb.mem, 0xff0f);
 
+        // IE & IF
+        if((IE & flag) && (IF & flag)){
             // 割り込み
-            Gb.pushWord(gb, gb.regs.pc);
-            gb.regs.pc = addr;
+            if(gb.regs.ie){
+                Memory.writeByte(gb.mem, 0xff0f, IF & ~flag);  // この割り込みは処理済みなのでフラグを落とす
+                Gb.pushWord(gb, gb.regs.pc);
+                gb.regs.pc = addr;
+                gb.regs.ie = false;
+            }
 
             return true;
         }
