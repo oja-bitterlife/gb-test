@@ -101,6 +101,10 @@ export namespace Op {
             asm: (gb) => { return `RRCA`; },
             func: (gb) => { const c = gb.regs.a & 0x1; gb.regs.a = ((gb.regs.a >> 1) | (c << 7)) & 0xff; Register.setZ(gb, 0); Register.setNHC(gb, 0, 0, c); }
         },
+        0x10: {
+            asm: (gb) => { return `STOP`; },
+            func: (gb) => { }
+        },
         0x11: {
             asm: (gb) => { return `LD   DE,0x${hexWord(Memory.readWord(gb.mem, gb.regs.pc))}`; },
             func: (gb) => { gb.regs.e = Gb.loadUByte(gb); gb.regs.d = Gb.loadUByte(gb); }

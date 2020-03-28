@@ -19,8 +19,9 @@ import { Register } from './register';
 //const rom_file = "roms/05-op rp.gb";
 //const rom_file = "roms/04-op r,imm.gb";
 //const rom_file = "roms/03-op sp,hl.gb";
-const rom_file = "roms/02-interrupts.gb";
+//const rom_file = "roms/02-interrupts.gb";
 //const rom_file = "roms/01-special.gb";
+const rom_file = "roms/cpu_instrs.gb";
 //const rom_file = "roms/hello.gb";
 
 
@@ -97,7 +98,7 @@ const node_main = async () => {
                 else if (answer == "i") Gb.step(gb);
                 else if (answer == "o") Debug.stepOut(gb);
                 else if (answer.indexOf("0x") == 0) Debug.runBreak(gb, [parseInt(answer, 16)]);
-                else if (answer == "r") console.log(Register.toString(gb.regs));
+                else if (answer == "r") console.log(Register.toString(gb.regs) + ", halt: " + gb.halt);
                 else if (answer == "f") console.log(gb.flags);
                 else if (answer == "q") break;
                 else if (answer == "run") Gb.run(gb);
