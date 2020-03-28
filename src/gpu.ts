@@ -24,9 +24,18 @@ export namespace Gpu {
         }
     };
     const addLY = (mem: Uint8Array, value : number): number => {
+        const old_ly = Memory.readUByte(mem, Addr.ly);
+
         // 画面縦幅を超えたら０に戻す
-        const ly = (Memory.readUByte(mem, Addr.ly) + value) % (COMPLETE_REFRESH / CYCLE_PER_LINE);
+        const ly = (old_ly + value) % (COMPLETE_REFRESH / CYCLE_PER_LINE);
         Memory.writeByte(mem, Addr.ly, ly);
+
+        // VBlankインタラプト設定
+        if (ly != old_ly && ly == VBLANK_START/CYCLE_PER_LINE){
+            const IF = Memory.readUByte(mem, 0xff0f) | 0x01;
+            Memory.writeByte(mem, 0xff0f, IF);
+        }
+
         return ly;
     };
 
