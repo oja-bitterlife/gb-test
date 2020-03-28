@@ -20,7 +20,7 @@ export namespace Memory {
     };
 
     export const writeByte = (mem: Uint8Array, addr: number, value: number) => {
-//        _checkImplement(addr, value);
+        _checkImplement(addr, value);
         mem[addr] = value;
         return;
     };
@@ -56,10 +56,14 @@ export namespace Memory {
         if(addr == 0xff42) return;  // SCY - Scroll Y (R/W)
         if(addr == 0xff43) return;  // SCX - Scroll X (R/W)
         if(addr == 0xff44) return;  // LY - LCDC Y-Coordinate
-        if(addr == 0xff45) return;  //  LYC - LY Compare (R/W)
-        if(addr == 0xff47) return;  //  BG & Window Palette Data (R/W)
-        if(addr == 0xff48) return;  //  Object Palette 0 Data (R/W)
-        if(addr == 0xff49) return;  //  Object Palette 1 Data (R/W)
+        if(addr == 0xff45) return;  // LYC - LY Compare (R/W)
+        if(addr == 0xff47) return;  // BG & Window Palette Data (R/W)
+        if(addr == 0xff48) return;  // Object Palette 0 Data (R/W)
+        if(addr == 0xff49) return;  // Object Palette 1 Data (R/W)
+        if(addr == 0xff4a) return;  // WY - Window Y Position (R/W)
+        if(addr == 0xff4b) return;  // WX - Window X Position minus 7 (R/W)
+        if(addr == 0xff4d) return;  // KEY1 - CGB Mode Only - Prepare Speed Switch
+        if(addr == 0xff4f) return;  // VBK - CGB Mode Only - VRAM Bank
 
         if(addr == 0xff00) return;  // P1/JOYP - Joypad (R/W)
         if(addr == 0xff01) return;  // SB - Serial transfer data (R/W)
