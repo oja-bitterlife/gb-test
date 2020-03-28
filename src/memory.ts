@@ -20,7 +20,7 @@ export namespace Memory {
     };
 
     export const writeByte = (mem: Uint8Array, addr: number, value: number) => {
-        _checkImplement(addr, value);
+//        _checkImplement(addr, value);
         mem[addr] = value;
         return;
     };

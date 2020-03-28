@@ -277,8 +277,8 @@ export namespace Op {
             func: (gb) => { const n = Gb.loadSByte(gb); if (gb.flags.carry) gb.regs.pc += n; }
         },
         0x39: {
-            asm: (gb) => { return `ADD  HL,DE`; },
-            func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; const n = gb.regs.sp; Register.setN(gb, 0); Register.setH(gb, ((hl & 0xfff) + (n & 0xfff)) >> 12); Register.setC(gb, (hl + n) >> 16); hl += n; gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff;}
+            asm: (gb) => { return `ADD  HL,SP`; },
+            func: (gb) => { let hl = (gb.regs.h << 8) | gb.regs.l; const v = gb.regs.sp; Register.setN(gb, 0); Register.setH(gb, ((hl & 0xfff) + (v & 0xfff)) >> 12); Register.setC(gb, (hl + v) >> 16); hl += v; gb.regs.h = (hl >> 8) & 0xff; gb.regs.l = hl & 0xff;}
         },
         0x3a: {
             asm: (gb) => { return `LD   A,(HL-)`; },
