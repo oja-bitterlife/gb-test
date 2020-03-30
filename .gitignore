@@ -3,6 +3,5 @@ doc
 *.gb
 roms
 build
-screen0.png
-screen1.png
+screen.png
 package-lock.json

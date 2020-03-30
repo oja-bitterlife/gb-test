@@ -21,9 +21,9 @@ import { Register } from './register';
 //const rom_file = "roms/03-op sp,hl.gb";
 //const rom_file = "roms/02-interrupts.gb";
 //const rom_file = "roms/01-special.gb";
-//const rom_file = "roms/cpu_instrs.gb";
+const rom_file = "roms/cpu_instrs.gb";
 //const rom_file = "roms/instr_timing.gb";
-const rom_file = "roms/flappyboy.gb";
+//const rom_file = "roms/flappyboy.gb";
 
 
 const createPng = async (buf: Uint8Array, file_name: string) => {
@@ -117,10 +117,8 @@ const node_main = async () => {
                     for(let i = 0; i < count; i++) Debug.runVBlank(gb);
                 }
                 else if (answer == "png"){
-                    const screen0 = Vram.getScreen(gb.mem, 0x9800);
-                    await createPng(screen0, "screen0.png");
-//                    const screen1 = Vram.getScreen(gb.mem, 0x9c00);
-//                    await createPng(screen1, "screen1.png");
+                    const screen0 = Vram.getScreen(gb.mem);
+                    await createPng(screen0, "screen.png");
                 }
             }
         })();
