@@ -9,7 +9,7 @@ import { Memory } from './memory';
 import { Register } from './register';
 
 
-const rom_file = "roms/hello.gb";
+//const rom_file = "roms/hello.gb";
 //const rom_file = "roms/11-op a,(hl).gb";
 //const rom_file = "roms/10-bit ops.gb";
 //const rom_file = "roms/09-op r,r.gb";
@@ -23,7 +23,7 @@ const rom_file = "roms/hello.gb";
 //const rom_file = "roms/01-special.gb";
 //const rom_file = "roms/cpu_instrs.gb";
 //const rom_file = "roms/instr_timing.gb";
-//const rom_file = "roms/flappyboy.gb";
+const rom_file = "roms/flappyboy.gb";
 
 
 const createPng = async (buf: Uint8Array, file_name: string) => {
@@ -117,8 +117,8 @@ const node_main = async () => {
                     for(let i = 0; i < count; i++) Debug.runVBlank(gb);
                 }
                 else if (answer == "png"){
-                    const screen0 = Vram.getScreen(gb.mem);
-                    await createPng(screen0, "screen.png");
+                    const screen = Vram.getScreen(gb.mem);
+                    await createPng(screen, "screen.png");
                 }
             }
         })();
