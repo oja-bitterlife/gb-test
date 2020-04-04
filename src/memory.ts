@@ -22,6 +22,13 @@ export namespace Memory {
     export const writeByte = (mem: Uint8Array, addr: number, value: number) => {
         _checkImplement(addr, value);
         mem[addr] = value;
+
+        // DMA
+        if(addr == 0xff46){
+            const offset = mem[addr] << 8;
+            for(let i = 0; i <= 0x9f; i++) mem[0xfe00+i] = mem[offset+i];
+        }
+
         return;
     };
 
