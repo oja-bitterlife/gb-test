@@ -27,7 +27,7 @@ const rom_file = "roms/cpu_instrs.gb";
 
 
 const createPng = async (buf: Uint8Array, file_name: string) => {
-    const canvas = createCanvas(256, 256);
+    const canvas = createCanvas(160, 144);
     const ctx = canvas.getContext('2d')
 
     const palette = [
@@ -37,7 +37,7 @@ const createPng = async (buf: Uint8Array, file_name: string) => {
         [48, 98, 48],
     ];
 
-    let imageData = ctx.createImageData(256, 256);
+    let imageData = ctx.createImageData(160, 144);
     for (let y = 0; y < imageData.height; y++) {
         for (let x = 0; x < imageData.width; x++) {
             const color = buf[y * imageData.width + x];
