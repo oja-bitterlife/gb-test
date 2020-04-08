@@ -23,11 +23,27 @@ export namespace Vram {
             }
         }
 
-        //        const wy = 0;
-        //        const wx = 0;
+        const [win_buf, wx, wy] = createWinBuf(mem);
+
+        // merge
+        for (let y = 0; y < 144; y++) {
+            for (let x = 0; x < 160; x++) {
+//                screen_buf[y * 160 + x] = win_buf[(wy + y) % 256 * 256 + (wx + x) % 256];
+            }
+        }
 
         return screen_buf;
     };
+    export const createWinBuf = (mem: Uint8Array): [Uint8Array, number, number] => {
+        let win_buf = new Uint8Array(255 * 255);
+
+        const wy = Memory.readUByte(mem, 0xff4a);
+        const wx = Memory.readUByte(mem, 0xff4b);
+
+        const win_addr = (Memory.readUByte(mem, 0xff40) & (1 << 6)) == 0 ? WINDOW_0 : WINDOW_1;
+
+        return [win_buf, wx, wy];
+    }
 
     export const createBGBuf = (mem: Uint8Array): Uint8Array => {
         let bg_buf = new Uint8Array(255 * 255);
@@ -37,7 +53,7 @@ export namespace Vram {
         for (let y = 0; y < 32; y++) {
             for (let x = 0; x < 32; x++) {
                 const tile = getTile(mem, mem[bg_addr + (y * 32 + x)]);
-                drawTileToBGBuf(bg_buf, tile, x * 8, y * 8);
+                drawTileToBuf(bg_buf, tile, x * 8, y * 8);
             }
         }
 
@@ -65,10 +81,10 @@ export namespace Vram {
         return tile;
     };
 
-    const drawTileToBGBuf = (bg_buf: Uint8Array, tile_8x8: Uint8Array, buf_x: number, buf_y: number): void => {
+    const drawTileToBuf = (buf: Uint8Array, tile_8x8: Uint8Array, buf_x: number, buf_y: number): void => {
         for (let y = 0; y < 8; y++) {
             for (let x = 0; x < 8; x++) {
-                bg_buf[(buf_y + y) * 256 + (buf_x + x)] = tile_8x8[y * 8 + x];
+                buf[(buf_y + y) * 256 + (buf_x + x)] = tile_8x8[y * 8 + x];
             }
         }
     };
