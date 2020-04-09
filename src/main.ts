@@ -31,10 +31,10 @@ const createPng = async (buf: Uint8Array, file_name: string) => {
     const ctx = canvas.getContext('2d')
 
     const palette = [
-        [15, 56, 15],
-        [155, 188, 15],
-        [139, 172, 15],
-        [48, 98, 48],
+        [0xc4, 0xf0, 0xc2],
+        [0x5a, 0xb9, 0xa8],
+        [0x1e, 0x60, 0x6e],
+        [0x2d, 0x1b, 0x00],
     ];
 
     let imageData = ctx.createImageData(160, 144);
