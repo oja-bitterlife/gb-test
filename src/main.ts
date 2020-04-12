@@ -138,6 +138,8 @@ async function main() {
         return;
     }
 
+    const gb = Gb.create(buf);
+
     // FPS計算開始
     let fps_count = 0;
     const fpsCountFunc = ()=>{
@@ -148,10 +150,16 @@ async function main() {
     setTimeout(()=>{fpsCountFunc()}, 1000);
 
     // 実行開始
-    const gb = Gb.create(buf);
     const mainLoop = (time:number)=>{
-        // VBlankまで実行
-        Debug.runVBlank(gb);
+        // LCDの状態によって動きを変える
+        if(Memory.readUByte(gb.mem, 0xff40)&0x80){
+            // VBlankまで実行
+            Debug.runVBlank(gb);
+        }else{
+            // 非表示中は頑張って回す
+            const old_cycle = gb.cycle;
+            while(gb.cycle-old_cycle < 4000000/60) Gb.step(gb);  // 4MHz / 60fps
+        }
 
         // 画面の描画
         drawCanvas(Vram.getScreen(gb.mem), image_data);
