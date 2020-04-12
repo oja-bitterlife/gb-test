@@ -151,10 +151,7 @@ async function main() {
     const gb = Gb.create(buf);
     const mainLoop = (time:number)=>{
         // VBlankまで実行
-        while(true){
-            Gb.step(gb);
-            if((Memory.readUByte(gb.mem, 0xffff)&1) == 0 && (Memory.readUByte(gb.mem, 0xff0f)&1) == 0) break;
-        }
+        Debug.runVBlank(gb);
 
         // 画面の描画
         drawCanvas(Vram.getScreen(gb.mem), image_data);
