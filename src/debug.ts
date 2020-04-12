@@ -1,8 +1,8 @@
-import { Gb } from "./gb";
-import { Op } from "./op";
-import { OpCb } from "./op_cb";
-import { Gpu } from "./gpu";
-import { Memory } from "./memory";
+import { Gb } from "./gb.js";
+import { Op } from "./op.js";
+import { OpCb } from "./op_cb.js";
+import { Gpu } from "./gpu.js";
+import { Memory } from "./memory.js";
 
 export namespace Debug {
     export let total_step_count = 0;  // ステップ数を実行する

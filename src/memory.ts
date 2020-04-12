@@ -1,4 +1,4 @@
-import { Timer } from "./timer";
+import { Timer } from "./timer.js";
 
 export namespace Memory {
     export const create = (rom_: Uint8Array): Uint8Array => {

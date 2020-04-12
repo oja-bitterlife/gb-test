@@ -1,4 +1,4 @@
-import { Memory } from "./memory";
+import { Memory } from "./memory.js";
 
 export namespace Vram {
     const TILE_0 = 0x9000;  // 8800-97FF

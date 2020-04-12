@@ -1,12 +1,11 @@
-import * as fs from 'fs';
-import { Header } from './header';
-import { Gb } from './gb';
-import { Debug } from './debug';
-import { Vram } from './vram';
+//import * as fs from 'fs';
+import { Header } from './header.js';
+import { Gb } from './gb.js';
+import { Debug } from './debug.js';
+import { Vram } from './vram.js';
 
-import { createCanvas } from 'canvas';
-import { Memory } from './memory';
-import { Register } from './register';
+import { Memory } from './memory.js';
+import { Register } from './register.js';
 
 
 //const rom_file = "roms/hello.gb";
@@ -23,9 +22,9 @@ import { Register } from './register';
 //const rom_file = "roms/01-special.gb";
 //const rom_file = "roms/cpu_instrs.gb";
 //const rom_file = "roms/instr_timing.gb";
-const rom_file = "roms/flappyboy.gb";
+//const rom_file = "roms/flappyboy.gb";
 
-
+/*
 const createPng = async (buf: Uint8Array, file_name: string) => {
     const canvas = createCanvas(160, 144);
     const ctx = canvas.getContext('2d')
@@ -59,7 +58,8 @@ const createPng = async (buf: Uint8Array, file_name: string) => {
         png_stream.pipe(out_file);
     });
 };
-
+*/
+/*
 const node_main = async () => {
     try {
         const buf = fs.readFileSync(rom_file)
@@ -127,6 +127,13 @@ const node_main = async () => {
         console.log(error);
     }
 }
-
+*/
 // run main
-node_main();
+//node_main();
+
+
+const buf = new Uint8Array(65536);
+const gb = Gb.create(buf);
+
+console.log("hello");
+console.log(gb);

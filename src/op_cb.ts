@@ -1,6 +1,6 @@
-import { Gb } from "./gb";
-import { Memory } from "./memory";
-import { Register } from "./register";
+import { Gb } from "./gb.js";
+import { Memory } from "./memory.js";
+import { Register } from "./register.js";
 
 export namespace OpCb {
     export const formatDisAsm = (cb_code: number, gb: Gb.Env): string => {

@@ -1,6 +1,6 @@
-import { Gb } from './gb';
-import { Op } from './op';
-import { OpCb } from './op_cb';
+import { Gb } from './gb.js';
+import { Op } from './op.js';
+import { OpCb } from './op_cb.js';
 
 export namespace Cpu {
     export const step = (gb: Gb.Env): void => {

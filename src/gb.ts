@@ -1,10 +1,10 @@
-import { Register } from "./register";
-import { Memory } from "./memory";
-import { Gpu } from "./gpu";
-import { Cpu } from "./cpu";
-import { Debug } from "./debug";
-import { Interrupt } from "./interrupt";
-import { Timer } from "./timer";
+import { Register } from "./register.js";
+import { Memory } from "./memory.js";
+import { Gpu } from "./gpu.js";
+import { Cpu } from "./cpu.js";
+import { Debug } from "./debug.js";
+import { Interrupt } from "./interrupt.js";
+import { Timer } from "./timer.js";
 
 export namespace Gb {
     export const CLOCK_SPEED = (1<<22);  // 4.194304 MHz

@@ -1,5 +1,5 @@
-import { Memory } from "./memory";
-import { Gb } from "./gb";
+import { Memory } from "./memory.js";
+import { Gb } from "./gb.js";
 
 export namespace Gpu {
     export enum Addr {

@@ -1,5 +1,5 @@
-import { Gb } from "./gb";
-import { Memory } from "./memory";
+import { Gb } from "./gb.js";
+import { Memory } from "./memory.js";
 
 export namespace Timer {
     let internal_cycle_div = 0;

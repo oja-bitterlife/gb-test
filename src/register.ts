@@ -1,4 +1,4 @@
-import { Gb } from "./gb";
+import { Gb } from "./gb.js";
 
 export namespace Register {
 
