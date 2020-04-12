@@ -24,11 +24,8 @@ import { Register } from './register.js';
 //const rom_file = "roms/instr_timing.gb";
 //const rom_file = "roms/flappyboy.gb";
 
-/*
-const createPng = async (buf: Uint8Array, file_name: string) => {
-    const canvas = createCanvas(160, 144);
-    const ctx = canvas.getContext('2d')
 
+const drawCanvas = async (buf: Uint8Array, image_data:ImageData) => {
     const palette = [
         [0xc4, 0xcf, 0xa1],
         [0x8b, 0x95, 0x6d],
@@ -36,29 +33,17 @@ const createPng = async (buf: Uint8Array, file_name: string) => {
         [0x1f, 0x1f, 0x1f],
     ];
 
-    let imageData = ctx.createImageData(160, 144);
-    for (let y = 0; y < imageData.height; y++) {
-        for (let x = 0; x < imageData.width; x++) {
-            const color = buf[y * imageData.width + x];
-            imageData.data[(y*imageData.width+x)*4 + 0] = palette[color][0];
-            imageData.data[(y*imageData.width+x)*4 + 1] = palette[color][1];
-            imageData.data[(y*imageData.width+x)*4 + 2] = palette[color][2];
-            imageData.data[(y*imageData.width+x)*4 + 3] = 255;
+    for (let y = 0; y < image_data.height; y++) {
+        for (let x = 0; x < image_data.width; x++) {
+            const color = buf[y * image_data.width + x];
+            image_data.data[(y*image_data.width+x)*4 + 0] = palette[color][0];
+            image_data.data[(y*image_data.width+x)*4 + 1] = palette[color][1];
+            image_data.data[(y*image_data.width+x)*4 + 2] = palette[color][2];
+            image_data.data[(y*image_data.width+x)*4 + 3] = 255;
         }
     }
-    ctx.putImageData(imageData, 0, 0);
-
-    return new Promise((resolve, reject) => {
-        const png_stream = canvas.createPNGStream()
-        const out_file = fs.createWriteStream(file_name);
-        out_file.on('finish', () => {
-            console.log(`${file_name} was created.`);
-            resolve();
-        });
-        png_stream.pipe(out_file);
-    });
 };
-*/
+
 /*
 const node_main = async () => {
     try {
@@ -130,13 +115,58 @@ const node_main = async () => {
 */
 // run main
 //node_main();
+
+
 async function main() {
+    // create screen
+    const canvas = document.getElementById('screen') as HTMLCanvasElement;
+    const context = canvas.getContext('2d');
+    const image_data = context!.createImageData(160, 144);
+    if(!context){
+        // HTML5未対応
+        console.error("Canvasの作成失敗");
+        return;
+    }
+
+    // ROM読み込み
     const res = await fetch("../roms/flappyboy.gb");
     const buf = (await res.body!.getReader().read()).value;
-    if (buf) {
-        const gb = Gb.create(buf);
-        console.log(gb);
+
+    if(!buf){
+        // 読み込み失敗
+        console.error("ROMの読み込み失敗");
+        return;
     }
+
+    // FPS計算開始
+    let fps_count = 0;
+    const fpsCountFunc = ()=>{
+        if(fps_count) console.log("fps: " + fps_count);
+        fps_count = 0;
+        setTimeout(()=>{fpsCountFunc()}, 1000);
+    };
+    setTimeout(()=>{fpsCountFunc()}, 1000);
+
+    // 実行開始
+    const gb = Gb.create(buf);
+    const mainLoop = (time:number)=>{
+        // VBlankまで実行
+        while(true){
+            Gb.step(gb);
+            if((Memory.readUByte(gb.mem, 0xffff)&1) == 0 && (Memory.readUByte(gb.mem, 0xff0f)&1) == 0) break;
+        }
+
+        // 画面の描画
+        drawCanvas(Vram.getScreen(gb.mem), image_data);
+        context.putImageData(image_data, 0, 0);
+
+        // FPS出力
+        fps_count++;
+
+        // loop
+        requestAnimationFrame(mainLoop);
+    };
+    requestAnimationFrame(mainLoop);
 }
 
 main();
