@@ -130,10 +130,13 @@ const node_main = async () => {
 */
 // run main
 //node_main();
+async function main() {
+    const res = await fetch("../roms/flappyboy.gb");
+    const buf = (await res.body!.getReader().read()).value;
+    if (buf) {
+        const gb = Gb.create(buf);
+        console.log(gb);
+    }
+}
 
-
-const buf = new Uint8Array(65536);
-const gb = Gb.create(buf);
-
-console.log("hello");
-console.log(gb);
+main();
