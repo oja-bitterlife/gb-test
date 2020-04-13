@@ -140,15 +140,8 @@ async function main() {
 
     // 実行開始
     const mainLoop = (time:number)=>{
-        // LCDの状態によって動きを変える
-        if(Memory.readUByte(gb.mem, 0xff40)&0x80){
-            // VBlankまで実行
-            Debug.runVBlank(gb);
-        }else{
-            // 非表示中は頑張って回す
-            const old_cycle = gb.cycle;
-            while(gb.cycle-old_cycle < 4000000/60) Gb.step(gb);  // 4MHz / 60fps
-        }
+        // VBlankまで実行
+        Debug.runVBlank(gb);
 
         // 画面の描画
         drawCanvas(Vram.getScreen(gb.mem), image_data);

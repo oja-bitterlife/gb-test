@@ -15,15 +15,15 @@ export namespace Gpu {
     const VBLANK_START = COMPLETE_REFRESH - 4560;
 
     export const step = (gb: Gb.Env, old_cycle: number): void => {
-        const now_gpu_cycle = gb.cycle % CYCLE_PER_LINE
-        const old_gpu_cycle = old_cycle % CYCLE_PER_LINE
+        const old_gpu_cycle = (old_cycle / CYCLE_PER_LINE)|0;
+        const now_gpu_cycle = (gb.cycle / CYCLE_PER_LINE)|0;
 
-        if (now_gpu_cycle != old_gpu_cycle) {
-            const ly = addLY(gb.mem, 1);  // inc LY
+        if (now_gpu_cycle > old_gpu_cycle) {  // 今回のcycle消費で次のラインに進んだ
+            addLY(gb.mem, 1);  // inc LY
             updateMode(now_gpu_cycle, gb.mem);
         }
     };
-    const addLY = (mem: Uint8Array, value : number): number => {
+    const addLY = (mem: Uint8Array, value : number) => {
         const old_ly = Memory.readUByte(mem, Addr.ly);
 
         // 画面縦幅を超えたら０に戻す
@@ -35,8 +35,6 @@ export namespace Gpu {
             const IF = Memory.readUByte(mem, 0xff0f) | 0x01;
             Memory.writeByte(mem, 0xff0f, IF);
         }
-
-        return ly;
     };
 
     // FF41 - STAT - LCDC Status (R/W)
@@ -58,6 +56,7 @@ export namespace Gpu {
 
     // Mode 0 is present between 201-207 clks, 2 about 77-83 clks, and 3 about 169-175 clks.
     const getMode = (cycle: number): number => {
+        cycle %= CYCLE_PER_LINE;
         if(201 <= cycle && cycle <= 207) return 0;
         if(77 <= cycle && cycle <= 83) return 2;
         if(169 <= cycle && cycle <= 175) return 3;
