@@ -18,7 +18,6 @@ export namespace Interrupt {
                 gb.regs.pc = addr;
                 gb.regs.ie = false;
             }
-
             return true;
         }
         return false;

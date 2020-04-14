@@ -156,4 +156,8 @@ async function main() {
     requestAnimationFrame(mainLoop);
 }
 
-main();
+try{
+    main();
+}catch(ex){
+    console.error(ex);
+}

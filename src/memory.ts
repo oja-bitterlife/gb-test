@@ -58,6 +58,7 @@ export namespace Memory {
         if(0xff80 <= addr && addr <= 0xfffe) return; // High RAM (HRAM)
 
         // SOUND Control
+        if(addr == 0xff24) return;  // NR11 - Channel 1 Sound length/Wave pattern duty (R/W)
         if(addr == 0xff24) return;  // NR50 - Channel control / ON-OFF / Volume (R/W)
         if(addr == 0xff25) return;  // NR51 - Selection of Sound output terminal (R/W)
         if(addr == 0xff26) return;  // NR52 - Sound on/off
