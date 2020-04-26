@@ -9,9 +9,10 @@ import { Register } from './register.js';
 
 
 //const rom_file = "roms/hello.gb";
-const rom_file = "roms/cpu_instrs.gb";
+//const rom_file = "roms/cpu_instrs.gb";
 //const rom_file = "roms/instr_timing.gb";
-//const rom_file = "roms/flappyboy.gb";
+const rom_file = "roms/flappyboy.gb";
+//const rom_file = "roms/Tuff.gb";
 
 
 const drawCanvas = async (buf: Uint8Array, image_data:ImageData) => {
