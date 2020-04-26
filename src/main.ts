@@ -133,7 +133,7 @@ async function main() {
     // FPS計算開始
     let fps_count = 0;
     const fpsCountFunc = ()=>{
-        if(fps_count) console.log("fps: " + fps_count);
+//        if(fps_count) console.log("fps: " + fps_count);
         fps_count = 0;
         setTimeout(()=>{fpsCountFunc()}, 1000);
     };
